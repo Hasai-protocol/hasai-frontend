@@ -1,0 +1,30 @@
+.wrap {
+    width: 100vw;
+    height: var(--footer-height);
+    background-color: #E4E4E4;
+}
+
+.content {
+    height: 100%;
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding-top: 24px;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    color: rgba(0, 0, 0, .6);
+}
+
+.brand {
+    margin-top: 18px;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.item {
+    margin-right: 24px;
+
+    &:last-child {
+        margin-right: 0;
+    }
+}

@@ -1,0 +1,50 @@
+.card {
+    position: relative;
+    height: 100%;
+    padding: 8px;
+    padding-bottom: 16px;
+    cursor: pointer;
+    border: 1px solid rgba(222, 224, 226, 1);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    &.active {
+        border-color: rgba(8, 143, 87, 1);
+    }
+}
+
+.img {
+    width: auto;
+    height: 196px;
+    min-height: 137px;
+    border-radius: 4px;
+    flex: 1 0 auto;
+    border-radius: 4px 4px 0 0;
+    object-fit: scale-down;
+}
+
+.info {
+    margin-top: 8px;
+    padding: 0 8px;
+}
+
+.id {
+    font-size: 14px;
+    line-height: 20px;
+    color: #000;
+    font-weight: bold;
+}
+
+.name {
+    font-size: 12px;
+    line-height: 20px;
+    color: rgba(0, 0, 0, .8);
+}
+
+.activeIcon {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+}

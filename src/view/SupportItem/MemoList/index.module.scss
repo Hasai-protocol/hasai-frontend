@@ -1,0 +1,21 @@
+.list {
+    margin-top: 16px;
+}
+
+.emptyWrap,
+.loadingWrap {
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loadingWrap {
+    min-height: 30px;
+}
+
+.loadMore {
+    width: 100%;
+    background-color: #fff;
+}

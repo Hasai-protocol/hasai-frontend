@@ -1,0 +1,9 @@
+:root {
+    --header-height: 80px;
+    --footer-height: 122px;
+    --header-index: 999;
+    --main-bg: #F3F3F3;
+    --content-width: 1200px;
+    --main-text-color: rgba(8, 143, 87, 1);
+    --onboard-modal-z-index: 99999;
+}
