@@ -103,7 +103,7 @@ export default observer(function Home() {
                             >
                                 <Radio.Button value={-1}>All</Radio.Button>
                                 <Radio.Button value={1}>Blue Chip</Radio.Button>
-                                <Radio.Button value={2}>Share</Radio.Button>
+                                <Radio.Button value={2}>Shared</Radio.Button>
                                 <Radio.Button value={0}>
                                     Permissionless
                                 </Radio.Button>
