@@ -10,7 +10,7 @@ import s from './index.module.scss';
 
 const SocialLinks = [
     {
-        link: 'https://twitter.com/0xCodeman',
+        link: 'https://twitter.com/HasaiLabs',
         icon: Twitter
     },
     {
