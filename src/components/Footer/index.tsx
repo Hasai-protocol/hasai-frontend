@@ -14,7 +14,7 @@ const SocialLinks = [
         icon: Twitter
     },
     {
-        link: 'https://github.com/HasaiLabs/hasai',
+        link: 'https://github.com/orgs/Hasai-protocol/repositories',
         icon: GitHub
     },
     {

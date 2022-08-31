@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import { Table, notification } from "antd";
 import { observer } from "mobx-react";
 import dayjs from "dayjs";
-import { dateFormat } from "../../../config";
+import { dateFormat, InterestRateMode } from "src/config";
 import RepayModal from "src/components/RepayModal";
 import { useStores } from "src/hooks";
 import ETHImg from "src/asset/eth.svg";
@@ -133,6 +133,9 @@ export default observer(function MyLoan() {
                 title: "Borrow Ends",
                 dataIndex: "liquidateTime",
                 render: (text, otherData) => {
+                    if (+otherData.rateMode === InterestRateMode.Variable) {
+                        return <p>--</p>
+                    }
                     return (
                         <p>
                             {dayjs(+text * 1000).format(dateFormat)}{" "}
