@@ -27,10 +27,10 @@ export const createOnBoard = () => {
                 rpcUrl: "https://mainnet.infura.io/v3/c7a306b346024098b99d06b2d1181569",
             },
             {
-                id: `0x${(42).toString(16)}`,
+                id: `0x5`,
                 token: "ETH",
-                label: "Ethereum Kovan",
-                rpcUrl: "https://kovan.infura.io/v3/c7a306b346024098b99d06b2d1181569",
+                label: "Ethereum Goerli",
+                rpcUrl: "https://goerli.infura.io/v3/b5de8d90f0c74e918fd4d7202182e8c2",
             },
         ],
         appMetadata: {

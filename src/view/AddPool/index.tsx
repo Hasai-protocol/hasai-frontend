@@ -11,14 +11,18 @@ import {
     Radio,
     notification,
 } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+
 import { InfoCircleFilled } from "@ant-design/icons";
 import { useStores } from "src/hooks";
 import cx from "classnames";
 import s from "./index.module.scss";
 import addicon from "src/asset/addpoolicon.png";
 import { ethers } from "ethers";
+import { useState } from "react";
 export default observer(function Home() {
     const [form] = Form.useForm();
+    let [loading, setLoading] = useState(false);
     const nav = useNavigate();
     const {
         store: { savePool, walletAddress, handleConnectWallet },
@@ -71,6 +75,7 @@ export default observer(function Home() {
             enabledStableBorrow = true,
             initialLiquidity,
         } = value;
+        setLoading(true);
         let result = await savePool([
             nftAddress,
             period,
@@ -91,12 +96,14 @@ export default observer(function Home() {
             initialLiquidity,
         ]);
         if (result) {
+            setLoading(false);
             notification.success({
                 message: "Hasai",
                 description: "Transaction done.",
             });
             form.resetFields();
         } else {
+            setLoading(false);
             notification.error({
                 message: "Hasai",
                 description: "Transaction failed.",
@@ -499,11 +506,13 @@ export default observer(function Home() {
                         <Button
                             type="primary"
                             htmlType="submit"
+                            disabled={loading}
                             className={cx(
                                 s.confirm
                                 // !poolInfoInited && s.disabled
                             )}
                         >
+                            {loading && <LoadingOutlined />}
                             Confirm
                         </Button>
                     </Form.Item>

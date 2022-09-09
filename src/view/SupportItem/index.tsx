@@ -70,7 +70,8 @@ export default observer(function SupportItem() {
     }, [poolDataConfig, reservesId]);
 
     useEffect(() => {
-        if (!pool || nftDataList.length > 0) return;
+        if (!pool || nftDataList.length > 0 || !reservesId) return;
+        // if (!pool || nftDataList.length > 0) return;
         queryUserNFT(false, [pool.address]);
         queryNFTDepositInfo("", `${reservesId}`);
     }, [pool, nftDataList, queryUserNFT, queryNFTDepositInfo, reservesId]);
@@ -137,8 +138,8 @@ export default observer(function SupportItem() {
     };
 
     const handleLoadMore = useCallback(() => {
-        queryNFTDepositInfo("", pool!.address);
-    }, [queryNFTDepositInfo, pool]);
+        queryNFTDepositInfo("", `${reservesId}`);
+    }, [queryNFTDepositInfo, pool, reservesId]);
     return (
         <div className={s.wrap}>
             {!pool && (

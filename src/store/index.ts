@@ -306,7 +306,6 @@ export default class Store {
             let poolDataConfig: any = {};
             let nftHexMap = {};
             let poolBalance = 0;
-            console.time("aaa");
             for await (let reserveId of allLength) {
                 const hasStatic = staticPoolInfo[reserveId!];
                 let nfts = hasStatic?.nfts;
@@ -358,6 +357,8 @@ export default class Store {
                         reserveId
                     );
                     reserveData = await contract.getReserveData(reserveId);
+                    // console.log(reserveId, supplyRate);
+                    // console.log(reserveId, supplyRate, reserveData);
                 }
                 const {
                     // currentLiquidityRate,
@@ -365,6 +366,7 @@ export default class Store {
                     currentStableBorrowRate,
                     currentVariableBorrowRate,
                 } = reserveData;
+                console.log(reserveData.id);
                 let configurationInfos = ethers.BigNumber.from(
                     `${configuration}`
                 );
@@ -397,7 +399,6 @@ export default class Store {
                 const ratio =
                     Number(getBorrowRatio(configurationInfos)) / 10000;
                 let depositApy = calcDepositAPY(+supplyRate);
-                console.log(depositApy);
                 const poolInfo = {
                     liquidity: 0,
                     depositApy,
@@ -436,8 +437,6 @@ export default class Store {
                 };
             }
             console.timeEnd("aaa");
-
-            //
             this.nftHexMap = nftHexMap;
             this.poolList = poolList;
             this.loadingPoolList = false;
@@ -486,10 +485,11 @@ export default class Store {
             // let erc721Contract = this.getErc721(contractAddress);
             // const symbol = (await erc721Contract.symbol()).toLowerCase();
             let slug = testSlugHex[contractAddress];
+            console.log(slug);
             try {
                 let collection = nftPostDetail[contractAddress];
                 if (!collection) {
-                    console.log(1);
+                    console.log(contractAddress);
                     collection = (
                         await http.get(
                             `https://api.opensea.io/api/v1/collection/${slug}`
@@ -600,7 +600,7 @@ export default class Store {
             const ids =
                 list.length > 0 ? list : supportNFTs.map((nft) => nft.address);
             const res = await http.get(
-                "https://eth-kovan.alchemyapi.io/v2/demo/getNFTs",
+                "https://eth-goerli.alchemyapi.io/v2/demo/getNFTs",
                 {
                     params: {
                         owner: walletAddress,
@@ -985,6 +985,7 @@ export default class Store {
         const { contract, loadingTargetList, poolDataConfig } = this;
         const conf = poolDataConfig[reservesId];
         try {
+            console.log(loadingTargetList, conf, reservesId);
             if (loadingTargetList || !conf) return;
             runInAction(() => {
                 this.loadingTargetList = true;
@@ -993,7 +994,6 @@ export default class Store {
             const dataBase = conf.dataBase || [];
             let pageData: Array<any> = [];
             if (dataBase.length < 1) {
-                console.log(user);
                 const startBidFilter = contract.filters.BidCall(
                     +reservesId,
                     null,
@@ -1014,6 +1014,7 @@ export default class Store {
                     contract.queryFilter(startBidFilter),
                     contract.queryFilter(claimBidNFTFilter),
                 ]);
+                console.log(borrowFilter, bids, claimInfos);
                 const borrowList = borrowFilter
                     .map((item) => item.args!)
                     .map((item) => {
@@ -1051,7 +1052,6 @@ export default class Store {
                 const infos = [...borrowList, ...bidInfos].filter((item) => {
                     return !claimIds.includes(item.borrowId!);
                 });
-                console.log("infos", infos, bidlist);
                 const lastData = infos.reduce((list: Array<any>, item) => {
                     const index = list.findIndex(
                         (i) => i.borrowId === item.borrowId!
@@ -1180,7 +1180,7 @@ export default class Store {
     async queryNFTDetail(address: string, id: number, tokenType = "erc721") {
         try {
             const res = await http.get(
-                `https://eth-kovan.alchemyapi.io/v2/demo/getNFTMetadata`,
+                `https://eth-goerli.alchemyapi.io/v2/demo/getNFTMetadata`,
                 {
                     params: {
                         contractAddress: address,
@@ -1456,8 +1456,7 @@ export default class Store {
                     value: ethers.utils.parseEther(`${value}`),
                 }
             );
-            let result = hx.wait();
-            console.log(result.status);
+            let result = await hx.wait();
             return result.status === 1;
         } catch {
             return false;
