@@ -93,7 +93,7 @@ export const staticPoolInfo = {
         nfts: ["0x3a09804793800172f840c8f00b9af6efd98a878f"],
         data: {
             configuration:
-                "0x0278d0000070800070867531000000012c0000015180000a07d0",
+                "0x100278d0000070800070867531000000012c0000015180000a07d0",
             liquidityIndex: "0x033b2e3c9fd0803ce8000000",
             variableBorrowIndex: "0x033b2e3c9fd0803ce8000000",
             currentLiquidityRate: "0x00",
@@ -115,7 +115,7 @@ export const staticPoolInfo = {
         nfts: ["0x27f2b6dbbb89ef678f9813835f79d7bd9f6578db"],
         data: {
             configuration:
-                "0x0278d0000070800070867531000000012c0000015180000a07d0",
+                "0x200278d0000070800070867531000000012c0000015180000a07d0",
             liquidityIndex: "0x033b2e3c9fd0803ce8000000",
             variableBorrowIndex: "0x033b2e3c9fd0803ce8000000",
             currentLiquidityRate: "0x00",

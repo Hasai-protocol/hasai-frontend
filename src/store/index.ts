@@ -365,8 +365,8 @@ export default class Store {
                     configuration,
                     currentStableBorrowRate,
                     currentVariableBorrowRate,
+                    id,
                 } = reserveData;
-                console.log(reserveData.id);
                 let configurationInfos = ethers.BigNumber.from(
                     `${configuration}`
                 );
@@ -405,6 +405,7 @@ export default class Store {
                     stableApr,
                     vairableApr,
                     ratio,
+                    id: +id,
                     liquidityForEth: 0,
                     totalDepositForEth: 0,
                     totalDeposit: 0,
