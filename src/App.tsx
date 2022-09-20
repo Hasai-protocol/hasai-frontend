@@ -13,14 +13,18 @@ import Footer from "src/components/Footer";
 import Header from "src/components/Header";
 import Account from "src/view/Account";
 import AddPool from "src/view/AddPool";
-import Home from "src/view/Home";
+import Home from "src/view/homePage";
+import Markets from "src/view/Markets";
 
 import ProjectIndexQuery from "./ProjectIndexQuery";
 import WalletWatch from "./WalletWatch";
 import WatchRoute from "./WatchRoute";
 import BlockTime from "./BlockTime";
-import "./App.css";
 import "antd/dist/antd.less";
+
+import "./static/font/moonfont/moonfont.css";
+import "./static/font/dinPro/index.css";
+import "./App.scss";
 
 export default observer(function App() {
     const { store } = useStores();
@@ -41,7 +45,7 @@ export default observer(function App() {
                         <Routes>
                             <Route path="/test" element={<ApplyTestNFT />} />
                             <Route
-                                path="/nft/:reservesId"
+                                path="/nft/:reservesId/:nftIndex"
                                 element={<SupportItem />}
                             />
                             <Route
@@ -53,6 +57,7 @@ export default observer(function App() {
                                 element={<Liquidation />}
                             />
                             <Route path="/account" element={<Account />} />
+                            <Route path="/Markets" element={<Markets />} />
                             <Route path="/addPool" element={<AddPool />} />
                             <Route path="/" element={<Home />} />
                             <Route path="*" element={<Home />} />

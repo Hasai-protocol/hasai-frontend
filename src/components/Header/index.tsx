@@ -2,8 +2,7 @@ import { useNavigate, useMatch, useLocation } from "react-router-dom";
 import { observer } from "mobx-react";
 import cx from "classnames";
 import { useEffect, useMemo } from "react";
-
-import { TopTabs } from "src/config";
+import { homeTabs, appTabs } from "./config";
 import { useStores } from "src/hooks";
 
 import s from "./index.module.scss";
@@ -14,23 +13,17 @@ export default observer(function Header() {
     } = useStores();
     const nav = useNavigate();
     let location = useLocation();
-    const isHome = useMatch(TopTabs[0]);
-    const isAccount = useMatch(TopTabs[1]);
-    const isTest = useMatch(TopTabs[2]);
 
     const handleClick = ({ path }) => {
         nav(path);
     };
-    const headerClass = useMemo(() => {
+    const pathname = useMemo(() => {
         const { pathname } = location;
-        if (pathname === "/") {
-            return s.index;
-        }
-        return s.other;
+        return pathname;
     }, [location]);
 
     return (
-        <div className={cx(s.wrap, headerClass)}>
+        <div className={cx(s.wrap, pathname === "/" ? "" : s.headerClass)}>
             <div style={{ cursor: "pointer" }} onClick={() => nav("/")}>
                 <svg
                     width="118"
@@ -74,20 +67,11 @@ export default observer(function Header() {
                     />
                 </svg>
             </div>
-            {location.pathname !== "/" && (
-                <>
-                    <div className={s.tabs}>
-                        {TopTabs.map((tab, index) => {
+            <>
+                <div className={s.tabs}>
+                    {(pathname === "/" ? homeTabs : appTabs).map(
+                        (tab, index) => {
                             let isActive = false;
-                            if (index === 0 && isHome) {
-                                isActive = true;
-                            }
-                            if (index === 1 && isAccount) {
-                                isActive = true;
-                            }
-                            if (index === 2 && isTest) {
-                                isActive = true;
-                            }
                             return (
                                 <div
                                     key={tab.TabIndex}
@@ -99,24 +83,25 @@ export default observer(function Header() {
                                     {tab.TabName}
                                 </div>
                             );
-                        })}
-                    </div>
+                        }
+                    )}
+                </div>
 
-                    <div
-                        onClick={handleConnectWallet}
-                        className={cx(
-                            s.account,
-                            "flex-box",
-                            "align-center",
-                            "justify-center"
-                        )}
-                    >
-                        <p className={s.address}>
-                            {formatWalletAddress || "Launch App"}
-                        </p>
-                    </div>
-                </>
-            )}
+                <div
+                    onClick={handleConnectWallet}
+                    className={cx(
+                        formatWalletAddress ? s.hasAddress : s.noAddress,
+                        s.account,
+                        "flex-box",
+                        "align-center",
+                        "justify-center"
+                    )}
+                >
+                    <p className={s.address}>
+                        {formatWalletAddress || "Launch App"}
+                    </p>
+                </div>
+            </>
         </div>
     );
 });

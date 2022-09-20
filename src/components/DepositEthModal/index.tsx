@@ -5,7 +5,8 @@ import { observer } from "mobx-react";
 import { Modal, Input, notification } from "antd";
 import { ethers } from "ethers";
 import { formatEther } from "src/util";
-import depositModuleIcon from "src/asset/depositModuleIcon.png";
+import depositModuleIcon from "src/asset/account/mydeposit.png";
+import closeIcon from "src/asset/colseIcon.png";
 import { useStores } from "src/hooks";
 import cx from "classnames";
 import s from "./index.module.scss";
@@ -60,14 +61,12 @@ export default observer(function RepayModal({ onCancel, visible, id }) {
             visible={visible}
             className={s.modal}
             onCancel={onCancel}
+            closeIcon={<img src={closeIcon} />}
             title={
-                <>
-                    <p className={s.title}>
-                        <img src={depositModuleIcon} />
-                        Deposit
-                    </p>
-                    {/* <p className={s.des}>Deposit ETH and earn the Interest</p> */}
-                </>
+                <p className={cx(s.title)}>
+                    <img src={depositModuleIcon} />
+                    <span className="gradualText">Deposit</span>
+                </p>
             }
             width={320}
         >
@@ -81,9 +80,15 @@ export default observer(function RepayModal({ onCancel, visible, id }) {
                         suffix="ETH"
                     />
                     <p className={s.balance}>
-                        Available {formatEther(+ethBalance, 3)}
-                        ETH
+                        <div>
+                            Available
+                            <span className={s.value}>
+                                {formatEther(+ethBalance, 3)}
+                                ETH
+                            </span>
+                        </div>
                         <span
+                            className={s.maxBtn}
                             onClick={() =>
                                 changeInput({
                                     target: {

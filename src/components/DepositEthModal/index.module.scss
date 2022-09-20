@@ -1,10 +1,39 @@
 .modal {
     :global {
+
+        // .ant-modal-close-x {
+        //     display: none;
+        // }
+        .ant-modal-close-x {
+            width: auto;
+            height: auto;
+            line-height: initial;
+            margin-right: 28px;
+            margin-top: 28px;
+            font-size: 0;
+        }
+
+        .ant-modal-content {
+            background-color: #30343E;
+            border: 1px solid rgba(100, 113, 141, 0.5);
+            border-radius: 16px;
+        }
+
+        .ant-modal-header {
+            background: transparent;
+            border: none;
+            line-height: 24px;
+            padding: 24px;
+        }
+
         .ant-modal-body {
+            padding-top: 0 !important;
             padding: 16px;
         }
     }
 }
+
+.inputWarp {}
 
 .content {
     display: flex;
@@ -27,7 +56,14 @@
     display: flex;
     align-items: center;
 
+    span {
+        font-family: hasai-500;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
     img {
+        vertical-align: middle;
         margin-right: 8px;
         width: 16px;
     }
@@ -37,11 +73,16 @@
     margin-top: 8px;
     font-size: 12px;
     line-height: 20px;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.6);
     display: flex;
     justify-content: space-between;
 
-    span {
+    .value {
+        color: #fff;
+        margin-left: 3px;
+    }
+
+    .maxBtn {
         color: #1A68FF;
         font-weight: 400;
         font-size: 12px;
@@ -57,17 +98,11 @@
     :global(.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector),
     :global(.ant-select:not(.ant-select-disabled):hover .ant-select-selector),
     :global(.ant-input-affix-wrapper-focused) {
-        border-color: #088F57 !important;
         box-shadow: none;
     }
 
     .depositInput {
         height: 36px;
-
-        &:focus,
-        &:hover {
-            border-color: #088F57;
-        }
 
         &:focus {
             box-shadow: none;
@@ -81,25 +116,20 @@
 
 
 .btn {
-    width: 288px;
-    height: 36px;
-    margin-top: 16px;
-    background: #088F57;
-    border: 1px solid #088F57;
-    box-shadow: inset 0px 1px 4px rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(8px);
-    border-radius: 4px;
-    color: #fff;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
     cursor: pointer;
+    font-size: 12px;
+    line-height: 40px;
+    text-align: center;
+    color: #252932;
+    width: 288px;
+    height: 40px;
+    margin-top: 16px;
+    border-radius: 4px;
 
     &.disabled {
-        background: #EEEEEE;
-        box-shadow: inset 0px -1px 3px rgba(0, 0, 0, 0.2);
-        color: rgba(0, 0, 0, 0.4);
-        border-color: transparent;
+        background: #898989;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
     }
 }

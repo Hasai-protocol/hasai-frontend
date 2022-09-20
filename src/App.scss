@@ -1,0 +1,155 @@
+html,
+body {
+    background-color: var(--main-bg);
+}
+
+.App {
+    width: 100vw;
+    height: 100vh;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    background: #252932;
+}
+
+.main::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.content {
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+    margin: 0 auto;
+}
+
+* {
+    font-family: hasai-400;
+}
+
+.ant-modal-mask {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+}
+
+.ant-input-affix-wrapper {
+    background: #30343E;
+    height: auto !important;
+    border-radius: 4px;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    .ant-input-suffix {
+        color: rgba(255, 255, 255, 0.4) !important;
+    }
+}
+
+.ant-input-number,
+.ant-select-selector,
+.ant-select-selection-search-input {
+    box-shadow: none !important;
+}
+
+.ant-select {
+    * {
+        box-shadow: none;
+    }
+}
+
+.ant-select-item-option-active {
+    background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
+    font-size: 16px;
+    color: #252932 !important;
+}
+
+.ant-select-item-option {
+    height: 40px;
+    line-height: 40px;
+    padding: 0;
+    padding-left: 16px;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+
+    &:hover {
+        background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
+    }
+}
+
+.ant-select-dropdown {
+    background-color: #30343E;
+    border: 1px solid rgba(100, 113, 141, 0.5);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+
+.ant-input {
+    background: #30343E !important;
+    color: #fff !important;
+    height: 34px !important;
+
+    &.largeInput {
+        height: 40px !important;
+    }
+
+    &:focus {
+        box-shadow: none;
+    }
+
+    :global(.ant-input-suffix) {
+        color: rgba(0, 0, 0, 0.4);
+    }
+
+}
+
+.ant-select-selection-search-input {
+    height: 38px !important;
+
+}
+
+.ant-select-selection-item {
+
+    color: #fff;
+    line-height: 38px !important;
+}
+
+.ant-select-selector {
+    border-radius: 4px !important;
+    height: 40px !important;
+    background: transparent !important;
+}
+
+.ant-select-selection-placeholder {
+    line-height: 38px !important;
+
+}
+
+.ant-modal-close-x {
+    width: auto;
+    height: auto;
+    line-height: initial;
+    margin-right: 28px;
+    margin-top: 28px;
+    font-size: 0;
+}
+
+.ant-modal-content {
+    background-color: #30343E;
+    border-radius: 16px;
+}
+
+.ant-modal-header {
+    background: transparent;
+    border: none;
+    line-height: 24px;
+    padding: 24px;
+}
+
+.ant-modal-body {
+    padding-top: 0 !important;
+    padding: 16px;
+}

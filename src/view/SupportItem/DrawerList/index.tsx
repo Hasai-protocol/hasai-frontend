@@ -41,11 +41,13 @@ export default observer(function DrawerList({
             visible={visible}
             placement="right"
             onClose={onCancel}
+            // className={s.warp}
+            className="drawWarp"
             width={472}
             closable={false}
             title={
                 <p className={s.title}>
-                    <span>Select NFT to deposit</span>
+                    My NFT<span>Select NFT to deposit</span>
                 </p>
             }
             extra={

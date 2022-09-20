@@ -147,7 +147,7 @@ export default observer(function Home() {
         <div className={s.formWarp}>
             <p className={s.bigTitle}>
                 <img src={addicon} />
-                Creat Lending Pool
+                <span className="gradualText">Creat Lending Pool</span>
             </p>
             <div className={s.mainContent}>
                 <Form
@@ -183,6 +183,7 @@ export default observer(function Home() {
                             suffix="eth"
                         /> */}
                         <InputNumber
+                            className={s.input}
                             min={0}
                             controls={false}
                             max={100}
@@ -496,25 +497,23 @@ export default observer(function Home() {
                             className={cx(s.inline, s.item)}
                             name="enabledStableBorrow"
                         >
-                            <Radio.Group>
-                                <Radio value={true}>Yes</Radio>
-                                <Radio value={false}>No</Radio>
+                            <Radio.Group className={s.radioWarp}>
+                                <Radio value={true}>
+                                    <i></i> Yes
+                                </Radio>
+                                <Radio value={false}>
+                                    <i></i>No
+                                </Radio>
                             </Radio.Group>
                         </Form.Item>
                     </div>
                     <Form.Item>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            disabled={loading}
-                            className={cx(
-                                s.confirm
-                                // !poolInfoInited && s.disabled
-                            )}
+                        <div
+                            className={cx(s.confirm, loading ? s.disabled : "")}
                         >
                             {loading && <LoadingOutlined />}
                             Confirm
-                        </Button>
+                        </div>
                     </Form.Item>
                 </Form>
             </div>

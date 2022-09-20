@@ -1,0 +1,40 @@
+.avatars {
+    width: 100px;
+    height: 100px;
+    background: #515151;
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    padding: 8px;
+    display: inline-block;
+
+    &.mini {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        padding: 2px;
+
+        .middlePics {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            margin-right: 2px;
+            margin-bottom: 2px;
+
+            &:nth-child(3n) {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .middlePics {
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        margin-right: 4px;
+        margin-bottom: 4px;
+
+        &:nth-child(3n) {
+            margin-right: 0;
+        }
+    }
+}

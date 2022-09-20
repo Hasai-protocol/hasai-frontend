@@ -1,24 +1,6 @@
 export const HTTP_PROVIDER =
     "https://goerli.infura.io/v3/b5de8d90f0c74e918fd4d7202182e8c2";
 
-export const TopTabs = [
-    {
-        TabIndex: 0,
-        TabName: "Home",
-        path: "/",
-    },
-    {
-        TabIndex: 1,
-        TabName: "Account",
-        path: "/account",
-    },
-    {
-        TabIndex: 2,
-        TabName: "Test",
-        path: "/test",
-    },
-];
-
 export enum Tabs {
     MY_NFT = "1",
     USER_BORROW = "2",
@@ -42,7 +24,7 @@ export enum InterestRateMode {
 export enum PoolType {
     "Permissionless" = 0,
     "Blue Chip" = 1,
-    // middle not exact number big than one is middle pool
+    // middle not exact number big than one is share pool
 }
 export const getRepayCount = (amount) => {
     return amount.add(amount.div(400));
@@ -112,7 +94,11 @@ export const staticPoolInfo = {
     },
     1: {
         supplyRate: 0x033b2e3c9fd0803ce8000000,
-        nfts: ["0x27f2b6dbbb89ef678f9813835f79d7bd9f6578db"],
+        nfts: [
+            "0x27f2b6dbbb89ef678f9813835f79d7bd9f6578db",
+            "0xe98ee1e371fa6071ee18ff65898eee5c0a6d0284",
+            "0x052c40d385ef7a278fb66346be0639b182bc8eb6",
+        ],
         data: {
             configuration:
                 "0x200278d0000070800070867531000000012c0000015180000a07d0",
@@ -376,6 +362,39 @@ export const nftPostDetail = {
             num_reports: 2,
             market_cap: 127895.82222222225,
             floor_price: 10.75,
+        },
+    },
+    "0xe98ee1e371fa6071ee18ff65898eee5c0a6d0284": {
+        banner_image_url:
+            "https://i.seadn.io/gcs/files/23936276dfa4595e882005e97d2d6f9a.png?w=500&auto=format",
+        image_url:
+            "https://i.seadn.io/gcs/files/1992dd428b2cb23e4b8aaf3cf85d2298.png?w=500&auto=format",
+        name: "Bad Influence 0x",
+        stats: {
+            one_day_volume: 7.959487999999999,
+            one_day_change: 9.378930979581138,
+            one_day_sales: 45,
+            one_day_average_price: 0.17687751111111108,
+            one_day_difference: 7.192598999999999,
+            seven_day_volume: 13.763195,
+            seven_day_change: 0.17705573467659896,
+            seven_day_sales: 75,
+            seven_day_average_price: 0.18350926666666667,
+            seven_day_difference: 2.0702950000000033,
+            thirty_day_volume: 60.817963531662066,
+            thirty_day_change: -0.9149500865170536,
+            thirty_day_sales: 269,
+            thirty_day_average_price: 0.22608908376082554,
+            thirty_day_difference: -654.2675790757011,
+            total_volume: 775.9035061390257,
+            total_sales: 3855,
+            total_supply: 4000,
+            count: 4000,
+            num_owners: 1222,
+            average_price: 0.20127198602828164,
+            num_reports: 1,
+            market_cap: 734.0370666666666,
+            floor_price: 0.195,
         },
     },
     "0x052c40d385ef7a278fb66346be0639b182bc8eb6": {

@@ -18,7 +18,8 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 
-    svg {
+    img {
+        width: 20px;
         margin-right: 5px;
     }
 }
@@ -26,19 +27,21 @@
 .input {
     width: 288px;
     height: 40px;
+    line-height: 40px;
     padding-left: 8px;
     display: flex;
     align-items: center;
-    border: 1px solid #DEE0E2;
+    border: 1px solid rgba(100, 113, 141, 0.5);
     border-radius: 4px;
     font-size: 12px;
+    color: #fff;
 }
 
 .indexWrap {
     width: 100%;
     padding: 0 10px;
     margin-top: 8px;
-    background: rgba(8, 143, 87, 0.05);
+    background: #252932;
     border-radius: 4px;
 }
 
@@ -48,13 +51,17 @@
     align-items: center;
     justify-content: space-between;
 
+    img {
+        margin-right: 8px;
+    }
+
     span {
         font-size: 12px;
-        color: rgba(0, 0, 0, .6);
+        color: rgba(255, 255, 255, 0.6);
     }
 
     span:last-child {
-        color: rgba(0, 0, 0, .8);
+        color: #FFFFFF;
     }
 
     &:last-child {
@@ -63,18 +70,20 @@
 }
 
 .btn {
-    width: 288px;
-    height: 36px;
-    margin-top: 16px;
-    background: #088F57;
-    border: 1px solid #088F57;
-    box-shadow: inset 0px 1px 4px rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(8px);
-    border-radius: 4px;
-    color: #fff;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
     cursor: pointer;
+    font-size: 12px;
+    line-height: 40px;
+    text-align: center;
+    color: #252932;
+    width: 288px;
+    height: 40px;
+    margin-top: 16px;
+    border-radius: 4px;
+
+    &.disabled {
+        background: #898989;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+    }
 }

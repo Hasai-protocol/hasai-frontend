@@ -5,10 +5,11 @@ import { observer } from "mobx-react";
 import cx from "classnames";
 
 import SelfNFTImg from "src/asset/account/self-nft.svg";
-import DepositModal from "src/components/DepositModal";
+import BorrowModal from "src/components/BorrowModal";
 import Card from "src/components/Card";
 import { useStores } from "src/hooks";
 
+import depositModuleIcon from "src/asset/account/mynft.png";
 import s from "./index.module.scss";
 
 function DepositIcon() {
@@ -96,8 +97,12 @@ export default observer(function MyNFT() {
     return (
         <div className={s.wrap}>
             <div className={s.head}>
-                <p>
-                    <img src={SelfNFTImg} alt="" />
+                <p className="gradualText">
+                    <img
+                        src={depositModuleIcon}
+                        alt=""
+                        className={s.depositModuleIcon}
+                    />
                     <span>My NFT</span>
                 </p>
                 <div
@@ -115,10 +120,10 @@ export default observer(function MyNFT() {
             )}
             <div className={s.list}>
                 {userNFTs.length < 1 && <Empty />}
-                <Row gutter={[8, 8]}>
+                <Row gutter={[16, 16]}>
                     {userNFTs.map((nft, idx) => {
                         return (
-                            <Col key={`${nft.address}-${nft.id}`} span={8}>
+                            <Col key={`${nft.address}-${nft.id}`} span={6}>
                                 <Card
                                     activeIdx={index}
                                     index={idx}
@@ -130,7 +135,7 @@ export default observer(function MyNFT() {
                     })}
                 </Row>
             </div>
-            <DepositModal
+            <BorrowModal
                 index={index}
                 loading={loading}
                 visible={visible}

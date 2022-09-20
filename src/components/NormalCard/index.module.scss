@@ -1,18 +1,26 @@
 .card {
     position: relative;
     height: 100%;
-    padding: 8px;
-    padding-bottom: 16px;
     cursor: pointer;
-    border: 1px solid rgba(222, 224, 226, 1);
     border-radius: 8px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    background: #fff;
 
     &.active {
         border-color: rgba(8, 143, 87, 1);
+    }
+}
+
+.imgWarp {
+    height: auto;
+    background-size: cover;
+    background-position: center center;
+
+    &::before {
+        content: "";
+        padding-top: 93%;
+        display: block;
     }
 }
 
@@ -27,15 +35,19 @@
 }
 
 .info {
-    margin-top: 8px;
-    padding: 0 8px;
+    padding: 16px;
+    background: #393D48;
+    border-width: 0px 1px 1px 1px;
+    border-style: solid;
+    border-color: rgba(100, 113, 141, 0.5);
+    border-radius: 0px 0px 8px 8px;
+
 }
 
 .id {
-    font-size: 14px;
+    font-size: 18px;
     line-height: 20px;
-    color: #000;
-    font-weight: bold;
+    color: #FFFFFF;
 }
 
 .name {

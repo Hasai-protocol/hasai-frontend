@@ -6,7 +6,7 @@ import Store from "src/store";
 import "src/day";
 
 import App from "./App";
-import "./index.css";
+import "./index.scss";
 
 ReactDOM.render(
     <React.StrictMode>

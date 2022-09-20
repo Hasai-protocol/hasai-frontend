@@ -1,36 +1,59 @@
 .title {
-    color: rgba(0, 0, 0, .8);
-    font-size: 16px;
-    line-height: 24px;
     display: flex;
     align-items: center;
 
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+    font-family: hasai-500;
+
     span {
-        margin-left: 8px;
-        color: rgba(0, 0, 0, .4);
         font-size: 12px;
-        display: inline-block;
+        line-height: 20px;
+        color: rgba(255, 255, 255, 0.6);
+        margin-left: 8px;
     }
 }
 
 .btn {
-    width: 91px;
+
+    width: 76px;
+    line-height: 32px;
     height: 32px;
-    background: #088F57;
-    border: 1px solid #088F57;
-    box-shadow: inset 0px 1px 4px rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(8px);
+    background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
     border-radius: 4px;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
+    font-size: 12px;
+    text-align: center;
+    color: #252932;
     cursor: pointer;
 
     &.disable {
-        background: #eee;
         cursor: not-allowed;
-        border-color: #eee;
-        color: rgba(0, 0, 0, .4);
+        background: #898989;
+        color: rgba(255, 255, 255, 0.6);
+    }
+}
+
+:global(.ant-drawer-mask) {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+}
+
+:global(.drawWarp) {
+    :global(.ant-drawer-content) {
+        background-color: #30343E;
+        border-radius: 16px 0px 0px 16px;
+    }
+
+    :global(.ant-drawer-header) {
+        background-color: transparent;
+        border: none !important;
+        padding: 0 24px;
+        line-height: 80px;
+    }
+
+    :global(.ant-drawer-body) {
+        padding-top: 0;
     }
 }

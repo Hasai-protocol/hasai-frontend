@@ -48,7 +48,12 @@ module.exports = override(
     addLessLoader({
         lessOptions: {
             javascriptEnabled: true,
-            modifyVars: { "@primary-color": "#088F57" },
+            modifyVars: {
+                "@primary-color": "#CDFF8C",
+                "@border-radius-base": "4px",
+                "@box-shadow-base": "none",
+                "@border-color-base": "rgba(100, 113, 141, 0.5)",
+            },
         },
     }),
     adjustStyleLoaders(({ use: [, , postcss] }) => {

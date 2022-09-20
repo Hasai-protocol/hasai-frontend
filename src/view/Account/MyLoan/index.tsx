@@ -7,32 +7,10 @@ import { dateFormat, InterestRateMode } from "src/config";
 import RepayModal from "src/components/RepayModal";
 import { useStores } from "src/hooks";
 import ETHImg from "src/asset/eth.svg";
+import depositModuleIcon from "src/asset/account/myloan.png";
 
 import s from "./index.module.scss";
 import cx from "classnames";
-function LoanIcon() {
-    return (
-        <svg
-            width="18"
-            height="14"
-            viewBox="0 0 18 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <path
-                d="M3.375 10.75H7.125V9.5H3.375V10.75Z"
-                fill="black"
-                fillOpacity="0.9"
-            />
-            <path
-                d="M17.75 12V2C17.75 1.30964 17.1904 0.75 16.5 0.75H1.5C0.809644 0.75 0.25 1.30964 0.25 2V12C0.25 12.6904 0.809645 13.25 1.5 13.25H16.5C17.1904 13.25 17.75 12.6904 17.75 12ZM16.5 2V3.875H1.5V2H16.5ZM1.5 12V5.125H16.5V12H1.5Z"
-                fill="black"
-                fillOpacity="0.9"
-            />
-        </svg>
-    );
-}
-
 const RowKey = (x) => x.borrowId;
 
 export default observer(function MyLoan() {
@@ -117,7 +95,10 @@ export default observer(function MyLoan() {
                     return (
                         <div className={s.tabItemHead}>
                             <img src={record.image} alt="" />
-                            <p>#{record.id}</p>
+                            <div className={s.nftInfo}>
+                                <p>{record.poolDetail.name}</p>
+                                <p>#{record.id}</p>
+                            </div>
                         </div>
                     );
                 },
@@ -134,7 +115,7 @@ export default observer(function MyLoan() {
                 dataIndex: "liquidateTime",
                 render: (text, otherData) => {
                     if (+otherData.rateMode === InterestRateMode.Variable) {
-                        return <p>--</p>
+                        return <p>--</p>;
                     }
                     return (
                         <p>
@@ -162,12 +143,12 @@ export default observer(function MyLoan() {
                     return (
                         <div
                             className={cx(
-                                s.repay,
-                                data.canLiquidation ? s.disbaled : ""
+                                "hasai-btn",
+                                data.canLiquidation ? "disbaled" : ""
                             )}
                             onClick={() => handleClickRepay(index, data)}
                         >
-                            Repay
+                            <span className="gradualText">Repay</span>
                         </div>
                     );
                 },
@@ -178,16 +159,22 @@ export default observer(function MyLoan() {
     return (
         <div className={s.wrap}>
             <div className={s.head}>
-                <p>
-                    <LoanIcon />
+                <p className="gradualText">
+                    <img
+                        src={depositModuleIcon}
+                        className={s.depositModuleIcon}
+                        alt=""
+                    />
                     <span>My Loan</span>
                 </p>
             </div>
             <div className={s.list}>
                 <Table
+                    className={s.table}
                     rowKey={RowKey}
                     columns={tabConfig}
                     dataSource={userBorrowList}
+                    pagination={false}
                     loading={queryUserBorrowLoading || init}
                 />
             </div>

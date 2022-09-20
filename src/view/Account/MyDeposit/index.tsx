@@ -4,15 +4,16 @@ import { Row, Col, Spin, Empty, notification, Table } from "antd";
 import { observer } from "mobx-react";
 import cx from "classnames";
 
-import SelfNFTImg from "src/asset/account/self-nft.svg";
-import DepositModal from "src/components/DepositModal";
-import Card from "src/components/Card";
+// import SelfNFTImg from "src/asset/account/self-nft.svg";
+// import DepositModal from "src/components/DepositModal";
+// import Card from "src/components/Card";
 import { useStores } from "src/hooks";
-import depositModuleIcon from "src/asset/depositModuleIcon.png";
+import depositModuleIcon from "src/asset/account/mydeposit.png";
 import s from "./index.module.scss";
 import WithdrawEth from "src/components/withdrawEth";
-import eIcon from "src/asset/eicon.png";
+import SharePoolAvator from "src/components/sharedPoolAvator";
 
+import eIcon from "src/asset/eicon.png";
 export default observer(function MyNFT() {
     const [showWithdraw, setShow] = useState(false);
     const [init, setInit] = useState(true);
@@ -25,6 +26,7 @@ export default observer(function MyNFT() {
             inited,
             poolList,
             depositList,
+            nftHexMap,
         },
     } = useStores();
 
@@ -48,22 +50,38 @@ export default observer(function MyNFT() {
             title: "Collection",
             dataIndex: "nftName",
             render: (_, record) => {
-                return <div>{_}</div>;
+                return (
+                    <div className={s.depositTop}>
+                        {record.poolType > 1 ? (
+                            <SharePoolAvator
+                                size="mini"
+                                className={s.middleAvator}
+                            />
+                        ) : (
+                            <img
+                                className={s.avator}
+                                src={nftHexMap[record?.nfts[0]]?.image_url}
+                                alt=""
+                            />
+                        )}
+                        {_}
+                    </div>
+                );
             },
         },
         {
             title: "APR",
             dataIndex: "apy",
             render: (text) => {
-                return `${text}%`;
+                return <span className={s.cellWidth}> {text}%</span>;
             },
         },
         {
-            title: "Total principal and interest",
+            title: "Balance",
             dataIndex: "totalRewardForEth",
             render: (text) => {
                 return (
-                    <span className={s.acountWarp}>
+                    <span className={cx(s.acountWarp, s.cellWidth)}>
                         <img src={eIcon} />
                         {text}
                     </span>
@@ -74,9 +92,12 @@ export default observer(function MyNFT() {
             title: "",
             render: (data) => {
                 return (
-                    <span onClick={() => Withdraw(data)} className={s.withdraw}>
-                        Withdraw
-                    </span>
+                    <div
+                        className={cx("hasai-btn")}
+                        onClick={() => Withdraw(data)}
+                    >
+                        <span className={"gradualText"}>Withdraw</span>
+                    </div>
                 );
             },
         },
@@ -85,7 +106,7 @@ export default observer(function MyNFT() {
         <>
             <div className={s.wrap}>
                 <div className={s.head}>
-                    <p>
+                    <p className="gradualText">
                         <img
                             src={depositModuleIcon}
                             className={s.depositModuleIcon}
@@ -96,8 +117,10 @@ export default observer(function MyNFT() {
                 </div>
                 <div className={s.list}>
                     <Table
+                        className={s.table}
                         rowKey={RowKey}
                         columns={tabConfig}
+                        pagination={false}
                         dataSource={depositList}
                         loading={queryDepositListLoading || init}
                     />

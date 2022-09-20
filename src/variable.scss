@@ -1,0 +1,59 @@
+:root {
+    --header-height: 80px;
+    --footer-height: 122px;
+    --header-index: 999;
+    --main-bg: #252932;
+    --content-width: 1400px;
+    --main-text-color: rgba(8, 143, 87, 1);
+    --onboard-modal-z-index: 99999;
+}
+
+.gradualText {
+    background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+/* .gradualBorder {
+    background-clip: padding-box, border-box;
+    background-image: linear-gradient(0deg, #1E2128, #1E2128), radial-gradient(circle at left bottom, #74F5DA, #CDFF8C);
+    background-origin: border-box;
+    border: 1px solid transparent;
+} */
+
+.hasai-btn {
+    width: 83px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    background-clip: padding-box, border-box;
+    background-image: linear-gradient(0deg, #30343E, #30343E), radial-gradient(circle at left bottom, #74F5DA, #CDFF8C);
+    background-origin: border-box;
+    border: 1px solid transparent;
+
+    &:hover {
+        background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
+
+        span {
+            color: #252932 !important;
+            background: none;
+            -webkit-text-fill-color: initial;
+        }
+    }
+
+    &.disbaled {
+        background: #898989;
+
+        span {
+            color: rgba(255, 255, 255, 0.6) !important;
+            background: none;
+            -webkit-text-fill-color: initial;
+        }
+    }
+}

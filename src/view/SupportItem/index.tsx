@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
-
 import { LoadingOutlined, SearchOutlined } from "@ant-design/icons";
 import { Empty, Input, notification, Spin, Row, Col, Select } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
@@ -16,10 +15,14 @@ import DrawerList from "./DrawerList";
 import { InfoCircleFilled } from "@ant-design/icons";
 import s from "./index.module.scss";
 import middleHeader from "src/asset/header.png";
+import arrowleft from "src/asset/btn-arrow-left.png";
 const EmptyAry = [];
 
 export default observer(function SupportItem() {
-    const { reservesId } = useParams<{ reservesId: string }>();
+    const { reservesId, nftIndex } = useParams<{
+        reservesId: string;
+        nftIndex: string;
+    }>();
     const [index, setIndex] = useState(-1);
     const [visible, setVisible] = useState(false);
     const [valuation, setValuation] = useState(0);
@@ -51,6 +54,7 @@ export default observer(function SupportItem() {
     const pool = useMemo(() => {
         return poolList[reservesId!];
     }, [reservesId, poolList]);
+    const nav = useNavigate();
     const nowNftInfos = useMemo(() => {
         let keys = Object.keys(nftHexMap);
         if (!keys.length || !pool || pool.nfts.length === 0) {
@@ -58,11 +62,21 @@ export default observer(function SupportItem() {
         }
         const isMiddle = pool.nfts.length > 1;
         let totalNft = 0;
-        let nftInfos = pool.nfts.map((nft) => {
-            totalNft += nftHexMap[nft].stats.count;
-            return nftHexMap[nft];
-        });
-        return { nftInfos, isMiddle, totalNft };
+        let nftInfos;
+        // if (isMiddle) {
+        //     let nowAddress = pool.nfts[nftIndex];
+        //     nftInfos = [nftHexMap[nowAddress]];
+        //     totalNft = nftInfos[0].stats.count;
+        // } else {
+        //     nftInfos = pool.nfts.map((nft) => {
+        //         totalNft += nftHexMap[nft].stats.count;
+        //         return nftHexMap[nft];
+        //     });
+        // }
+        let nowAddress = pool.nfts[nftIndex === "n" ? 0 : nftIndex];
+        nftInfos = [nftHexMap[nowAddress]];
+        totalNft = nftInfos[0].stats.count;
+        return { nftInfos, isMiddle, totalNft, nowAddress };
     }, [pool, nftHexMap]);
     const nftDataList = useMemo(() => {
         if (!poolDataConfig[reservesId!]) return EmptyAry;
@@ -99,7 +113,7 @@ export default observer(function SupportItem() {
         setValuation(+(stats.average_price * pool.ratio).toFixed(6));
         setNFTName(`#${nft.id}`);
         setInfo({ address: nft.address, id: nft.id });
-        console.log(pool.stableApr, pool.vairableApr);
+        // console.log(pool.stableApr, pool.vairableApr);
         // setInterest(
         //     (avaPrice * apr * period * borrowRate) /
         //         10000 /
@@ -148,95 +162,98 @@ export default observer(function SupportItem() {
                 </div>
             )}
             {pool && (
-                <div>
-                    <div className={s.banner}>
-                        <img
-                            src={
-                                nowNftInfos.isMiddle
-                                    ? middleHeader
-                                    : nowNftInfos.nftInfos[0].banner_image_url
-                            }
-                            alt="banner"
-                        />
-                    </div>
-                    <div className={s.seriesInfo}>
-                        <div className={s.left}>
-                            {nowNftInfos.isMiddle ? (
-                                <div className={s.avatars}>
-                                    {nowNftInfos.nftInfos.map((de, ind) => {
-                                        if (ind <= 8) {
-                                            return (
-                                                <img
-                                                    src={de.image_url}
-                                                    alt=""
-                                                    className={s.middlePics}
-                                                />
-                                            );
-                                        }
-                                    })}
+                <>
+                    <div className={s.topWarp}>
+                        <div
+                            className={s.banner}
+                            style={{
+                                backgroundImage: `url(${nowNftInfos.nftInfos[0].banner_image_url})`,
+                            }}
+                        >
+                            <div className={s.mask}></div>
+                            {/* <img
+                                className={s.bannerImg}
+                                src={
+                                    nowNftInfos.isMiddle
+                                        ? middleHeader
+                                        : nowNftInfos.nftInfos[0]
+                                              .banner_image_url
+                                }
+                                alt="banner"
+                            /> */}
+
+                            <div className={s.seriesInfo}>
+                                <div className={s.left}>
+                                    <img
+                                        className={s.avatar}
+                                        src={nowNftInfos.nftInfos[0].image_url}
+                                        alt=""
+                                    />
+
+                                    <p className={s.name}>
+                                        {nowNftInfos.nftInfos[0].name}
+                                    </p>
+                                    <span
+                                        className={s.backBtn}
+                                        onClick={() => nav("/markets")}
+                                    >
+                                        <img src={arrowleft} />
+                                        Back
+                                    </span>
                                 </div>
-                            ) : (
-                                <img
-                                    className={s.avatar}
-                                    src={nowNftInfos.nftInfos[0].image_url}
-                                    alt=""
-                                />
-                            )}
-
-                            <p className={s.name}>
-                                {nowNftInfos.isMiddle
-                                    ? "Shared Pools                                    "
-                                    : nowNftInfos.nftInfos[0].name}
-                            </p>
-                        </div>
-                        <div className={s.info}>
-                            <div className={s.infoIndex}>
-                                <p>Total NFT</p>
-                                <p>{nowNftInfos.totalNft}</p>
-                            </div>
-
-                            <div className={s.infoIndex}>
-                                <p>Total Deposit</p>
-                                <p>
-                                    {pool.totalDepositForEth}
-                                    <span>ETH</span>
-                                </p>
-                            </div>
-                            {!nowNftInfos.isMiddle && (
-                                <>
+                                <div className={s.info}>
                                     <div className={s.infoIndex}>
-                                        <p>Floor Price</p>
+                                        <p>Total NFT</p>
+                                        <p>{nowNftInfos.totalNft}</p>
+                                    </div>
+
+                                    <div className={s.infoIndex}>
+                                        <p>Total Deposit</p>
                                         <p>
-                                            {Number(
-                                                nowNftInfos.nftInfos[0].stats
-                                                    .floor_price
-                                            ).toFixed(2)}
+                                            {pool.totalDepositForEth}
                                             <span>ETH</span>
                                         </p>
                                     </div>
+                                    {!nowNftInfos.isMiddle && (
+                                        <>
+                                            <div className={s.infoIndex}>
+                                                <p>Floor Price</p>
+                                                <p>
+                                                    {Number(
+                                                        nowNftInfos.nftInfos[0]
+                                                            .stats.floor_price
+                                                    ).toFixed(2)}
+                                                    <span>ETH</span>
+                                                </p>
+                                            </div>
+                                            <div className={s.infoIndex}>
+                                                <p>Average Price</p>
+                                                <p>
+                                                    {Number(
+                                                        nowNftInfos.nftInfos[0]
+                                                            .stats.average_price
+                                                    ).toFixed(2)}
+                                                    <span>ETH</span>
+                                                </p>
+                                            </div>
+                                        </>
+                                    )}
                                     <div className={s.infoIndex}>
-                                        <p>Average Price</p>
+                                        <p>Period</p>
                                         <p>
-                                            {Number(
-                                                nowNftInfos.nftInfos[0].stats
-                                                    .average_price
-                                            ).toFixed(2)}
-                                            <span>ETH</span>
+                                            {pool ? `${pool.period}` : "/"}
+                                            <span>Days</span>
                                         </p>
                                     </div>
-                                </>
-                            )}
-                            <div className={s.infoIndex}>
-                                <p>Period</p>
-                                <p>{pool ? `${pool.period}Days` : "/"}</p>
-                            </div>
 
-                            <div className={s.infoIndex}>
-                                <p>Interest APR≈</p>
-                                <p>
-                                    {pool.stableApr}
-                                    <span>%</span>
-                                </p>
+                                    <div className={s.infoIndex}>
+                                        <p>Interest APR≈</p>
+                                        <p>
+                                            {pool.stableApr}
+                                            <span>%</span>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -245,20 +262,22 @@ export default observer(function SupportItem() {
                             <div className={s.depositHead}>
                                 <div className={s.depositTitle}>
                                     <img src={DepositIcon} alt="" />
-                                    <p>Borrow</p>
+                                    <p className="gradualText">Borrow</p>
                                 </div>
                             </div>
-                            <Input
-                                value={nftName}
-                                className={s.input}
-                                placeholder="Select Your NFT"
-                                onClick={() =>
-                                    setVisible(isLoading ? false : true)
-                                }
-                            />
+                            <div className={s.inputIcon}>
+                                <Input
+                                    value={nftName}
+                                    className={cx(s.input, "largeInput")}
+                                    placeholder="Select Your NFT"
+                                    onClick={() =>
+                                        setVisible(isLoading ? false : true)
+                                    }
+                                />
+                            </div>
                             <Select
                                 style={{ width: "100%" }}
-                                className={s.lendingModel}
+                                className={cx(s.lendingModel, s.inputIcon)}
                                 onChange={changeLending}
                                 placeholder="Choose a lending model"
                             >
@@ -311,23 +330,33 @@ export default observer(function SupportItem() {
                         </div>
                         <div className={s.bottomRight}>
                             <div className={s.filter}>
-                                <div className={s.filterOption}>
+                                <div
+                                    className={cx(s.filterWarp, s.filterOption)}
+                                >
                                     <div
-                                        className={cx(s.filterBtn, {
-                                            [s.selected]:
-                                                filter === Filter.OnAuction,
-                                        })}
+                                        className={cx(
+                                            "gradualText",
+                                            s.filterBtn,
+                                            {
+                                                [s.selected]:
+                                                    filter === Filter.OnAuction,
+                                            }
+                                        )}
                                         onClick={() =>
                                             handleSwitchFilter(Filter.OnAuction)
                                         }
                                     >
-                                        On Auction
+                                        Auction
                                     </div>
                                     <div
-                                        className={cx(s.filterBtn, {
-                                            [s.selected]:
-                                                filter === Filter.Normal,
-                                        })}
+                                        className={cx(
+                                            "gradualText",
+                                            s.filterBtn,
+                                            {
+                                                [s.selected]:
+                                                    filter === Filter.Normal,
+                                            }
+                                        )}
                                         onClick={() =>
                                             handleSwitchFilter(Filter.Normal)
                                         }
@@ -336,11 +365,11 @@ export default observer(function SupportItem() {
                                     </div>
                                 </div>
                                 <div className={s.filterOption}>
-                                    <Input
+                                    {/* <Input
                                         className={s.filterInput}
                                         placeholder="Search"
                                         suffix={<SearchOutlined />}
-                                    />
+                                    /> */}
                                     <span
                                         className={s.depositButton}
                                         onClick={() => {
@@ -358,14 +387,14 @@ export default observer(function SupportItem() {
                             />
                         </div>
                     </div>
-                </div>
+                </>
             )}
             <DrawerList
                 index={index}
                 visible={visible}
                 onCancel={handleCancel}
                 onConfirm={handleSelectNFT}
-                supportNft={pool?.nfts}
+                supportNft={[nowNftInfos.nowAddress]}
                 handleSelect={(idx) => setIndex(idx)}
             />
             <DepositModal

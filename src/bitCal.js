@@ -115,7 +115,7 @@ function getLockTime(data) {
         .toString();
 }
 
-// 0 for permissionless pool, 1 for blue chip pool, others for middle pool
+// 0 for permissionless pool, 1 for blue chip pool, others for share pool
 export function getPoolType(data) {
     return BigNumber.from(data)
         .and(TYPE_MASK)

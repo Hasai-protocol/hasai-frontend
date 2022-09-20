@@ -80,15 +80,11 @@ export default observer(function Account() {
                     <>
                         <div className={s.myNFT}>
                             <MyDeposit />
-                            <MyNFT />
+                            <MyLoan />
                         </div>
                         <div className={s.right}>
-                            <div className={s.myLoan}>
-                                <MyLoan />
-                            </div>
-                            <div className={s.myBid}>
-                                <MyAuction />
-                            </div>
+                            <MyNFT />
+                            <MyAuction />
                         </div>
                     </>
                 )}

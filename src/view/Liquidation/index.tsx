@@ -37,7 +37,6 @@ export default observer(function Liquidation() {
             queryBorrowInfo,
             loadingBorrowInfo,
             nftHexMap,
-            queryNFTDetail,
         },
     } = useStores();
 
@@ -76,7 +75,10 @@ export default observer(function Liquidation() {
         } else {
             return vairableNumber < 1;
         }
-    }, [blockTimeStamp, borrowInfo, nftHexMap]);
+    }, [blockTimeStamp, borrowInfo]);
+    const bannerImg = useMemo(() => {
+        return nftHexMap[nft]?.banner_image_url;
+    }, [nftHexMap, nft]);
     const stableMode = useMemo(() => {
         if (!borrowInfo.rateMode) return;
         return borrowInfo.rateMode === InterestRateMode.stableDebt;
@@ -132,6 +134,13 @@ export default observer(function Liquidation() {
 
     return (
         <div className={s.wrap}>
+            <div
+                className={s.bannerImgWarp}
+                style={{ backgroundImage: `url(${bannerImg})` }}
+            >
+                <div className={s.bannerFilter}></div>
+                {/* <img src={bannerImg} className={s.bannerImg} /> */}
+            </div>
             <div className={s.content}>
                 <div className={s.img}>
                     <img src={borrowInfo.image || DefaultImg} alt="" />
@@ -139,6 +148,21 @@ export default observer(function Liquidation() {
                 <div className={s.bottom}>
                     <div className={s.nftInfo}>
                         <p className={s.name}>#{borrowInfo.id}</p>
+                        <div className={cx(s.InfoWarp, s.otherInfo)}>
+                            <span className={s.typeTitle}>
+                                The starting price
+                            </span>
+                            <img src={ethImg} alt="" />
+                            <span className={s.price}>
+                                {borrowInfo.repayAmount.toFixed(6)}
+                            </span>
+                        </div>
+                    </div>
+                    <div className={cx(s.nftInfo, s.priceInfo)}>
+                        <div className={s.bidHis}>
+                            <UnorderedListOutlined />
+                            Bids History
+                        </div>
                         {stableMode ? (
                             <>
                                 <div className={s.InfoWarp}>
@@ -168,23 +192,6 @@ export default observer(function Liquidation() {
                             </div>
                         )}
                     </div>
-                    <div className={cx(s.nftInfo, s.priceInfo)}>
-                        <div className={s.bidHis}>
-                            <UnorderedListOutlined />
-                            Bids History
-                        </div>
-                        <div className={cx(s.InfoWarp, s.otherInfo)}>
-                            <span className={s.typeTitle}>
-                                The starting price
-                            </span>
-                            <img src={ethImg} alt="" />
-                            <span className={s.price}>
-                                {borrowInfo.repayAmount.toFixed(6)}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className={s.split} />
                     <div className={s.bidInput}>
                         <InputNumber
                             stringMode

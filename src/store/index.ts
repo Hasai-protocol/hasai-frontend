@@ -157,8 +157,6 @@ export default class Store {
 
     userAuctionBase: Array<any> = [];
 
-    userAuctionCursor = 0;
-
     userRepayAmount = 0;
 
     borrowInfo: any = {
@@ -302,6 +300,7 @@ export default class Store {
             });
             const reserves = await this.getReservesCount();
             const allLength = makeAsyncIterator(+reserves);
+            // console.log(allLength);
             let poolList: Array<any> = [];
             let poolDataConfig: any = {};
             let nftHexMap = {};
@@ -317,37 +316,38 @@ export default class Store {
                 let reserveData: any = {},
                     supplyRate = 0;
                 // (async () => {
-                //     // const {
-                //     //     configuration,
-                //     //     currentLiquidityRate,
-                //     //     currentStableBorrowRate,
-                //     //     currentVariableBorrowRate,
-                //     //     hTokenAddress,
-                //     //     id,
-                //     //     interestRateStrategyAddress,
-                //     //     lastUpdateTimestamp,
-                //     //     liquidityIndex,
-                //     //     stableDebtTokenAddress,
-                //     //     variableBorrowIndex,
-                //     //     variableDebtTokenAddress,
-                //     // } = await contract.getReserveData(reserveId);
-                //     const data = await contract.getReserveData(reserveId);
-                //     let obj = {};
-                //     for (let key in data) {
-                //         if (isNaN(+key)) {
-                //             if (Array.isArray(data[key])) {
-                //                 obj[key] = data[key].data;
-                //             } else if (
-                //                 typeof data[key] !== "string" &&
-                //                 typeof data[key] !== "number"
-                //             ) {
-                //                 obj[key] = data[key]._hex;
-                //             } else {
-                //                 obj[key] = data[key];
-                //             }
+                // const {
+                //     configuration,
+                //     currentLiquidityRate,
+                //     currentStableBorrowRate,
+                //     currentVariableBorrowRate,
+                //     hTokenAddress,
+                //     id,
+                //     interestRateStrategyAddress,
+                //     lastUpdateTimestamp,
+                //     liquidityIndex,
+                //     stableDebtTokenAddress,
+                //     variableBorrowIndex,
+                //     variableDebtTokenAddress,
+                // } = await contract.getReserveData(reserveId);
+                // const data = await contract.getReserveData(reserveId);
+                // console.log(data);
+                // let obj = {};
+                // for (let key in data) {
+                //     if (isNaN(+key)) {
+                //         if (Array.isArray(data[key])) {
+                //             obj[key] = data[key].data;
+                //         } else if (
+                //             typeof data[key] !== "string" &&
+                //             typeof data[key] !== "number"
+                //         ) {
+                //             obj[key] = data[key]._hex;
+                //         } else {
+                //             obj[key] = data[key];
                 //         }
                 //     }
-                //     console.log(JSON.stringify(obj), reserveId);
+                // }
+                // console.log(JSON.stringify(obj), reserveId);
                 // })();
                 if (hasStatic.data) {
                     reserveData = hasStatic.data;
@@ -424,9 +424,8 @@ export default class Store {
                 ) {
                     poolData.nftName = nowNftPoolDetail[nfts[0]].name;
                 } else {
-                    poolData.nftName = "Middle Pool";
+                    poolData.nftName = "Share Pool";
                 }
-                // if(nowNftPoolDetail)
                 nftHexMap = Object.assign(nftHexMap, nowNftPoolDetail);
                 poolList.push(poolData);
                 poolDataConfig[`${reserveId}`] = {
@@ -469,7 +468,6 @@ export default class Store {
                 );
             }
             runInAction(() => {
-                console.log(pol);
                 this.poolList = pol;
             });
             this.poolBalance = +poolBalance.toFixed(2);
@@ -486,7 +484,6 @@ export default class Store {
             // let erc721Contract = this.getErc721(contractAddress);
             // const symbol = (await erc721Contract.symbol()).toLowerCase();
             let slug = testSlugHex[contractAddress];
-            console.log(slug);
             try {
                 let collection = nftPostDetail[contractAddress];
                 if (!collection) {
@@ -499,12 +496,12 @@ export default class Store {
                     const { banner_image_url, image_url, name, stats } =
                         collection;
                     console.log(
-                        JSON.stringify({
+                        `{${JSON.stringify({
                             banner_image_url,
                             image_url,
                             name,
                             stats,
-                        })
+                        })}}`
                     );
                 }
                 results[contractAddress] = Object.assign(
@@ -550,7 +547,8 @@ export default class Store {
             let index = 0;
             let totalInterest = ethers.BigNumber.from(0);
             for (let pool of poolList) {
-                const { hTokenAddress, depositApy, nftName } = pool;
+                const { hTokenAddress, depositApy, nftName, poolType, nfts } =
+                    pool;
                 const hTokenContract = new ethers.Contract(
                     hTokenAddress,
                     hTokenAbi,
@@ -575,6 +573,8 @@ export default class Store {
                         interestForEth: formatEther(
                             balance.sub(scaledBalanceOf, 7)
                         ), // reward
+                        poolType,
+                        nfts,
                         totalRewardForEth: formatEther(balance),
                         canWithdrawRaw: canWithdraw,
                         canWithdrawRorEth: formatEther(canWithdraw, 7),
@@ -708,88 +708,76 @@ export default class Store {
 
     @action.bound
     async queryUserAuctions() {
-        const { contract, loadingAuction, userAuctionBase, userAuctionCursor } =
-            this;
+        const { contract, loadingAuction } = this;
         try {
             if (loadingAuction) return;
             runInAction(() => {
                 this.loadingAuction = true;
             });
             let requestInfo: Array<any> = [];
-            if (userAuctionBase.length < 1) {
-                const bidFilter = contract.filters.BidCall(
-                    null,
-                    null,
-                    this.walletAddress
-                );
-                const myCreateBidFilter = contract.filters.LiquidationCall(
-                    null,
-                    null,
-                    this.walletAddress
-                );
-                const [auctionIdsInfo, bidList, createInfo] = await Promise.all(
-                    [
-                        contract.getAuctions(),
-                        contract.queryFilter(bidFilter),
-                        contract.queryFilter(myCreateBidFilter),
-                    ]
-                );
 
-                const auctionIds = auctionIdsInfo.map((id) => +id);
-                const formatStartInfos = bidList
-                    .map((bid) => {
-                        const { amount, borrowId } = bid.args!;
-                        return {
-                            id: +borrowId,
-                            bidAmount: +amount,
-                            blockNumber: bid.blockNumber,
-                            transactionHash: bid.transactionHash,
-                        };
-                    })
-                    .filter((bid) => {
-                        return auctionIds.includes(bid.id);
-                    });
-                const formatCreateInfos = createInfo
-                    .map((bid) => {
-                        const { amount, borrowId } = bid.args!;
-                        return {
-                            id: +borrowId,
-                            bidAmount: +amount,
-                            blockNumber: bid.blockNumber,
-                            transactionHash: bid.transactionHash,
-                        };
-                    })
-                    .filter((bid) => {
-                        return auctionIds.includes(bid.id);
-                    });
-                const noRepeatBids = [
-                    ...formatStartInfos,
-                    ...formatCreateInfos,
-                ].reduce((list: Array<any>, item) => {
-                    const idx = list.findIndex((i) => i.id === item.id);
-                    if (idx < 0) {
-                        list.push(item);
-                    } else {
-                        list[idx] = {
-                            ...list[idx],
-                            ...item,
-                        };
-                    }
-                    return list;
-                }, []);
-                const validTransactions = noRepeatBids.filter((bid) =>
-                    auctionIds.includes(bid.id)
-                );
-                requestInfo = validTransactions.slice(0, 5);
-                runInAction(() => {
-                    this.userAuctionBase = validTransactions;
+            const bidFilter = contract.filters.BidCall(
+                null,
+                null,
+                this.walletAddress
+            );
+            const myCreateBidFilter = contract.filters.LiquidationCall(
+                null,
+                null,
+                this.walletAddress
+            );
+            const [auctionIdsInfo, bidList, createInfo] = await Promise.all([
+                contract.getAuctions(),
+                contract.queryFilter(bidFilter),
+                contract.queryFilter(myCreateBidFilter),
+            ]);
+
+            const auctionIds = auctionIdsInfo.map((id) => +id);
+            const formatStartInfos = bidList
+                .map((bid) => {
+                    const { amount, borrowId } = bid.args!;
+                    return {
+                        id: +borrowId,
+                        bidAmount: +amount,
+                        blockNumber: bid.blockNumber,
+                        transactionHash: bid.transactionHash,
+                    };
+                })
+                .filter((bid) => {
+                    return auctionIds.includes(bid.id);
                 });
-            } else {
-                requestInfo = userAuctionBase.slice(
-                    userAuctionCursor,
-                    userAuctionCursor + 5
-                );
-            }
+            const formatCreateInfos = createInfo
+                .map((bid) => {
+                    const { amount, borrowId } = bid.args!;
+                    return {
+                        id: +borrowId,
+                        bidAmount: +amount,
+                        blockNumber: bid.blockNumber,
+                        transactionHash: bid.transactionHash,
+                    };
+                })
+                .filter((bid) => {
+                    return auctionIds.includes(bid.id);
+                });
+            const noRepeatBids = [
+                ...formatStartInfos,
+                ...formatCreateInfos,
+            ].reduce((list: Array<any>, item) => {
+                const idx = list.findIndex((i) => i.id === item.id);
+                if (idx < 0) {
+                    list.push(item);
+                } else {
+                    list[idx] = {
+                        ...list[idx],
+                        ...item,
+                    };
+                }
+                return list;
+            }, []);
+            const validTransactions = noRepeatBids.filter((bid) =>
+                auctionIds.includes(bid.id)
+            );
+            requestInfo = validTransactions;
             if (requestInfo.length < 1) {
                 return;
             }
@@ -821,7 +809,6 @@ export default class Store {
             }
             runInAction(() => {
                 this.loadingAuction = false;
-                this.userAuctionCursor += 5;
                 this.userAuctionList = [...this.userAuctionList, ...details];
             });
         } finally {
@@ -986,7 +973,6 @@ export default class Store {
         const { contract, loadingTargetList, poolDataConfig } = this;
         const conf = poolDataConfig[reservesId];
         try {
-            console.log(loadingTargetList, conf, reservesId);
             if (loadingTargetList || !conf) return;
             runInAction(() => {
                 this.loadingTargetList = true;
@@ -1015,7 +1001,6 @@ export default class Store {
                     contract.queryFilter(startBidFilter),
                     contract.queryFilter(claimBidNFTFilter),
                 ]);
-                console.log(borrowFilter, bids, claimInfos);
                 const borrowList = borrowFilter
                     .map((item) => item.args!)
                     .map((item) => {
@@ -1089,7 +1074,6 @@ export default class Store {
 
             const iterator = makeAsyncIterator(pageData.length);
             const details: Array<any> = [];
-            console.log(pageData);
             for await (const idx of iterator) {
                 try {
                     const info = pageData[idx!];
@@ -1098,6 +1082,7 @@ export default class Store {
                         contract.borrowMap(info.borrowId),
                         contract.auctionMap(info.borrowId),
                     ]);
+                    console.log(borrowInfo);
                     if (info.address) {
                         details.push({
                             ...data,

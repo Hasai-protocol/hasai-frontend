@@ -1,0 +1,363 @@
+.wrap {
+    position: relative;
+    color: #000;
+}
+
+.filterWarp {
+    border: 1px solid #64708B;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+    background: rgba(37, 41, 50, 0.75);
+    width: 215px;
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+
+
+
+    .filterItem {
+        height: 56px;
+        line-height: 56px;
+        padding-left: 16px;
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.8);
+        user-select: none;
+        cursor: pointer;
+
+        &.active,
+        &:hover {
+            color: #FFFFFF;
+            background: #3A404F;
+        }
+    }
+}
+
+.marketPopover {
+
+    // background: rgba(37, 41, 50, 0.6);
+    // border: 1px solid #64708B;
+    // box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+    // backdrop-filter: blur(12px);
+    // border-radius: 16px;
+    :global {
+        .ant-popover-inner {
+            box-shadow: initial;
+        }
+
+        // .box-shadow{}
+        .ant-popover-arrow {
+            display: none;
+        }
+    }
+
+
+}
+
+.top {
+    width: 100vw;
+    height: 400px;
+    background-color: rgba(30, 33, 40, 0.8);
+    background-color: rgba(30, 33, 40, 0);
+    padding-top: var(--header-height);
+    width: var(--content-width);
+    margin: 0 auto;
+    margin-top: calc(0px - var(--header-height));
+
+    .topInner {
+        width: var(--content-width);
+        margin: 0 auto;
+
+        .headerTitle {
+            font-weight: 700;
+            font-size: 36px;
+            font-family: hasai-700;
+            line-height: 46px;
+            color: #FFFFFF;
+            margin: 32px 0 16px;
+            display: inline-block;
+
+            img {
+                width: 18px;
+                margin-left: 15px;
+            }
+        }
+
+        .description {
+            font-size: 18px;
+            line-height: 27px;
+            text-align: justify;
+            color: rgba(255, 255, 255, 0.8);
+            width: 760px;
+            margin-top: 24px;
+        }
+
+        .totalData {
+            display: flex;
+
+            .selection {
+                margin-right: 90px;
+
+                .itemTitle {
+                    font-size: 14px;
+                    line-height: 18px;
+                    color: #FFFFFF;
+                    margin-bottom: 8px;
+                }
+
+                .itemData {
+                    font-family: hasai-700;
+                    font-size: 24px;
+                    line-height: 31px;
+                    color: #FFFFFF;
+                    margin-top: 8px;
+
+                    sub {
+                        font-size: 14px;
+                        line-height: 20px;
+                        vertical-align: text-top;
+                        color: rgba(255, 255, 255, 0.8);
+                        margin-left: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.avatars {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    padding: 4px;
+    flex-direction: initial !important;
+    flex: 48px 0 0;
+
+    img {
+        display: inline-block;
+        width: 12px !important;
+        height: 12px !important;
+        margin-right: 2px !important;
+
+        &:nth-child(3n) {
+            margin-right: 0 !important;
+        }
+    }
+}
+
+
+.middleNfts {
+    div {
+        font-size: 12px;
+        line-height: 20px;
+        color: rgba(0, 0, 0, 0.6);
+        width: 120px;
+        display: inline-flex;
+        align-items: center;
+
+        img {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+    }
+}
+
+.poolType {
+    padding: 2px 4px;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+}
+
+
+.supportList {
+    min-height: 500px;
+    width: var(--content-width);
+    margin: 0 auto;
+}
+
+.list {
+    // padding-top: 40px;
+    background: #30343E;
+    border: 1px solid rgba(100, 113, 141, 0.5);
+    backdrop-filter: blur(30px);
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: -30px;
+    margin-bottom: 100px;
+
+    .sectionTitle {
+        font-family: hasai-500;
+        font-size: 20px;
+        line-height: 24px;
+        vertical-align: bottom;
+
+        img {
+            width: 20px;
+        }
+    }
+}
+
+.item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    // cursor: pointer;
+    padding: 24px;
+    height: 96px;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    transition: all .3s;
+
+    &.firstCollection {
+        border-top: none;
+    }
+
+    &.mainItem {
+        &:hover {
+            background: #333945;
+            backdrop-filter: blur(30px);
+            border-color: rgba(100, 113, 141, 0.2);
+        }
+    }
+
+    >div {
+        width: 170px;
+    }
+
+    .section {
+
+        &.firstSection {
+            font-size: 18px;
+            line-height: 21px;
+            color: #FFFFFF;
+            font-family: hasai-500;
+            display: flex;
+            align-items: center;
+            width: 300px;
+
+            .poolInfo {
+                display: flex;
+                flex-direction: column;
+
+                .poolName {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    width: 250px;
+                }
+
+                .middleTips {
+                    color: rgba(0, 0, 0, 0.4);
+                    margin-left: 5px;
+                }
+
+                .poolType {
+                    margin-top: 4px;
+                    border: 1px solid #FFAE4F;
+                    border-radius: 2px;
+                    color: #FFAE4F;
+                    width: fit-content;
+
+                    &.type1 {
+                        color: #4EBFFF;
+                        border-color: #4EBFFF;
+                    }
+
+                    &.type0 {
+                        color: #CDFF8C;
+                        border-color: #CDFF8C;
+                    }
+                }
+
+                // align-items: ce;
+            }
+
+            img {
+                width: 48px;
+                height: 48px;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    .poolInfo {
+        padding-left: 7px;
+    }
+
+    .hasai-btn {
+        width: 70px !important;
+        height: 34px !important;
+        line-height: 34px !important;
+    }
+
+    .normal {
+
+        .sectionTitle {
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 20px;
+            margin-bottom: 6px;
+            color: rgba(0, 0, 0, 0.4);
+            display: none;
+        }
+
+        .content {
+            font-size: 18px;
+            line-height: 20px;
+            color: #FFFFFF;
+
+            img {
+                width: 16px;
+                vertical-align: sub;
+                margin-right: 6px;
+            }
+        }
+    }
+}
+
+.tHeader {
+    font-size: 14px;
+    line-height: 36px;
+    height: 36px;
+    color: rgba(255, 255, 255, 0.8);
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: 1px solid rgba(100, 113, 141, 0.5);
+    margin-top: 24px;
+
+    .viewButton {
+        visibility: hidden;
+    }
+
+    &:hover {
+        background: transparent;
+    }
+
+    .firstSection,
+    .sectionTitle {
+        font-family: hasai-400 !important;
+        display: initial !important;
+        font-size: 14px !important;
+        line-height: 36px !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+
+    }
+}
+
+.loadingWrap {
+    width: 100%;
+    min-height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+:global(.ant-radio-button-wrapper-checked) {
+    box-shadow: none !important;
+}

@@ -11,34 +11,63 @@
     // border-bottom: 1px solid rgba(222, 224, 226, 1)
 }
 
+.headerClass {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .tabs {
     display: flex;
     align-items: center;
 }
 
-.tab {
-    padding: 10px 16px;
+.hasAddress {
+    background-clip: padding-box, border-box;
+    background-image: linear-gradient(0deg, #1E2128, #1E2128), radial-gradient(circle at left bottom, #74F5DA, #CDFF8C);
+    background-origin: border-box;
+    border: 1px solid transparent;
+    border-radius: 30px;
+    width: 139px;
+    line-height: 40px;
+    height: 40px;
+    text-align: center;
+
+    .address {
+        background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+    }
+}
+
+.noAddress {
+    background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
+    border-radius: 61px;
+    color: #252932;
+    width: 124px;
+    line-height: 52px;
+    height: 52px;
     font-size: 14px;
-    line-height: 20px;
-    font-weight: 400;
-    color: rgba(0, 0, 0, .6);
     cursor: pointer;
+    text-align: center;
+}
+
+.tab {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    margin-right: 40px;
+
+    &:last-child {
+        margin-right: 0;
+    }
 
     &.active {
         color: #000;
         font-weight: 500;
     }
-}
-
-.account {
-    padding: 6px 24px;
-    border-radius: 61px;
-    font-size: 14px;
-    line-height: 20px;
-    cursor: pointer;
-    font-weight: 400;
-    color: #0A5536;
-    border: 1px solid #088F57;
 }
 
 .index {

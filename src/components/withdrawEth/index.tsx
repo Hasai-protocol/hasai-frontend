@@ -10,6 +10,7 @@ import { useStores } from "src/hooks";
 import cx from "classnames";
 import s from "./index.module.scss";
 import { Table, notification } from "antd";
+import closeIcon from "src/asset/colseIcon.png";
 
 export default observer(function RepayModal({ onCancel, visible, info }) {
     const {
@@ -72,11 +73,12 @@ export default observer(function RepayModal({ onCancel, visible, info }) {
                 footer={null}
                 visible={visible}
                 className={s.modal}
+                closeIcon={<img src={closeIcon} />}
                 onCancel={onCancel}
                 title={
                     <p className={s.title}>
                         <img src={withdrawIcon} />
-                        Withdraw
+                        <span className="gradualText">Withdraw</span>
                     </p>
                 }
                 width={320}
@@ -91,9 +93,15 @@ export default observer(function RepayModal({ onCancel, visible, info }) {
                             suffix="ETH"
                         />
                         <p className={s.balance}>
-                            Available to Withdraw {canWithdrawRorEth}
-                            ETH
+                            <div>
+                                Available to Withdraw
+                                <span className={s.value}>
+                                    {canWithdrawRorEth}
+                                    ETH
+                                </span>
+                            </div>
                             <span
+                                className={s.maxBtn}
                                 onClick={() =>
                                     changeInput({
                                         target: {
