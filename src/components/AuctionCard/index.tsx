@@ -50,17 +50,22 @@ export default observer(function AuctionCard({
 
     return (
         <div className={s.card} onClick={() => onClick(index)}>
-            <img className={s.img} src={image || BrokenImg} alt={`${name}`} />
-            <div className={s.info}>
-                <p className={s.id}>#{id}</p>
-                <p className={s.amountInfo}>
-                    <img src={ETHImg} alt="" />
-                    {formatEther(amount, 5)}
-                </p>
-            </div>
-            <div className={s.countDown}>
-                <img src={TimeImg} alt="count down" />
-                <span>{countDown}</span>
+            <div
+                className={s.imgWarp}
+                style={{ backgroundImage: `url(${image || BrokenImg})` }}
+            ></div>
+            <div className={s.bottom}>
+                <div className={s.info}>
+                    <p className={s.id}>#{id}</p>
+                    <p className={s.amountInfo}>
+                        <img src={ETHImg} alt="" />
+                        {formatEther(amount, 5)}
+                    </p>
+                </div>
+                <div className={s.countDown}>
+                    <img src={TimeImg} alt="count down" />
+                    <span>{countDown}</span>
+                </div>
             </div>
         </div>
     );

@@ -52,9 +52,18 @@ const links = [
         },
     ],
     [
-        { text: "As Depositer", url: "" },
-        { text: "As Borrower", url: "" },
-        { text: "As Creator", url: "" },
+        {
+            text: "As Depositer",
+            url: "https://docs.hasai.xyz/guides/as-lenders-earning-interest",
+        },
+        {
+            text: "As Borrower",
+            url: "https://docs.hasai.xyz/guides/as-borrowers-get-instant-loans",
+        },
+        {
+            text: "As Creator",
+            url: "https://docs.hasai.xyz/pools/the-permissionless-pools",
+        },
     ],
     [
         {
@@ -89,10 +98,30 @@ export default observer(function Footer() {
             <div className={s.footerInner}>
                 <div className={s.footerTop}>
                     <div className={s.btns}>
-                        <a className={s.btn}>Pools</a>
-                        <a className={s.btn}>Docs</a>
-                        <a className={s.btn}>Security</a>
-                        <a className={s.btn}>FAQ</a>
+                        <a
+                            className={s.btn}
+                            href="https://github.com/Hasai-protocol"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                        >
+                            Pools
+                        </a>
+                        <a
+                            className={s.btn}
+                            href="https://docs.hasai.xyz/"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                        >
+                            Docs
+                        </a>
+                        <a
+                            className={s.btn}
+                            href="https://docs.hasai.xyz/risk/security-and-audits"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                        >
+                            Security
+                        </a>
                     </div>
                     <img src={footerIcon} alt="" />
                 </div>
@@ -116,8 +145,8 @@ export default observer(function Footer() {
                         {SocialLinks.map((icon) => (
                             <a
                                 rel="noopener noreferrer"
-                                href={icon.url}
                                 target="_blank"
+                                href={icon.url}
                                 className={`hasai ${icon.link}`}
                             ></a>
                         ))}

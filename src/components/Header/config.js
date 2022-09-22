@@ -9,11 +9,7 @@ export const homeTabs = [
     },
     {
         TabName: "Security",
-        path: "",
-    },
-    {
-        TabName: "FAQ",
-        path: "/faq",
+        path: "https://docs.hasai.xyz/risk/security-and-audits",
     },
 ];
 export const appTabs = [
@@ -27,6 +23,6 @@ export const appTabs = [
     },
     {
         TabName: "Governance",
-        path: "/governance",
+        path: "https://docs.hasai.xyz/governance/governance-mechanism",
     },
 ];

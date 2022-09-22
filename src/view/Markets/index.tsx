@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { Row, Col, Spin, Radio, Popover } from "antd";
-import { useMemo } from "react";
 import { QuestionCircleFilled } from "@ant-design/icons";
 import colorfulEth from "src/asset/colorfulEth.png";
 import eIcon from "src/asset/eicon.png";
@@ -20,22 +19,51 @@ export default observer(function Home() {
         store: {
             poolList,
             totalDepositNFT,
-            poolBalance,
+            poolBalances,
             totalBorrowAmount,
             nftHexMap,
             loadingPoolList,
+            borrowedNftList,
         },
     } = useStores();
     const [filterType, setFilter] = useState(-1);
+    const [nowIndex, setIndex] = useState(0);
     const [showFilter, setShowFilter] = useState(false);
     const onChange = (v) => {
-        setFilter(v);
+        setFilter(v.poolType);
+        setIndex(v.index);
     };
     const filterList = [
-        { title: "All", index: -1 },
-        { title: "The Blue-Chip Pools", index: 1 },
-        { title: "The Shared Pools", index: 2 },
-        { title: "The Permissionless Pools", index: 0 },
+        {
+            title: "All",
+            index: 0,
+            poolType: -1,
+            des: `Browse to the "Deposit" section and click on
+        "Deposit" for the Pools you want to deposit. Select
+        the amount you'd like to deposit and submit your
+        transaction. Once the transaction is confirmed, your
+        deposit is successfully re gistered and you begin
+        earning interest.`,
+        },
+        {
+            title: "The Blue-Chip Pools",
+            index: 1,
+            poolType: 1,
+            des: `Hasai's initial Blue-Chip Pools will support NFTs from the following collections as collateral: BAYC、MAYC、CryptoPunks、Azuki、CLONE-X、Doodles
+        NFT collections supported in the Shared Pool can be promoted to Blue-Chip Pools.`,
+        },
+        {
+            title: "The Shared Pools",
+            index: 2,
+            poolType: 2,
+            des: `The emerging NFT collections will share the Shared Pool as the lending pool. All supported NFT collections in this pool share the same risk factor, lending ratio, liquidation factors, and other parameters.`,
+        },
+        {
+            title: "The Permissionless Pools",
+            index: 3,
+            poolType: 0,
+            des: `Anyone can create Permissionless Pool. One Permissionless Pool cannot be created by the same NFT collections repeatedly and cannot be destroyed after the creation. The original parameters of Permissionless Pools are determined by creators themselves. `,
+        },
     ];
     const MiddleList = ({ list }) => {
         return (
@@ -51,6 +79,21 @@ export default observer(function Home() {
             </div>
         );
     };
+    const depositNfts = useMemo(() => {
+        let borrowedNftsKeys = Object.keys(borrowedNftList);
+        if (borrowedNftsKeys.length === 0 || poolList.length === 0)
+            return "N/N";
+        let typeNumbers = {};
+        typeNumbers[PoolType["Permissionless"]] = 0;
+        typeNumbers[PoolType["Blue Chip"]] = 0;
+        typeNumbers[PoolType["share Pool"]] = 0;
+        borrowedNftsKeys.forEach((key) => {
+            let nftPoolType = nftHexMap[key].poolType;
+            typeNumbers[nftPoolType] += borrowedNftList[key];
+        });
+        console.log(typeNumbers);
+        return typeNumbers;
+    }, [borrowedNftList, nftHexMap]);
     const content = () => {
         return (
             <div className={s.filterWarp}>
@@ -62,7 +105,7 @@ export default observer(function Home() {
                                 filterType === f.index ? s.active : ""
                             )}
                             onClick={() => {
-                                onChange(f.index);
+                                onChange(f);
                             }}
                         >
                             {f.title}
@@ -81,10 +124,9 @@ export default observer(function Home() {
                             className={s.headerTitle}
                             onClick={() => setShowFilter(!showFilter)}
                         >
-                            {filterType === -1
+                            {nowIndex === 0
                                 ? "Market"
-                                : filterList[filterType === 0 ? 3 : filterType]
-                                      .title}
+                                : filterList[nowIndex]?.title}
                             <Popover
                                 content={content}
                                 placement="bottom"
@@ -99,23 +141,29 @@ export default observer(function Home() {
                         <div className={s.totalData}>
                             <div className={s.selection}>
                                 <p className={s.itemTitle}>Total NFTs</p>
-                                <p className={s.itemData}>{totalDepositNFT}</p>
+                                <p className={s.itemData}>
+                                    {filterType === -1
+                                        ? totalDepositNFT
+                                        : depositNfts[filterType]}
+                                </p>
                             </div>
                             <div className={s.selection}>
                                 <p className={s.itemTitle}>Total Deposit</p>
                                 <p className={s.itemData}>
-                                    {poolBalance}
+                                    {
+                                        poolBalances[
+                                            filterType === -1
+                                                ? "total"
+                                                : filterType
+                                        ]
+                                    }
                                     <sub>ETH</sub>
                                 </p>
                             </div>
                         </div>
                         <div className={s.description}>
-                            Browse to the "Deposit" section and click on
-                            "Deposit" for the Pools you want to deposit. Select
-                            the amount you'd like to deposit and submit your
-                            transaction. Once the transaction is confirmed, your
-                            deposit is successfully re gistered and you begin
-                            earning interest.
+                            {filterList[nowIndex]?.des}
+                            {/* {filterList[filterType === -1 ? 0 : filterType].des} */}
                         </div>
                     </div>
                 </div>

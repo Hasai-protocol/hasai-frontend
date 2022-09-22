@@ -41,6 +41,7 @@ export default observer(function AuctionDetail() {
             handleClaimBidNFT,
             queryAuctionDetail,
             loadingAuctionDetail,
+            nftHexMap,
         },
     } = useStores();
 
@@ -91,7 +92,9 @@ export default observer(function AuctionDetail() {
         if (!inited) return;
         queryAuctionDetail(nft, id, auctionId);
     }, [inited, id, nft, auctionId, queryAuctionDetail]);
-
+    const bannerImg = useMemo(() => {
+        return nftHexMap[nft]?.banner_image_url;
+    }, [nftHexMap, nft]);
     useEffect(() => {
         if (!inited) return;
         (async () => {
@@ -143,18 +146,27 @@ export default observer(function AuctionDetail() {
 
     return (
         <div className={s.wrap}>
+            <div
+                className={s.bannerImgWarp}
+                style={{ backgroundImage: `url(${bannerImg})` }}
+            >
+                <div className={s.bannerFilter}></div>
+                {/* <img src={bannerImg} className={s.bannerImg} /> */}
+            </div>
             <div className={s.content}>
                 <div className={s.img}>
                     <img src={auction.nftImg || DefaultImg} alt="" />
                 </div>
                 <div className={s.bottom}>
                     <div className={s.nftInfo}>
-                        <p className={s.name}>#{auction.nftId}</p>
-                        <p>
-                            Auction ends in
-                            <img src={TimeImg} alt="count down" />
-                            <span>{countDown}</span>
-                        </p>
+                        <p className={s.id}>#{auction.nftId}</p>
+                        <div className={s.bidAmount}>
+                            <p className={s.tips}>Top bid</p>
+                            <p className={s.amount}>
+                                <img src={ETHImg} alt="" />
+                                <span>{sliceNumStr(auction.amount, 18)}</span>
+                            </p>
+                        </div>
                     </div>
                     <div className={s.bidInfo}>
                         <div
@@ -164,33 +176,23 @@ export default observer(function AuctionDetail() {
                             <UnorderedListOutlined />
                             Bids History
                         </div>
-                        <div className={s.bidAmount}>
-                            <p className={s.tips}>
-                                Top bid
-                                {/* <Tooltip
-                                    title={`The highest bidder will win the item.`}
-                                >
-                                    <img src={TipsImg} alt="tips" />
-                                </Tooltip> */}
-                            </p>
-                            <p className={s.amount}>
-                                <img src={ETHImg} alt="" />
-                                <span>{sliceNumStr(auction.amount, 18)}</span>
-                            </p>
-                        </div>
+                        <p className={s.endTime}>
+                            Auction ends in
+                            <img src={TimeImg} alt="count down" />
+                            <span>{countDown}</span>
+                        </p>
                     </div>
-                    <div className={s.split} />
                     <div className={s.bidInput}>
                         <InputNumber
-                            stringMode
                             min={auction.amount}
-                            size="large"
                             placeholder={`greater than ${
                                 auction?.amount || ""
                             }`}
+                            controls={false}
                             value={bidPrice}
                             onChange={handleInput}
                             disabled={isEnd}
+                            maxLength={20}
                             className={cx(s.input, {
                                 [s.inputDisabled]: isEnd,
                             })}

@@ -24,6 +24,7 @@ export enum InterestRateMode {
 export enum PoolType {
     "Permissionless" = 0,
     "Blue Chip" = 1,
+    "share Pool" = 2,
     // middle not exact number big than one is share pool
 }
 export const getRepayCount = (amount) => {

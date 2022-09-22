@@ -15,6 +15,10 @@ export default observer(function Header() {
     let location = useLocation();
 
     const handleClick = ({ path }) => {
+        if (pathname === "/") {
+            window.open(path);
+            return;
+        }
         nav(path);
     };
     const pathname = useMemo(() => {

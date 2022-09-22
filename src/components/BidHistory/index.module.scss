@@ -41,9 +41,14 @@
 }
 
 .item {
-    margin-top: 16px;
+    margin-bottom: 16px;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
 
     img {
         width: 16px;
@@ -55,29 +60,26 @@
         font-size: 12px;
         line-height: 15px;
         color: #FFFFFF;
+        display: flex;
+        margin-bottom: 2px;
     }
 
-    .amount {
+    .time {
         font-size: 12px;
         line-height: 18px;
         color: rgba(255, 255, 255, 0.6);
     }
 
-    div {
+    .right {
+        font-family: hasai-500;
+        font-size: 16px;
+        line-height: 24px;
+        color: #FFFFFF;
         display: flex;
         align-items: center;
 
-        svg {
-            margin-left: 5px;
+        img {
+            margin-left: 26px;
         }
-
-        &:last-child {
-            color: rgba(0, 0, 0, 0.4);
-            justify-content: space-between;
-        }
-    }
-
-    &:first-child {
-        margin-top: 0;
     }
 }

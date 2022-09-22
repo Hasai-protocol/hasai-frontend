@@ -171,17 +171,6 @@ export default observer(function SupportItem() {
                             }}
                         >
                             <div className={s.mask}></div>
-                            {/* <img
-                                className={s.bannerImg}
-                                src={
-                                    nowNftInfos.isMiddle
-                                        ? middleHeader
-                                        : nowNftInfos.nftInfos[0]
-                                              .banner_image_url
-                                }
-                                alt="banner"
-                            /> */}
-
                             <div className={s.seriesInfo}>
                                 <div className={s.left}>
                                     <img
@@ -308,14 +297,6 @@ export default observer(function SupportItem() {
                                         {valuation ? `${valuation}ETH` : "/"}
                                     </span>
                                 </p>
-                                {/* <p>
-                                    <span>Interest≈</span>
-                                    <span>
-                                        {interest
-                                            ? `${interest.toFixed(2)}ETH`
-                                            : "/"}
-                                    </span>
-                                </p> */}
                             </div>
                             <div
                                 className={cx(s.btn, {

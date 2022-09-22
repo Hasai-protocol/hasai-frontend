@@ -65,13 +65,6 @@
     }
 }
 
-:global(.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector),
-:global(.ant-select:not(.ant-select-disabled):hover .ant-select-selector),
-:global(.ant-input-affix-wrapper-focused) {
-    // border-color: #088F57 !important;
-    box-shadow: none;
-}
-
 .tips {
     font-family: hasai-500;
     font-size: 12px;
@@ -255,30 +248,30 @@
 }
 
 .lendingModel {
-    :global {
-        .ant-select-selection-search-input {
-            height: 38px !important;
+    // :global {
+    //     .ant-select-selection-search-input {
+    //         height: 38px !important;
 
-        }
+    //     }
 
-        .ant-select-selection-item {
+    //     .ant-select-selection-item {
 
-            color: #fff;
-            line-height: 38px !important;
-        }
+    //         color: #fff;
+    //         line-height: 38px !important;
+    //     }
 
-        .ant-select-selector {
+    //     .ant-select-selector {
 
-            border-color: #64718D !important;
-            height: 40px !important;
-            background: transparent !important;
-        }
+    //         border-color: #64718D !important;
+    //         height: 40px !important;
+    //         background: transparent !important;
+    //     }
 
-        .ant-select-selection-placeholder {
-            line-height: 38px !important;
+    //     .ant-select-selection-placeholder {
+    //         line-height: 38px !important;
 
-        }
-    }
+    //     }
+    // }
 }
 
 

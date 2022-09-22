@@ -53,6 +53,8 @@ module.exports = override(
                 "@border-radius-base": "4px",
                 "@box-shadow-base": "none",
                 "@border-color-base": "rgba(100, 113, 141, 0.5)",
+                "@text-color": "#fff",
+                "@text-color-secondary": "rgba(255,255,255,0.6)",
             },
         },
     }),

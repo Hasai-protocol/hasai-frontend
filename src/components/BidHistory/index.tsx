@@ -1,12 +1,14 @@
 import { observer } from "mobx-react";
 
-import { UnorderedListOutlined, LinkOutlined } from "@ant-design/icons";
 import { Modal, Empty } from "antd";
 
 import { ETHERSCAN_URL } from "src/constants";
+import closeIcon from "src/asset/colseIcon.png";
 
 import AvatarImg from "src/asset/avatar.png";
 import historyIcon from "src/asset/bulletpoint.png";
+import ETHImg from "src/asset/eth.svg";
+import jump from "src/asset/jump.svg";
 
 import s from "./index.module.scss";
 
@@ -24,13 +26,15 @@ export default observer(function BidHistory({
     visible: boolean;
     onClose: () => void;
 }) {
+    console.log(data);
     return (
         <Modal
-            width={315}
+            width={389}
             footer={null}
             visible={visible}
             onCancel={onClose}
             className={s.modalWap}
+            closeIcon={<img src={closeIcon} />}
             title={
                 <p className={s.title}>
                     <img src={historyIcon} alt="" />
@@ -43,18 +47,24 @@ export default observer(function BidHistory({
                 {data.map((item) => {
                     return (
                         <div key={item.hash} className={s.item}>
-                            <div className={s.user}>
-                                <img src={AvatarImg} alt="" />
-                                <p>{clipId(item.user)}</p>
+                            <div className={s.left}>
+                                <div className={s.user}>
+                                    <img src={AvatarImg} alt="" />
+                                    <p>{clipId(item.user)}</p>
+                                </div>
+                                <p className={s.time}>{item.time}</p>
                             </div>
-                            <div className={s.amount}>
-                                <p>Ξ{item.amount}</p>
+                            <div className={s.right}>
+                                <p>
+                                    <img src={ETHImg} alt="" />
+                                    {item.amount}
+                                </p>
                                 <a
                                     href={`${ETHERSCAN_URL}/${item.hash}`}
                                     target="_blank"
                                     rel="noreferrer"
                                 >
-                                    <LinkOutlined />
+                                    <img src={jump} alt="" />
                                 </a>
                             </div>
                         </div>

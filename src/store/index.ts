@@ -5,6 +5,7 @@ import {
     computed,
     reaction,
 } from "mobx";
+import dayjs from "dayjs";
 
 import { ethers } from "ethers";
 import { format, i } from "mathjs";
@@ -30,6 +31,7 @@ import {
     Filter,
     Status,
     InterestRateMode,
+    dateFormat,
     getRepayCount,
     PoolType as PoolTypeEnum,
     testSlugHex,
@@ -47,7 +49,7 @@ import {
 import { ETHERSCAN_URL, CHAIN_ID } from "src/constants";
 import { Auction } from "src/types";
 import http from "src/http";
-
+console.log(Status.AUCTION);
 export default class Store {
     inited = false;
     poolInfoInited = false;
@@ -133,7 +135,7 @@ export default class Store {
     auction: Auction = {} as Auction;
 
     loadingTargetList = false;
-
+    borrowedNftList = {};
     filter: Filter = Filter.Normal;
 
     targetHasMore = true;
@@ -196,7 +198,7 @@ export default class Store {
 
     totalBorrowAmount = 0;
 
-    poolBalance = 0;
+    poolBalances = {};
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
@@ -304,7 +306,8 @@ export default class Store {
             let poolList: Array<any> = [];
             let poolDataConfig: any = {};
             let nftHexMap = {};
-            let poolBalance = 0;
+            let poolBalances = {},
+                totalAmount = 0;
             for await (let reserveId of allLength) {
                 const hasStatic = staticPoolInfo[reserveId!];
                 let nfts = hasStatic?.nfts;
@@ -444,7 +447,8 @@ export default class Store {
             this.poolDataConfig = poolDataConfig;
             let pol: any = [];
             for await (let [index, pool] of poolList.entries()) {
-                const { hTokenAddress } = pool;
+                const { hTokenAddress, poolType } = pool;
+                console.log(poolType);
                 let deposit = await new ethers.Contract(
                     hTokenAddress,
                     erc20,
@@ -455,7 +459,12 @@ export default class Store {
                     hTokenAddress
                 );
                 let liquidityForEth = formatEther(+liquidity);
-                poolBalance += +formatEther(liquidity, 2);
+                let poolValue = poolBalances[poolType]
+                    ? poolBalances[poolType]
+                    : 0;
+                poolValue += +formatEther(liquidity, 2);
+                poolBalances[poolType] = +poolValue.toFixed(2);
+                totalAmount += +poolValue.toFixed(2);
                 const totalDeposit = await deposit.totalSupply();
                 const totalDepositForEth = formatEther(+totalDeposit);
                 pol.push(
@@ -470,7 +479,8 @@ export default class Store {
             runInAction(() => {
                 this.poolList = pol;
             });
-            this.poolBalance = +poolBalance.toFixed(2);
+            poolBalances["total"] = totalAmount;
+            this.poolBalances = poolBalances;
         } catch (err) {
             console.log(err);
         }
@@ -891,11 +901,13 @@ export default class Store {
                 contract.queryFilter(createFilter),
             ]);
             return [...start, ...create].map((his) => {
-                const { user, amount } = his.args!;
+                console.log("his.args", his.args);
+                const { user, amount, time } = his.args!;
                 return {
                     user,
                     hash: his.transactionHash,
                     amount: formatEther(amount, 6),
+                    time: dayjs(+time * 1000).format(dateFormat),
                     blockNumber: his.blockNumber,
                 };
             });
@@ -1082,7 +1094,6 @@ export default class Store {
                         contract.borrowMap(info.borrowId),
                         contract.auctionMap(info.borrowId),
                     ]);
-                    console.log(borrowInfo);
                     if (info.address) {
                         details.push({
                             ...data,
@@ -1366,13 +1377,24 @@ export default class Store {
                 provider.getBalance(contract.address),
                 contract.queryFilter(borrowFilter),
             ]);
+            let poolList = {};
             const borrowAmount = borrowList
                 .map((i) => i.args!)
                 .reduce((total, item) => {
                     return total.add(item.amount);
                 }, ethers.BigNumber.from(0));
+            let borrowedNftList = {};
+            borrowList.forEach(({ args }) => {
+                let poolId = args!.asset.toLowerCase();
+                let nowPoolNumber = borrowedNftList[poolId]
+                    ? borrowedNftList[poolId]
+                    : 0;
+                nowPoolNumber += 1;
+                borrowedNftList[poolId] = nowPoolNumber;
+            });
             runInAction(() => {
                 this.totalDepositNFT = borrowList.length;
+                this.borrowedNftList = borrowedNftList;
                 this.totalBorrowAmount = +(+formatEther(borrowAmount)).toFixed(
                     2
                 );
