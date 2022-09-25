@@ -1,18 +1,46 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 
-import { Row, Col, Spin, Radio, Popover } from "antd";
-import { QuestionCircleFilled } from "@ant-design/icons";
+import { Row, Spin, Popover } from "antd";
 import colorfulEth from "src/asset/colorfulEth.png";
-import eIcon from "src/asset/eicon.png";
-// import rightCoin from "src/asset/swap-right.svg";
-import logo from "src/asset/homelogo.png";
 import marketDownButton from "src/asset/downBtn.png";
 import { useStores } from "src/hooks";
 import cx from "classnames";
 import s from "./index.module.scss";
 import { PoolType } from "../../config";
+const filterList = [
+    {
+        title: "All",
+        index: 0,
+        poolType: -1,
+        des: `Browse to the "Deposit" section and click on
+        "Deposit" for the Pools you want to deposit. Select
+        the amount you'd like to deposit and submit your
+        transaction. Once the transaction is confirmed, your
+        deposit is successfully re gistered and you begin
+        earning interest.`,
+    },
+    {
+        title: "The Blue-Chip Pools",
+        index: 1,
+        poolType: 1,
+        des: `Hasai's initial Blue-Chip Pools will support NFTs from the following collections as collateral: BAYC、MAYC、CryptoPunks、Azuki、CLONE-X、Doodles
+        NFT collections supported in the Shared Pool can be promoted to Blue-Chip Pools.`,
+    },
+    {
+        title: "The Shared Pools",
+        index: 2,
+        poolType: 2,
+        des: `The emerging NFT collections will share the Shared Pool as the lending pool. All supported NFT collections in this pool share the same risk factor, lending ratio, liquidation factors, and other parameters.`,
+    },
+    {
+        title: "The Permissionless Pools",
+        index: 3,
+        poolType: 0,
+        des: `Anyone can create Permissionless Pool. One Permissionless Pool cannot be created by the same NFT collections repeatedly and cannot be destroyed after the creation. The original parameters of Permissionless Pools are determined by creators themselves. `,
+    },
+];
 export default observer(function Home() {
     const nav = useNavigate();
     const {
@@ -26,58 +54,14 @@ export default observer(function Home() {
             borrowedNftList,
         },
     } = useStores();
-    const [filterType, setFilter] = useState(-1);
-    const [nowIndex, setIndex] = useState(0);
+    const { type } = useParams();
+    const [nowIndex, setIndex] = useState(Number(type));
+    const [filterType, setFilter] = useState(filterList[type || -1].poolType);
+
     const [showFilter, setShowFilter] = useState(false);
     const onChange = (v) => {
         setFilter(v.poolType);
         setIndex(v.index);
-    };
-    const filterList = [
-        {
-            title: "All",
-            index: 0,
-            poolType: -1,
-            des: `Browse to the "Deposit" section and click on
-        "Deposit" for the Pools you want to deposit. Select
-        the amount you'd like to deposit and submit your
-        transaction. Once the transaction is confirmed, your
-        deposit is successfully re gistered and you begin
-        earning interest.`,
-        },
-        {
-            title: "The Blue-Chip Pools",
-            index: 1,
-            poolType: 1,
-            des: `Hasai's initial Blue-Chip Pools will support NFTs from the following collections as collateral: BAYC、MAYC、CryptoPunks、Azuki、CLONE-X、Doodles
-        NFT collections supported in the Shared Pool can be promoted to Blue-Chip Pools.`,
-        },
-        {
-            title: "The Shared Pools",
-            index: 2,
-            poolType: 2,
-            des: `The emerging NFT collections will share the Shared Pool as the lending pool. All supported NFT collections in this pool share the same risk factor, lending ratio, liquidation factors, and other parameters.`,
-        },
-        {
-            title: "The Permissionless Pools",
-            index: 3,
-            poolType: 0,
-            des: `Anyone can create Permissionless Pool. One Permissionless Pool cannot be created by the same NFT collections repeatedly and cannot be destroyed after the creation. The original parameters of Permissionless Pools are determined by creators themselves. `,
-        },
-    ];
-    const MiddleList = ({ list }) => {
-        return (
-            <div className={s.middleNfts}>
-                {list.map((n) => {
-                    return (
-                        <div>
-                            <img src={nftHexMap[n].image_url} />
-                            {nftHexMap[n].name}
-                        </div>
-                    );
-                })}
-            </div>
-        );
     };
     const depositNfts = useMemo(() => {
         let borrowedNftsKeys = Object.keys(borrowedNftList);
@@ -91,15 +75,15 @@ export default observer(function Home() {
             let nftPoolType = nftHexMap[key].poolType;
             typeNumbers[nftPoolType] += borrowedNftList[key];
         });
-        console.log(typeNumbers);
         return typeNumbers;
     }, [borrowedNftList, nftHexMap]);
     const content = () => {
         return (
             <div className={s.filterWarp}>
-                {filterList.map((f) => {
+                {filterList.map((f, i) => {
                     return (
                         <div
+                            key={`${i}-content`}
                             className={cx(
                                 s.filterItem,
                                 filterType === f.index ? s.active : ""
@@ -131,7 +115,7 @@ export default observer(function Home() {
                                 content={content}
                                 placement="bottom"
                                 color="transparent"
-                                visible={showFilter}
+                                // visible={showFilter}
                                 overlayClassName={s.marketPopover}
                             >
                                 <img src={marketDownButton} alt="" />
@@ -163,7 +147,6 @@ export default observer(function Home() {
                         </div>
                         <div className={s.description}>
                             {filterList[nowIndex]?.des}
-                            {/* {filterList[filterType === -1 ? 0 : filterType].des} */}
                         </div>
                     </div>
                 </div>
@@ -179,21 +162,6 @@ export default observer(function Home() {
                         <p className={cx(s.sectionTitle, "gradualText")}>
                             <img src={colorfulEth} alt="" /> All Collections
                         </p>
-                        {/* <p className={s.title}>
-                            Pools
-                            <Radio.Group
-                                defaultValue={-1}
-                                buttonStyle="solid"
-                                onChange={onChange}
-                            >
-                                <Radio.Button value={-1}>All</Radio.Button>
-                                <Radio.Button value={1}>Blue Chip</Radio.Button>
-                                <Radio.Button value={2}>Shared</Radio.Button>
-                                <Radio.Button value={0}>
-                                    Permissionless
-                                </Radio.Button>
-                            </Radio.Group>
-                        </p> */}
                         <div className={cx(s.item, s.tHeader)}>
                             <div className={cx(s.section, s.firstSection)}>
                                 Collections
@@ -230,7 +198,7 @@ export default observer(function Home() {
                                                 ? s.lastCollection
                                                 : null
                                         )}
-                                        key={index}
+                                        key={`${index}-pool`}
                                     >
                                         <div
                                             className={cx(
@@ -332,7 +300,7 @@ export default observer(function Home() {
                                                     ? s.lastCollection
                                                     : null
                                             )}
-                                            key={index}
+                                            key={`${nftIndex}-shared`}
                                         >
                                             <div
                                                 className={cx(

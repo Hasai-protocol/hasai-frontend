@@ -14,6 +14,20 @@
     background: rgba(30, 33, 40, 0.8);
 }
 
+.connectWallet {
+    width: 200px;
+    line-height: 45px;
+    height: 45px;
+    background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
+    border-radius: 4px;
+    text-align: center;
+    text-align: center;
+    display: block;
+    color: #252932;
+    cursor: pointer;
+    user-select: none;
+}
+
 .topContent {
     width: var(--content-width);
     margin: 0 auto;
@@ -104,4 +118,6 @@
 .emptyWrap {
     width: 100%;
     padding-top: 100px;
+    display: flex;
+    justify-content: center;
 }

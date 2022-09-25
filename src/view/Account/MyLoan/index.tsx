@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 
-import { Table, notification } from "antd";
+import { Table, notification, Spin } from "antd";
 import { observer } from "mobx-react";
 import dayjs from "dayjs";
 import { dateFormat, InterestRateMode } from "src/config";
@@ -169,14 +169,24 @@ export default observer(function MyLoan() {
                 </p>
             </div>
             <div className={s.list}>
-                <Table
-                    className={s.table}
-                    rowKey={RowKey}
-                    columns={tabConfig}
-                    dataSource={userBorrowList}
-                    pagination={false}
-                    loading={queryUserBorrowLoading || init}
-                />
+                {!(queryUserBorrowLoading || init) &&
+                    (userBorrowList.length === 0 ? (
+                        <p className={s.accountEmpty}>Nothing Loan yet</p>
+                    ) : (
+                        <Table
+                            className={s.table}
+                            rowKey={RowKey}
+                            columns={tabConfig}
+                            dataSource={userBorrowList}
+                            pagination={false}
+                            loading={queryUserBorrowLoading || init}
+                        />
+                    ))}
+                {(queryUserBorrowLoading || init) && (
+                    <p className={s.accountEmpty}>
+                        <Spin />
+                    </p>
+                )}
             </div>
             <RepayModal
                 index={index}

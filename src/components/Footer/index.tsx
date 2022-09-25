@@ -94,65 +94,66 @@ const links = [
 
 export default observer(function Footer() {
     return (
-        <div className={s.warp}>
-            <div className={s.footerInner}>
-                <div className={s.footerTop}>
-                    <div className={s.btns}>
-                        <a
-                            className={s.btn}
-                            href="https://github.com/Hasai-protocol"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                        >
-                            Pools
-                        </a>
-                        <a
-                            className={s.btn}
-                            href="https://docs.hasai.xyz/"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                        >
-                            Docs
-                        </a>
-                        <a
-                            className={s.btn}
-                            href="https://docs.hasai.xyz/risk/security-and-audits"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                        >
-                            Security
-                        </a>
-                    </div>
-                    <img src={footerIcon} alt="" />
-                </div>
-                <div className={s.footerBottom}>
-                    <div className={s.left}>
-                        {links.map((link) => (
-                            <div className={s.links}>
-                                {link.map((l) => (
-                                    <a
-                                        rel="noopener noreferrer"
-                                        href={l.url}
-                                        target="_blank"
-                                    >
-                                        {l.text}
-                                    </a>
-                                ))}
-                            </div>
-                        ))}
-                    </div>
-                    <div className={s.right}>
-                        {SocialLinks.map((icon) => (
-                            <a
-                                rel="noopener noreferrer"
-                                target="_blank"
-                                href={icon.url}
-                                className={`hasai ${icon.link}`}
-                            ></a>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </div>
+        <></>
+        // <div className={s.warp}>
+        //     <div className={s.footerInner}>
+        //         <div className={s.footerTop}>
+        //             <div className={s.btns}>
+        //                 <a
+        //                     className={s.btn}
+        //                     href="https://github.com/Hasai-protocol"
+        //                     rel="noopener noreferrer"
+        //                     target="_blank"
+        //                 >
+        //                     Pools
+        //                 </a>
+        //                 <a
+        //                     className={s.btn}
+        //                     href="https://docs.hasai.xyz/"
+        //                     rel="noopener noreferrer"
+        //                     target="_blank"
+        //                 >
+        //                     Docs
+        //                 </a>
+        //                 <a
+        //                     className={s.btn}
+        //                     href="https://docs.hasai.xyz/risk/security-and-audits"
+        //                     rel="noopener noreferrer"
+        //                     target="_blank"
+        //                 >
+        //                     Security
+        //                 </a>
+        //             </div>
+        //             <img src={footerIcon} alt="" />
+        //         </div>
+        //         <div className={s.footerBottom}>
+        //             <div className={s.left}>
+        //                 {links.map((link) => (
+        //                     <div className={s.links}>
+        //                         {link.map((l) => (
+        //                             <a
+        //                                 rel="noopener noreferrer"
+        //                                 href={l.url}
+        //                                 target="_blank"
+        //                             >
+        //                                 {l.text}
+        //                             </a>
+        //                         ))}
+        //                     </div>
+        //                 ))}
+        //             </div>
+        //             <div className={s.right}>
+        //                 {SocialLinks.map((icon) => (
+        //                     <a
+        //                         rel="noopener noreferrer"
+        //                         target="_blank"
+        //                         href={icon.url}
+        //                         className={`hasai ${icon.link}`}
+        //                     ></a>
+        //                 ))}
+        //             </div>
+        //         </div>
+        //     </div>
+        // </div>
     );
 });

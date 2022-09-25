@@ -7,6 +7,8 @@
     backdrop-filter: blur(30px);
     border-radius: 16px;
 
+    min-height: 365px;
+
     :global {
         .ant-table-tbody>tr>td {
             border-bottom: none !important;
@@ -65,6 +67,15 @@
             margin-right: 11px;
         }
     }
+}
+
+.accountEmpty {
+    height: 265px;
+    line-height: 235px;
+    text-align: center;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
+    user-select: none;
 }
 
 .list {

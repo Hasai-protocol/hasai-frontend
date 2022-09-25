@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { UnorderedListOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react";
-import { Table } from "antd";
+import { Table, Spin } from "antd";
 import dayjs from "dayjs";
 
 import BidHistory from "src/components/BidHistory";
@@ -48,9 +48,9 @@ export default observer(function MyAuction() {
     } = useStores();
 
     useEffect(() => {
-        if (!inited || !walletAddress || userAuctionList.length > 0) return;
+        if (!inited || !walletAddress) return;
         queryUserAuctions();
-    }, [inited, userAuctionList, walletAddress, queryUserAuctions]);
+    }, [inited, walletAddress, queryUserAuctions]);
 
     useEffect(() => {
         if (!inited || !walletAddress) return;
@@ -140,14 +140,24 @@ export default observer(function MyAuction() {
                 </div>
             </div>
             <div className={s.list}>
-                <Table
-                    className={s.table}
-                    rowKey={RowKey}
-                    columns={tabConfig}
-                    pagination={false}
-                    dataSource={userAuctionList}
-                    loading={loadingAuction}
-                />
+                {!loadingAuction &&
+                    (userAuctionList.length === 0 ? (
+                        <p className={s.accountEmpty}>Nothing Auction yet</p>
+                    ) : (
+                        <Table
+                            className={s.table}
+                            rowKey={RowKey}
+                            columns={tabConfig}
+                            pagination={false}
+                            dataSource={userAuctionList}
+                            loading={loadingAuction}
+                        />
+                    ))}
+                {loadingAuction && (
+                    <p className={s.accountEmpty}>
+                        <Spin />
+                    </p>
+                )}
             </div>
             <BidHistory
                 data={hisData}

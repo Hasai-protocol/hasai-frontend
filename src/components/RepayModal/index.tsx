@@ -27,6 +27,7 @@ export default observer(function RepayModal({
 
     const nft = useMemo(() => {
         const { address, id, borrowId } = userBorrowList[index] || {};
+        if (!userBorrowList.length) return {};
         queryBorrowInfo(address, id, borrowId);
         return userBorrowList[index] || {};
     }, [userBorrowList, index]);

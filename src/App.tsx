@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { useStores } from "src/hooks";
-
+import { ConfigProvider, Empty, Select } from "antd";
 import AuctionDetail from "src/view/AuctionDetail";
 import ApplyTestNFT from "src/view/ApplyTestNFT";
 import SupportItem from "src/view/SupportItem";
@@ -13,7 +13,6 @@ import Footer from "src/components/Footer";
 import Header from "src/components/Header";
 import Account from "src/view/Account";
 import AddPool from "src/view/AddPool";
-import Home from "src/view/homePage";
 import Markets from "src/view/Markets";
 
 import ProjectIndexQuery from "./ProjectIndexQuery";
@@ -35,41 +34,53 @@ export default observer(function App() {
         }
         store.init();
     }, [store]);
-
+    const customizeRenderEmpty = () => (
+        <div style={{ textAlign: "center" }}>
+            <p>Data Not Found</p>
+        </div>
+    );
     return (
         <div className="App">
-            <div className="main">
-                <BrowserRouter>
-                    <Header />
-                    <div className="content">
-                        <Routes>
-                            <Route path="/test" element={<ApplyTestNFT />} />
-                            <Route
-                                path="/nft/:reservesId/:nftIndex"
-                                element={<SupportItem />}
-                            />
-                            <Route
-                                path="/auctions/:nft/:id/:auctionId/:reservesId"
-                                element={<AuctionDetail />}
-                            />
-                            <Route
-                                path="/liquidate/:nft/:id/:borrowId/:reservesId"
-                                element={<Liquidation />}
-                            />
-                            <Route path="/account" element={<Account />} />
-                            <Route path="/Markets" element={<Markets />} />
-                            <Route path="/addPool" element={<AddPool />} />
-                            <Route path="/" element={<Home />} />
-                            <Route path="*" element={<Home />} />
-                        </Routes>
-                    </div>
-                    <WatchRoute />
-                </BrowserRouter>
-                <Footer />
-            </div>
-            <WalletWatch />
-            <BlockTime />
-            <ProjectIndexQuery />
+            <ConfigProvider renderEmpty={customizeRenderEmpty}>
+                <div className="main">
+                    <BrowserRouter>
+                        <Header />
+                        <div className="content">
+                            <Routes>
+                                <Route
+                                    path="/test"
+                                    element={<ApplyTestNFT />}
+                                />
+                                <Route
+                                    path="/nft/:reservesId/:nftIndex"
+                                    element={<SupportItem />}
+                                />
+                                <Route
+                                    path="/auctions/:nft/:id/:auctionId/:reservesId"
+                                    element={<AuctionDetail />}
+                                />
+                                <Route
+                                    path="/liquidate/:nft/:id/:borrowId/:reservesId"
+                                    element={<Liquidation />}
+                                />
+                                <Route path="/account" element={<Account />} />
+                                <Route
+                                    path="/Markets/:type"
+                                    element={<Markets />}
+                                />
+                                <Route path="/addPool" element={<AddPool />} />
+                                <Route path="/" element={<Markets />} />
+                                <Route path="*" element={<Markets />} />
+                            </Routes>
+                        </div>
+                        <WatchRoute />
+                    </BrowserRouter>
+                    <Footer />
+                </div>
+                <WalletWatch />
+                <BlockTime />
+                <ProjectIndexQuery />
+            </ConfigProvider>
         </div>
     );
 });

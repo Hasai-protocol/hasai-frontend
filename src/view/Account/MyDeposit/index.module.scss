@@ -6,6 +6,7 @@
     border: 1px solid rgba(100, 113, 141, 0.5);
     backdrop-filter: blur(30px);
     border-radius: 16px;
+    min-height: 365px;
 }
 
 .middleAvator {
@@ -107,6 +108,14 @@
     }
 }
 
+.accountEmpty {
+    height: 265px;
+    line-height: 235px;
+    text-align: center;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
+    user-select: none;
+}
 
 .depositModuleIcon {
     vertical-align: -2px;

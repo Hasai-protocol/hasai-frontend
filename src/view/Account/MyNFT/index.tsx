@@ -49,9 +49,9 @@ export default observer(function MyNFT() {
     } = useStores();
 
     useEffect(() => {
-        if (!inited || !walletAddress || userNFTs.length > 0) return;
+        if (!inited || !walletAddress) return;
         queryUserNFT();
-    }, [inited, userNFTs, walletAddress, queryUserNFT]);
+    }, [inited, walletAddress, queryUserNFT]);
 
     const handleCancel = useCallback(() => {
         setIndex(-1);
@@ -105,13 +105,15 @@ export default observer(function MyNFT() {
                     />
                     <span>My NFT</span>
                 </p>
-                <div
-                    className={cx(s.btn, { [s.disable]: index < 0 })}
-                    onClick={handleClickDeposit}
-                >
-                    <DepositIcon />
-                    Borrow
-                </div>
+                {userNFTs.length > 0 && (
+                    <div
+                        className={cx(s.btn, { [s.disable]: index < 0 })}
+                        onClick={handleClickDeposit}
+                    >
+                        <DepositIcon />
+                        Borrow
+                    </div>
+                )}
             </div>
             {queryUserNFTLoading && (
                 <div className={s.loadingWrap}>
@@ -119,7 +121,9 @@ export default observer(function MyNFT() {
                 </div>
             )}
             <div className={s.list}>
-                {userNFTs.length < 1 && <Empty />}
+                {userNFTs.length < 1 && !queryUserNFTLoading && (
+                    <p className={s.accountEmpty}>Nothing to Loan yet</p>
+                )}
                 <Row gutter={[16, 16]}>
                     {userNFTs.map((nft, idx) => {
                         return (

@@ -23,6 +23,7 @@ export default observer(function SharePoolAvator({
                 if (ind <= 8) {
                     return (
                         <img
+                            key={ind}
                             src={nftHexMap[de].image_url}
                             alt=""
                             className={s.middlePics}

@@ -1,6 +1,7 @@
 import { observer } from "mobx-react";
 
-import { Modal, Empty } from "antd";
+import { Modal } from "antd";
+import Empty from "src/components/empty";
 
 import { ETHERSCAN_URL } from "src/constants";
 import closeIcon from "src/asset/colseIcon.png";
@@ -26,7 +27,6 @@ export default observer(function BidHistory({
     visible: boolean;
     onClose: () => void;
 }) {
-    console.log(data);
     return (
         <Modal
             width={389}
@@ -44,9 +44,9 @@ export default observer(function BidHistory({
         >
             <div className={s.bidList}>
                 {data.length < 1 && <Empty />}
-                {data.map((item) => {
+                {data.map((item, i) => {
                     return (
-                        <div key={item.hash} className={s.item}>
+                        <div key={i} className={s.item}>
                             <div className={s.left}>
                                 <div className={s.user}>
                                     <img src={AvatarImg} alt="" />
@@ -60,7 +60,7 @@ export default observer(function BidHistory({
                                     {item.amount}
                                 </p>
                                 <a
-                                    href={`${ETHERSCAN_URL}/${item.hash}`}
+                                    href={`${ETHERSCAN_URL}/tx/${item.hash}`}
                                     target="_blank"
                                     rel="noreferrer"
                                 >

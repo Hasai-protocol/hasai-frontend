@@ -116,14 +116,26 @@ export default observer(function MyNFT() {
                     </p>
                 </div>
                 <div className={s.list}>
-                    <Table
-                        className={s.table}
-                        rowKey={RowKey}
-                        columns={tabConfig}
-                        pagination={false}
-                        dataSource={depositList}
-                        loading={queryDepositListLoading || init}
-                    />
+                    {!(queryDepositListLoading || init) &&
+                        (depositList.length === 0 ? (
+                            <p className={s.accountEmpty}>
+                                Nothing Deposit yet
+                            </p>
+                        ) : (
+                            <Table
+                                className={s.table}
+                                rowKey={RowKey}
+                                columns={tabConfig}
+                                pagination={false}
+                                dataSource={depositList}
+                                loading={queryDepositListLoading || init}
+                            />
+                        ))}
+                    {(queryDepositListLoading || init) && (
+                        <p className={s.accountEmpty}>
+                            <Spin />
+                        </p>
+                    )}
                 </div>
             </div>
             <WithdrawEth

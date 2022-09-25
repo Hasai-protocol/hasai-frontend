@@ -49,7 +49,6 @@ import {
 import { ETHERSCAN_URL, CHAIN_ID } from "src/constants";
 import { Auction } from "src/types";
 import http from "src/http";
-console.log(Status.AUCTION);
 export default class Store {
     inited = false;
     poolInfoInited = false;
@@ -94,8 +93,6 @@ export default class Store {
     }> = [];
 
     queryUserNFTLoading = false;
-
-    userNFTNext = "";
 
     // : Array<{
     //     startTime: any;
@@ -448,7 +445,6 @@ export default class Store {
             let pol: any = [];
             for await (let [index, pool] of poolList.entries()) {
                 const { hTokenAddress, poolType } = pool;
-                console.log(poolType);
                 let deposit = await new ethers.Contract(
                     hTokenAddress,
                     erc20,
@@ -490,7 +486,7 @@ export default class Store {
         let canFor = makeAsyncIterator(nfts.length);
         let results = {};
         for await (let key of canFor) {
-            const contractAddress = nfts[key!].toLowerCase();
+            const contractAddress = nfts[key!]?.toLowerCase();
             // let erc721Contract = this.getErc721(contractAddress);
             // const symbol = (await erc721Contract.symbol()).toLowerCase();
             let slug = testSlugHex[contractAddress];
@@ -505,14 +501,14 @@ export default class Store {
                     ).data.collection;
                     const { banner_image_url, image_url, name, stats } =
                         collection;
-                    console.log(
-                        `{${JSON.stringify({
-                            banner_image_url,
-                            image_url,
-                            name,
-                            stats,
-                        })}}`
-                    );
+                    // console.log(
+                    //     `{${JSON.stringify({
+                    //         banner_image_url,
+                    //         image_url,
+                    //         name,
+                    //         stats,
+                    //     })}}`
+                    // );
                 }
                 results[contractAddress] = Object.assign(
                     collection,
@@ -602,9 +598,9 @@ export default class Store {
     @action.bound
     async queryUserNFT(loadMore = false, list: Array<string> = []) {
         try {
-            const { walletAddress, userNFTNext, supportNFTs } = this;
+            const { walletAddress, supportNFTs } = this;
             if (!walletAddress) return;
-            if (loadMore && !userNFTNext) return;
+            if (loadMore) return;
             runInAction(() => {
                 this.queryUserNFTLoading = true;
             });
@@ -616,7 +612,6 @@ export default class Store {
                     params: {
                         owner: walletAddress,
                         contractAddresses: ids,
-                        pageKey: loadMore ? this.userNFTNext : undefined,
                     },
                     paramsSerializer: (para) => {
                         return qs.stringify(para, { arrayFormat: "brackets" });
@@ -634,8 +629,9 @@ export default class Store {
                 });
                 runInAction(() => {
                     this.userNFTs = formatData;
-                    this.userNFTNext = res.data.pageKey;
                 });
+            } else {
+                this.userNFTs = [];
             }
         } finally {
             runInAction(() => {
@@ -788,9 +784,9 @@ export default class Store {
                 auctionIds.includes(bid.id)
             );
             requestInfo = validTransactions;
-            if (requestInfo.length < 1) {
-                return;
-            }
+            // if (requestInfo.length < 1) {
+            //     return;
+            // }
             const details: Array<any> = [];
             const iterator = makeAsyncIterator(requestInfo.length);
             for await (const idx of iterator) {
@@ -819,7 +815,7 @@ export default class Store {
             }
             runInAction(() => {
                 this.loadingAuction = false;
-                this.userAuctionList = [...this.userAuctionList, ...details];
+                this.userAuctionList = [...details];
             });
         } finally {
             runInAction(() => {
@@ -901,7 +897,6 @@ export default class Store {
                 contract.queryFilter(createFilter),
             ]);
             return [...start, ...create].map((his) => {
-                console.log("his.args", his.args);
                 const { user, amount, time } = his.args!;
                 return {
                     user,
@@ -1365,7 +1360,7 @@ export default class Store {
 
     @action.bound
     viewTransactionDetail(hash: string) {
-        window.open(`${ETHERSCAN_URL}/${hash}`, "_blank");
+        window.open(`${ETHERSCAN_URL}/tx/${hash}`, "_blank");
     }
 
     @action.bound

@@ -25,6 +25,7 @@ export default observer(function Account() {
             userRepayAmount,
             queryUserRepayAmount,
             totalInterest,
+            handleConnectWallet,
         },
     } = useStores();
 
@@ -32,9 +33,6 @@ export default observer(function Account() {
         if (!inited || !walletAddress) return;
         queryUserRepayAmount();
     }, [inited, walletAddress, queryUserRepayAmount]);
-    const goAdd = () => {
-        nav("/addpool");
-    };
     return (
         <div className={s.wrap}>
             <div className={s.top}>
@@ -64,16 +62,17 @@ export default observer(function Account() {
                             <span>ETH</span>
                         </p>
                     </div>
-
-                    <span className={s.createdBtn} onClick={goAdd}>
-                        <PlusOutlined /> Creat Lending Pool
-                    </span>
                 </div>
             </div>
             <div className={s.content}>
                 {!walletAddress && (
                     <div className={s.emptyWrap}>
-                        <Empty className={s.empty} />
+                        <span
+                            className={s.connectWallet}
+                            onClick={handleConnectWallet}
+                        >
+                            Connect Wallet
+                        </span>
                     </div>
                 )}
                 {walletAddress && (

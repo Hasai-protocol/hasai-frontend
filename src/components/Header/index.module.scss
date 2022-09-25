@@ -15,9 +15,61 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.logo {
+    width: 117px;
+}
+
 .tabs {
     display: flex;
     align-items: center;
+}
+
+
+.marketPopover {
+    :global {
+        .ant-popover-inner {
+            box-shadow: initial;
+        }
+
+        .ant-popover-arrow {
+            display: none;
+        }
+    }
+
+}
+
+
+.filterWarp {
+    border: 1px solid #64708B;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+    background: rgba(37, 41, 50, 0.75);
+    width: 251px;
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+
+    .filterItem {
+        height: 56px;
+        line-height: 56px;
+        padding-left: 16px;
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.8);
+        user-select: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        img {
+            width: 16px;
+            margin-right: 8px;
+        }
+
+        &.active,
+        &:hover {
+            color: #FFFFFF;
+            background: #3A404F;
+        }
+    }
 }
 
 .hasAddress {
@@ -55,7 +107,7 @@
 .tab {
     font-weight: 400;
     font-size: 20px;
-    line-height: 26px;
+    line-height: 80px;
     color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     margin-right: 40px;
@@ -64,9 +116,28 @@
         margin-right: 0;
     }
 
-    &.active {
-        color: #000;
-        font-weight: 500;
+    // &::after {
+    //     height: 3px;
+    //     width: 100%;
+    //     content: '';
+    //     display: block;
+    //     bottom: 0;
+    //     background-color: transparent;
+    // }
+
+    &.tabActive {
+        color: #FFFFFF;
+        position: relative;
+
+        &::after {
+            height: 3px;
+            width: 100%;
+            content: "";
+            display: block;
+            bottom: 0px;
+            background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
+            position: absolute;
+        }
     }
 }
 
