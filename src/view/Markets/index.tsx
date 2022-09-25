@@ -72,7 +72,7 @@ export default observer(function Markets() {
         let typeNumbers = {};
         typeNumbers[PoolType["Permissionless"]] = 0;
         typeNumbers[PoolType["Blue Chip"]] = 0;
-        typeNumbers[PoolType["share Pool"]] = 0;
+        typeNumbers[PoolType["shared Pool"]] = 0;
         borrowedNftsKeys.forEach((key) => {
             let nftPoolType = nftHexMap[key].poolType;
             typeNumbers[nftPoolType] += borrowedNftList[key];

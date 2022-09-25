@@ -424,7 +424,7 @@ export default class Store {
                 ) {
                     poolData.nftName = nowNftPoolDetail[nfts[0]].name;
                 } else {
-                    poolData.nftName = "Share Pool";
+                    poolData.nftName = "Shared Pool";
                 }
                 nftHexMap = Object.assign(nftHexMap, nowNftPoolDetail);
                 poolList.push(poolData);
