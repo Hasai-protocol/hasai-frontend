@@ -73,7 +73,8 @@ export default observer(function SupportItem() {
         //         return nftHexMap[nft];
         //     });
         // }
-        let nowAddress = pool.nfts[nftIndex === "n" ? 0 : nftIndex];
+        let nowAddress =
+            pool.nfts[nftIndex ? (nftIndex === "n" ? 0 : nftIndex) : 0];
         nftInfos = [nftHexMap[nowAddress]];
         totalNft = nftInfos[0].stats.count;
         return { nftInfos, isMiddle, totalNft, nowAddress };

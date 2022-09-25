@@ -80,6 +80,7 @@ body {
     }
 }
 
+
 .ant-select-dropdown {
     background-color: #30343E;
     border: 1px solid rgba(100, 113, 141, 0.5);
@@ -165,4 +166,9 @@ body {
 .ant-message-notice-content,
 .ant-notification-notice-description {
     color: #252932;
+}
+
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    color: rgba(255, 255, 255, 0.6);
+    background-color: #30343E;
 }

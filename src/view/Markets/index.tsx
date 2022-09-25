@@ -41,7 +41,7 @@ const filterList = [
         des: `Anyone can create Permissionless Pool. One Permissionless Pool cannot be created by the same NFT collections repeatedly and cannot be destroyed after the creation. The original parameters of Permissionless Pools are determined by creators themselves. `,
     },
 ];
-export default observer(function Home() {
+export default observer(function Markets() {
     const nav = useNavigate();
     const {
         store: {
@@ -55,8 +55,10 @@ export default observer(function Home() {
         },
     } = useStores();
     const { type } = useParams();
-    const [nowIndex, setIndex] = useState(Number(type));
-    const [filterType, setFilter] = useState(filterList[type || -1].poolType);
+    let nowType = type ? type : 0;
+    console.log(nowType);
+    const [nowIndex, setIndex] = useState(Number(nowType));
+    const [filterType, setFilter] = useState(filterList[nowType].poolType);
 
     const [showFilter, setShowFilter] = useState(false);
     const onChange = (v) => {

@@ -57,6 +57,9 @@ export const createOnBoard = () => {
             desktop: {
                 enabled: false,
             },
+            mobile: {
+                enabled: false,
+            },
         },
     });
 

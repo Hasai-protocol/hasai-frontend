@@ -94,13 +94,13 @@ export default observer(function Liquidation() {
         return true;
     }, [bidPrice, blockTimeStamp, borrowInfo, isInAuction]);
 
-    const handleInput = (v: string) => {
-        const [int, float] = (v || "").split(".");
-        let price = v;
+    const handleInput = (value: number | string | null) => {
+        const [int, float] = (value ? `${value}` : "").split(".");
+        let price = value;
         if (float && float.length > 17) {
             price = [+int < 0 ? 0 : int, float.slice(0, 17)].join(".");
         }
-        setBidPrice(price);
+        setBidPrice(`${price}`);
     };
 
     const handleConfirm = async () => {
