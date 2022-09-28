@@ -26,6 +26,9 @@
 
 
 .marketPopover {
+    transition-property: display;
+    transition-duration: 10s;
+
     :global {
         .ant-popover-inner {
             box-shadow: initial;

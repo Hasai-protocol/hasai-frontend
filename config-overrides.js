@@ -51,7 +51,7 @@ module.exports = override(
             modifyVars: {
                 "@primary-color": "#CDFF8C",
                 "@border-radius-base": "4px",
-                "@box-shadow-base": "none",
+                "@box-shadow-base": "0px 4px 8px rgba(0, 0, 0, 0.25)",
                 "@border-color-base": "rgba(100, 113, 141, 0.5)",
                 "@text-color": "#fff",
                 "@text-color-secondary": "rgba(255,255,255,0.6)",

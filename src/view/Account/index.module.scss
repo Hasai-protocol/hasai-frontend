@@ -4,7 +4,7 @@
 }
 
 .top {
-    height: 262px;
+    height: 302px;
     width: 100%;
     margin-top: calc(0px - var(--header-height));
     // margin-left: calc(700px - 50vw);
@@ -31,8 +31,7 @@
 .topContent {
     width: var(--content-width);
     margin: 0 auto;
-    padding-top: 112px;
-    // display: flex;
+    padding-top: 144px;
 }
 
 .createdBtn {
@@ -88,7 +87,7 @@
     width: var(--content-width);
     margin: 0 auto;
     height: 100%;
-    margin-top: -58px;
+    margin-top: -33px;
     padding-bottom: 65px;
     display: flex;
     justify-content: space-between;

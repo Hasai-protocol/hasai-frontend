@@ -337,16 +337,33 @@
 
 .filterWarp {
     width: 160px;
-    line-height: 32px;
-    height: 34px;
-    background-clip: padding-box, border-box;
-    background-image: linear-gradient(0deg, #30343E, #30343E), radial-gradient(circle at left bottom, #74F5DA, #CDFF8C);
-    background-origin: border-box;
-    border: 1px solid transparent;
+    // line-height: 34px;
+    // height: 34px;
+    // background-clip: padding-box, border-box;
+    // background-image: linear-gradient(0deg, #30343E, #30343E), radial-gradient(circle at left bottom, #74F5DA, #CDFF8C);
+    // background-origin: border-box;
+    display: flex;
+    // align-items: center;
+    // overflow: hidden;
+    font-size: 0;
 
     .filterBtn {
         flex: 1;
         text-align: center;
+        font-size: 14px;
+        line-height: 30px;
+        height: 34px;
+        border: 1px solid #CDFF8C;
+
+        &:first-child {
+            border-radius: 4px 0 0 4px;
+            border-right: none;
+        }
+
+        &:last-child {
+            border-radius: 0 4px 4px 0;
+            border-left: 0;
+        }
 
         &.selected {
             background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
@@ -356,12 +373,12 @@
     }
 }
 
-.filterInput {
-    width: 200px;
-    height: 32px;
-    line-height: 32px;
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2) inset;
-}
+// .filterInput {
+//     width: 200px;
+//     height: 32px;
+//     line-height: 32px;
+//     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2) inset;
+// }
 
 .list {
     margin-top: 16px;

@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { useState, useMemo } from "react";
 
 import { Row, Spin, Popover } from "antd";
-import colorfulEth from "src/asset/colorfulEth.png";
+import colorfulEth from "src/asset/marketIcon.png";
 import marketDownButton from "src/asset/downBtn.png";
 import { useStores } from "src/hooks";
 import cx from "classnames";
@@ -56,14 +56,16 @@ export default observer(function Markets() {
     } = useStores();
     const { type } = useParams();
     let nowType = type ? type : 0;
-    console.log(nowType);
     const [nowIndex, setIndex] = useState(Number(nowType));
     const [filterType, setFilter] = useState(filterList[nowType].poolType);
 
     const [showFilter, setShowFilter] = useState(false);
     const onChange = (v) => {
-        setFilter(v.poolType);
-        setIndex(v.index);
+        setShowFilter(!showFilter);
+        setTimeout(() => {
+            setFilter(v.poolType);
+            setIndex(v.index);
+        }, 100);
     };
     const depositNfts = useMemo(() => {
         let borrowedNftsKeys = Object.keys(borrowedNftList);
@@ -117,7 +119,8 @@ export default observer(function Markets() {
                                 content={content}
                                 placement="bottom"
                                 color="transparent"
-                                // visible={showFilter}
+                                trigger="click"
+                                visible={showFilter}
                                 overlayClassName={s.marketPopover}
                             >
                                 <img src={marketDownButton} alt="" />

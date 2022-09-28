@@ -6,7 +6,7 @@ import { observer } from "mobx-react";
 import cx from "classnames";
 
 import DepositIcon from "src/asset/deposit-icon.svg";
-import depositButtonIcon from "src/asset/depositButtonIcon.png";
+import depositButtonIcon from "src/asset/depositModuleIcon.png";
 import { Filter, Status } from "src/config";
 import { useStores } from "src/hooks";
 import DepositModal from "src/components/DepositEthModal";
@@ -347,11 +347,6 @@ export default observer(function SupportItem() {
                                     </div>
                                 </div>
                                 <div className={s.filterOption}>
-                                    {/* <Input
-                                        className={s.filterInput}
-                                        placeholder="Search"
-                                        suffix={<SearchOutlined />}
-                                    /> */}
                                     <span
                                         className={s.depositButton}
                                         onClick={() => {
