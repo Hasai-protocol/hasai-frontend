@@ -307,6 +307,7 @@ export default class Store {
                 totalAmount = 0;
             for await (let reserveId of allLength) {
                 const hasStatic = staticPoolInfo[reserveId!];
+                console.log(hasStatic);
                 let nfts = hasStatic?.nfts;
                 if (!nfts) {
                     nfts = (await contract.getReserveNFTList(reserveId)).map(
@@ -349,7 +350,7 @@ export default class Store {
                 // }
                 // console.log(JSON.stringify(obj), reserveId);
                 // })();
-                if (hasStatic.data) {
+                if (hasStatic?.data) {
                     reserveData = hasStatic.data;
                     supplyRate = hasStatic.supplyRate;
                 } else {
