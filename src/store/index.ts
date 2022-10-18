@@ -13,6 +13,7 @@ import qs from "qs";
 import {
     getPoolType,
     getStableBorrowing,
+    getLiqThreshold,
     getPeriod,
     getBorrowRatio,
 } from "../bitCal";
@@ -133,7 +134,6 @@ export default class Store {
 
     loadingTargetList = false;
     borrowedNftList = {};
-    filter: Filter = Filter.Normal;
 
     targetHasMore = true;
     reserves = 0; // pool number
@@ -221,13 +221,6 @@ export default class Store {
         );
     }
 
-    @computed get displayTargetList() {
-        const { targetList, filter } = this;
-        const filterStatus =
-            filter === Filter.Normal ? Status.BORROW : Status.AUCTION;
-        return targetList.filter((nft) => nft.status === filterStatus);
-    }
-
     @computed get selfLoanTotal() {
         const { userBorrowList } = this;
         if (userBorrowList.length < 1) return 0;
@@ -307,7 +300,7 @@ export default class Store {
                 totalAmount = 0;
             for await (let reserveId of allLength) {
                 const hasStatic = staticPoolInfo[reserveId!];
-                console.log(hasStatic);
+                // console.log(hasStatic);
                 let nfts = hasStatic?.nfts;
                 if (!nfts) {
                     nfts = (await contract.getReserveNFTList(reserveId)).map(
@@ -373,6 +366,7 @@ export default class Store {
                 );
                 const poolType = getPoolType(configurationInfos);
                 const canStable = getStableBorrowing(configurationInfos);
+                const liqThreshold = getLiqThreshold(configurationInfos);
                 let stableRate = ethers.utils.formatUnits(
                     `${currentStableBorrowRate}`,
                     27
@@ -405,6 +399,7 @@ export default class Store {
                     depositApy,
                     stableApr,
                     vairableApr,
+                    liqThreshold,
                     ratio,
                     id: +id,
                     liquidityForEth: 0,
@@ -437,7 +432,7 @@ export default class Store {
                     data: [],
                 };
             }
-            console.timeEnd("aaa");
+            // console.timeEnd("aaa");
             this.nftHexMap = nftHexMap;
             this.poolList = poolList;
             this.loadingPoolList = false;
@@ -494,7 +489,7 @@ export default class Store {
             try {
                 let collection = nftPostDetail[contractAddress];
                 if (!collection) {
-                    console.log(contractAddress);
+                    // console.log(contractAddress);
                     collection = (
                         await http.get(
                             `https://api.opensea.io/api/v1/collection/${slug}`
@@ -600,6 +595,8 @@ export default class Store {
     async queryUserNFT(loadMore = false, list: Array<string> = []) {
         try {
             const { walletAddress, supportNFTs } = this;
+            console.log("ddd", loadMore, walletAddress, this.walletAddress);
+
             if (!walletAddress) return;
             if (loadMore) return;
             runInAction(() => {
@@ -925,11 +922,13 @@ export default class Store {
                 this.queryNFTDetail(address, +id),
                 this.queryNftInfo([address], {}),
             ]);
+            const liqThreshold = this.nftHexMap[address]?.liqThreshold;
+            console.log(liqThreshold);
             const canLiquidation = await contract.enabledLiquidation(borrowId);
-            const borrowAmounts = getRepayCount(
-                await contract.getDebt(borrowId)
-            );
+            const getDebt = await contract.getDebt(borrowId);
+            const borrowAmounts = getRepayCount(getDebt);
             const floor_price = detail[address].stats.floor_price;
+            console.log(floor_price, +formatEther(getDebt), liqThreshold);
             runInAction(() => {
                 this.borrowInfo = {
                     id,
@@ -938,9 +937,9 @@ export default class Store {
                     variableNumber:
                         +floor_price > 0
                             ? (
-                                  ((floor_price / +formatEther(borrowAmounts)) *
+                                  ((floor_price / +formatEther(getDebt)) *
                                       10000) /
-                                  1500
+                                  +liqThreshold
                               ).toFixed(2)
                             : "-",
                     canLiquidation,
@@ -959,13 +958,13 @@ export default class Store {
     }
 
     @action.bound
-    async handleConnectWallet() {
+    async handleConnectWallet(login) {
         if (!this.onboard || this.walletAddress) return;
         try {
             const wallet = getSaveWallet();
             if (wallet) {
                 await this.onboard.connectWallet({ autoSelect: wallet });
-            } else {
+            } else if (login) {
                 await this.onboard.connectWallet();
             }
             await this.onboard.setChain({
@@ -1079,7 +1078,7 @@ export default class Store {
                 });
                 return;
             }
-
+            // console.log(pageData);
             const iterator = makeAsyncIterator(pageData.length);
             const details: Array<any> = [];
             for await (const idx of iterator) {
@@ -1090,11 +1089,22 @@ export default class Store {
                         contract.borrowMap(info.borrowId),
                         contract.auctionMap(info.borrowId),
                     ]);
+                    // console.log(
+                    //     "id",
+                    //     data.id,
+                    //     "rateMode",
+                    //     borrowInfo.rateMode,
+                    //     "status",
+                    //     borrowInfo.status,
+                    //     auctionInfo
+                    // );
+                    /* rateMode  => 1 :stable  2:variable */
+
                     if (info.address) {
                         details.push({
                             ...data,
                             id: info.nftId,
-                            user: info.user,
+                            user: borrowInfo.user,
                             amount: info.amount,
                             borrowId: +info.borrowId,
                             endTime: +auctionInfo.endTime,
@@ -1337,7 +1347,7 @@ export default class Store {
     }
     async checkWallet() {
         if (!this.walletAddress) {
-            await this.handleConnectWallet();
+            await this.handleConnectWallet(true);
         }
     }
     @action.bound
@@ -1352,11 +1362,6 @@ export default class Store {
         } catch {
             return false;
         }
-    }
-
-    @action.bound
-    handleSwitchFilter(filter: Filter) {
-        this.filter = filter;
     }
 
     @action.bound

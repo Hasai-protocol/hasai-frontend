@@ -29,7 +29,7 @@ export default observer(function Home() {
     } = useStores();
     const onFinish = async (value: any) => {
         if (!walletAddress) {
-            return handleConnectWallet();
+            return handleConnectWallet(true);
         }
         const units = {
             86400: ["period"], //24 * 60 * 60 // for Test

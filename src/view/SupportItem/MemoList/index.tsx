@@ -16,10 +16,10 @@ enum Type {
 }
 const EmptyAry = [];
 
-export default observer(function MemoLists({ reservesId, loadMore }) {
+export default observer(function MemoLists({ reservesId, loadMore, filter }) {
     const nav = useNavigate();
     const {
-        store: { loadingTargetList, filter, poolDataConfig },
+        store: { loadingTargetList, poolDataConfig },
     } = useStores();
     const handleClick = (type: Type, item) => {
         nav(
@@ -35,12 +35,17 @@ export default observer(function MemoLists({ reservesId, loadMore }) {
     }, [poolDataConfig, reservesId]);
 
     const displayTargetList = useMemo(() => {
-        const targetList = conf?.data;
-        if (!targetList) return EmptyAry;
-        const filterStatus =
-            filter === Filter.Normal ? Status.BORROW : Status.AUCTION;
-
-        return targetList.filter((nft) => nft.status === filterStatus);
+        if (filter !== Filter.Pending) {
+            const targetList = conf?.data;
+            if (!targetList) return EmptyAry;
+            const filterStatus =
+                filter === Filter.Normal ? Status.BORROW : Status.AUCTION;
+            return targetList.filter((nft) => {
+                return nft.status === filterStatus;
+            });
+        } else {
+            return [];
+        }
     }, [conf, filter]);
 
     return (

@@ -9,6 +9,7 @@ export enum Tabs {
 export enum Filter {
     OnAuction,
     Normal,
+    Pending,
 }
 
 export enum Status {

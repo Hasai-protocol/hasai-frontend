@@ -7,14 +7,13 @@ import cx from "classnames";
 
 import DepositIcon from "src/asset/deposit-icon.svg";
 import depositButtonIcon from "src/asset/depositModuleIcon.png";
-import { Filter, Status } from "src/config";
+import { Filter } from "src/config";
 import { useStores } from "src/hooks";
 import DepositModal from "src/components/DepositEthModal";
 import MemoList from "./MemoList";
 import DrawerList from "./DrawerList";
 import { InfoCircleFilled } from "@ant-design/icons";
 import s from "./index.module.scss";
-import middleHeader from "src/asset/header.png";
 import arrowleft from "src/asset/btn-arrow-left.png";
 const EmptyAry = [];
 
@@ -26,6 +25,7 @@ export default observer(function SupportItem() {
     const [index, setIndex] = useState(-1);
     const [visible, setVisible] = useState(false);
     const [valuation, setValuation] = useState(0);
+    const [filter, setNowFilter] = useState(Number(Filter.Normal));
     const [nftName, setNFTName] = useState("");
     const [interest, setInterest] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -42,12 +42,11 @@ export default observer(function SupportItem() {
             handleBorrow,
             queryNFTDepositInfo,
             handleConnectWallet,
-            handleSwitchFilter,
-            filter,
             loadingPoolList,
             poolList,
             poolDataConfig,
             nftHexMap,
+            checkWallet,
         },
     } = useStores();
 
@@ -63,16 +62,6 @@ export default observer(function SupportItem() {
         const isMiddle = pool.nfts.length > 1;
         let totalNft = 0;
         let nftInfos;
-        // if (isMiddle) {
-        //     let nowAddress = pool.nfts[nftIndex];
-        //     nftInfos = [nftHexMap[nowAddress]];
-        //     totalNft = nftInfos[0].stats.count;
-        // } else {
-        //     nftInfos = pool.nfts.map((nft) => {
-        //         totalNft += nftHexMap[nft].stats.count;
-        //         return nftHexMap[nft];
-        //     });
-        // }
         let nowAddress =
             pool.nfts[nftIndex ? (nftIndex === "n" ? 0 : nftIndex) : 0];
         nftInfos = [nftHexMap[nowAddress]];
@@ -86,11 +75,24 @@ export default observer(function SupportItem() {
 
     useEffect(() => {
         if (!pool || nftDataList.length > 0 || !reservesId) return;
-        // if (!pool || nftDataList.length > 0) return;
+        console.log("coming");
         queryUserNFT(false, [pool.address]);
         queryNFTDepositInfo("", `${reservesId}`);
     }, [pool, nftDataList, queryUserNFT, queryNFTDepositInfo, reservesId]);
-
+    const FilterConfig = [
+        {
+            title: "Auction",
+            index: Filter.OnAuction,
+        },
+        {
+            title: "Pending",
+            index: Filter.Pending,
+        },
+        {
+            title: "Current",
+            index: Filter.Normal,
+        },
+    ];
     const clearState = () => {
         setValuation(0);
         setNFTName("");
@@ -98,7 +100,9 @@ export default observer(function SupportItem() {
         setIndex(-1);
         setInfo({ address: "", id: "" });
     };
-
+    const handleSwitchFilter = (n) => {
+        setNowFilter(n);
+    };
     const handleCancel = () => {
         clearState();
         setVisible(false);
@@ -126,7 +130,7 @@ export default observer(function SupportItem() {
     const handleConfirm = async () => {
         if (isLoading || !info.address || !lending) return;
         if (!walletAddress) {
-            return handleConnectWallet();
+            return handleConnectWallet(true);
         }
         setIsLoading(true);
         const result = await handleBorrow(
@@ -155,6 +159,13 @@ export default observer(function SupportItem() {
     const handleLoadMore = useCallback(() => {
         queryNFTDepositInfo("", `${reservesId}`);
     }, [queryNFTDepositInfo, pool, reservesId]);
+    const showSelectNft = () => {
+        if (!walletAddress) {
+            checkWallet();
+            return;
+        }
+        setVisible(isLoading ? false : true);
+    };
     return (
         <div className={s.wrap}>
             {!pool && (
@@ -260,9 +271,7 @@ export default observer(function SupportItem() {
                                     value={nftName}
                                     className={cx(s.input, "largeInput")}
                                     placeholder="Select Your NFT"
-                                    onClick={() =>
-                                        setVisible(isLoading ? false : true)
-                                    }
+                                    onClick={showSelectNft}
                                 />
                             </div>
                             <Select
@@ -315,36 +324,23 @@ export default observer(function SupportItem() {
                                 <div
                                     className={cx(s.filterWarp, s.filterOption)}
                                 >
-                                    <div
-                                        className={cx(
-                                            "gradualText",
-                                            s.filterBtn,
-                                            {
-                                                [s.selected]:
-                                                    filter === Filter.OnAuction,
+                                    {FilterConfig.map((item) => (
+                                        <div
+                                            className={cx(
+                                                "gradualText",
+                                                s.filterBtn,
+                                                {
+                                                    [s.selected]:
+                                                        filter === item.index,
+                                                }
+                                            )}
+                                            onClick={() =>
+                                                handleSwitchFilter(item.index)
                                             }
-                                        )}
-                                        onClick={() =>
-                                            handleSwitchFilter(Filter.OnAuction)
-                                        }
-                                    >
-                                        Auction
-                                    </div>
-                                    <div
-                                        className={cx(
-                                            "gradualText",
-                                            s.filterBtn,
-                                            {
-                                                [s.selected]:
-                                                    filter === Filter.Normal,
-                                            }
-                                        )}
-                                        onClick={() =>
-                                            handleSwitchFilter(Filter.Normal)
-                                        }
-                                    >
-                                        Current
-                                    </div>
+                                        >
+                                            {item.title}
+                                        </div>
+                                    ))}
                                 </div>
                                 <div className={s.filterOption}>
                                     <span
@@ -359,6 +355,7 @@ export default observer(function SupportItem() {
                                 </div>
                             </div>
                             <MemoList
+                                filter={filter}
                                 reservesId={reservesId}
                                 loadMore={handleLoadMore}
                             />

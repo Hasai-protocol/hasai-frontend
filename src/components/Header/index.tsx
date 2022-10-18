@@ -152,7 +152,7 @@ export default observer(function Header() {
                 )}
                 {!formatWalletAddress && (
                     <div
-                        onClick={handleConnectWallet}
+                        onClick={() => handleConnectWallet(true)}
                         className={cx(
                             formatWalletAddress ? s.hasAddress : s.noAddress,
                             s.account,
