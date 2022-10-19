@@ -94,98 +94,98 @@ export const staticPoolInfo = {
     //         id: "0x00",
     //     },
     // },
-    // 1: {
-    //     supplyRate: 0x033b2e3c9fd0803ce8000000,
-    //     nfts: [
-    //         "0x27f2b6dbbb89ef678f9813835f79d7bd9f6578db",
-    //         "0xe98ee1e371fa6071ee18ff65898eee5c0a6d0284",
-    //         "0x052c40d385ef7a278fb66346be0639b182bc8eb6",
-    //     ],
-    //     data: {
-    //         configuration:
-    //             "0x200278d0000070800070867531000000012c0000015180000a07d0",
-    //         liquidityIndex: "0x033b2e3c9fd0803ce8000000",
-    //         variableBorrowIndex: "0x033b2e3c9fd0803ce8000000",
-    //         currentLiquidityRate: "0x00",
-    //         currentVariableBorrowRate: "0x52b7d2dcc80cd2e4000000",
-    //         currentStableBorrowRate: "0x52b7d2dcc80cd2e4000000",
-    //         lastUpdateTimestamp: 1662553608,
-    //         hTokenAddress: "0xc9a4e9859cf652c86c01F1Bde8de7a536bc9bFEe",
-    //         stableDebtTokenAddress:
-    //             "0x896aa15F57947de88890ef2C05E15006b4afa623",
-    //         variableDebtTokenAddress:
-    //             "0x92B76E23623338b6433b4876bCE513205BFf4304",
-    //         interestRateStrategyAddress:
-    //             "0x080c6aA2e3bfd9E9b617361486bB9eBb1Ddcf892",
-    //         id: "0x01",
-    //     },
-    // },
-    // 2: {
-    //     supplyRate: 0x033b2e3c9fd0803ce8000000,
-    //     nfts: ["0x85678a5e7a3b08d9994a9cd3a9629cd2418cc892"],
-    //     data: {
-    //         configuration:
-    //             "0x0278d0000070800070867531000000012c0000015180000a07d0",
-    //         liquidityIndex: "0x033b2e3c9fd0803ce8000000",
-    //         variableBorrowIndex: "0x033b2e3c9fd0803ce8000000",
-    //         currentLiquidityRate: "0x00",
-    //         currentVariableBorrowRate: "0x52b7d2dcc80cd2e4000000",
-    //         currentStableBorrowRate: "0x52b7d2dcc80cd2e4000000",
-    //         lastUpdateTimestamp: 1662553812,
-    //         hTokenAddress: "0xC618F5aBAE775E76d7ed477898c40f19a5feD76A",
-    //         stableDebtTokenAddress:
-    //             "0x845CCc28A917E939495e3a56947225b88b53fe78",
-    //         variableDebtTokenAddress:
-    //             "0x92E84718B2223918f7Ba431Cedf2CAd45a2aE748",
-    //         interestRateStrategyAddress:
-    //             "0x080c6aA2e3bfd9E9b617361486bB9eBb1Ddcf892",
-    //         id: "0x02",
-    //     },
-    // },
-    // 3: {
-    //     supplyRate: 0x033b2e3c9fd0803ce8000000,
-    //     nfts: ["0x019faaed5d64f9baf348c379fab6023a4cf65656"],
-    //     data: {
-    //         configuration:
-    //             "0x0278d0000070800070867531000000012c0000015180000a07d0",
-    //         liquidityIndex: "0x033b2e3c9fd0803ce8000000",
-    //         variableBorrowIndex: "0x033b2e3c9fd0803ce8000000",
-    //         currentLiquidityRate: "0x00",
-    //         currentVariableBorrowRate: "0x52b7d2dcc80cd2e4000000",
-    //         currentStableBorrowRate: "0x52b7d2dcc80cd2e4000000",
-    //         lastUpdateTimestamp: 1662557064,
-    //         hTokenAddress: "0x6B5Ee414263D9f5cA92CAd1aa462d6a902b0870c",
-    //         stableDebtTokenAddress:
-    //             "0xF6FB06c1F8A6690098511f28E8d8584296A9e776",
-    //         variableDebtTokenAddress:
-    //             "0x65bf58feF09C2923648F7093424246D0C6128Dbd",
-    //         interestRateStrategyAddress:
-    //             "0x080c6aA2e3bfd9E9b617361486bB9eBb1Ddcf892",
-    //         id: "0x03",
-    //     },
-    // },
-    // 4: {
-    //     supplyRate: 0x033b2e3c9fd0803ce8000000,
-    //     nfts: ["0x052c40d385ef7a278fb66346be0639b182bc8eb6"],
-    //     data: {
-    //         configuration:
-    //             "0x0278d0000070800070867531000000012c0000015180000a07d0",
-    //         liquidityIndex: "0x033b2e3c9fd0803ce8000000",
-    //         variableBorrowIndex: "0x033b2e3c9fd0803ce8000000",
-    //         currentLiquidityRate: "0x00",
-    //         currentVariableBorrowRate: "0x52b7d2dcc80cd2e4000000",
-    //         currentStableBorrowRate: "0x52b7d2dcc80cd2e4000000",
-    //         lastUpdateTimestamp: 1662557808,
-    //         hTokenAddress: "0x1f5cbDCE5098BBbA72Cb7dcc23bF0Ae566865014",
-    //         stableDebtTokenAddress:
-    //             "0xe14859840349f086cB63bf510537Bbb0608a58B5",
-    //         variableDebtTokenAddress:
-    //             "0x3E78Bf8698Fcc01d213f75e8e4323ac5A99865A9",
-    //         interestRateStrategyAddress:
-    //             "0x080c6aA2e3bfd9E9b617361486bB9eBb1Ddcf892",
-    //         id: "0x04",
-    //     },
-    // },
+    1: {
+        supplyRate: 0x033b2e3c9fd0803ce8000000,
+        nfts: [
+            "0x27f2b6dbbb89ef678f9813835f79d7bd9f6578db",
+            "0xe98ee1e371fa6071ee18ff65898eee5c0a6d0284",
+            "0x052c40d385ef7a278fb66346be0639b182bc8eb6",
+        ],
+        data: {
+            configuration:
+                "0x200278d0000070800070867531000000012c0000015180000a07d0",
+            liquidityIndex: "0x033b2e3c9fd0803ce8000000",
+            variableBorrowIndex: "0x033b2e3c9fd0803ce8000000",
+            currentLiquidityRate: "0x00",
+            currentVariableBorrowRate: "0x52b7d2dcc80cd2e4000000",
+            currentStableBorrowRate: "0x52b7d2dcc80cd2e4000000",
+            lastUpdateTimestamp: 1662553608,
+            hTokenAddress: "0xc9a4e9859cf652c86c01F1Bde8de7a536bc9bFEe",
+            stableDebtTokenAddress:
+                "0x896aa15F57947de88890ef2C05E15006b4afa623",
+            variableDebtTokenAddress:
+                "0x92B76E23623338b6433b4876bCE513205BFf4304",
+            interestRateStrategyAddress:
+                "0x080c6aA2e3bfd9E9b617361486bB9eBb1Ddcf892",
+            id: "0x01",
+        },
+    },
+    2: {
+        supplyRate: 0x033b2e3c9fd0803ce8000000,
+        nfts: ["0x85678a5e7a3b08d9994a9cd3a9629cd2418cc892"],
+        data: {
+            configuration:
+                "0x0278d0000070800070867531000000012c0000015180000a07d0",
+            liquidityIndex: "0x033b2e3c9fd0803ce8000000",
+            variableBorrowIndex: "0x033b2e3c9fd0803ce8000000",
+            currentLiquidityRate: "0x00",
+            currentVariableBorrowRate: "0x52b7d2dcc80cd2e4000000",
+            currentStableBorrowRate: "0x52b7d2dcc80cd2e4000000",
+            lastUpdateTimestamp: 1662553812,
+            hTokenAddress: "0xC618F5aBAE775E76d7ed477898c40f19a5feD76A",
+            stableDebtTokenAddress:
+                "0x845CCc28A917E939495e3a56947225b88b53fe78",
+            variableDebtTokenAddress:
+                "0x92E84718B2223918f7Ba431Cedf2CAd45a2aE748",
+            interestRateStrategyAddress:
+                "0x080c6aA2e3bfd9E9b617361486bB9eBb1Ddcf892",
+            id: "0x02",
+        },
+    },
+    3: {
+        supplyRate: 0x033b2e3c9fd0803ce8000000,
+        nfts: ["0x019faaed5d64f9baf348c379fab6023a4cf65656"],
+        data: {
+            configuration:
+                "0x0278d0000070800070867531000000012c0000015180000a07d0",
+            liquidityIndex: "0x033b2e3c9fd0803ce8000000",
+            variableBorrowIndex: "0x033b2e3c9fd0803ce8000000",
+            currentLiquidityRate: "0x00",
+            currentVariableBorrowRate: "0x52b7d2dcc80cd2e4000000",
+            currentStableBorrowRate: "0x52b7d2dcc80cd2e4000000",
+            lastUpdateTimestamp: 1662557064,
+            hTokenAddress: "0x6B5Ee414263D9f5cA92CAd1aa462d6a902b0870c",
+            stableDebtTokenAddress:
+                "0xF6FB06c1F8A6690098511f28E8d8584296A9e776",
+            variableDebtTokenAddress:
+                "0x65bf58feF09C2923648F7093424246D0C6128Dbd",
+            interestRateStrategyAddress:
+                "0x080c6aA2e3bfd9E9b617361486bB9eBb1Ddcf892",
+            id: "0x03",
+        },
+    },
+    4: {
+        supplyRate: 0x033b2e3c9fd0803ce8000000,
+        nfts: ["0x052c40d385ef7a278fb66346be0639b182bc8eb6"],
+        data: {
+            configuration:
+                "0x0278d0000070800070867531000000012c0000015180000a07d0",
+            liquidityIndex: "0x033b2e3c9fd0803ce8000000",
+            variableBorrowIndex: "0x033b2e3c9fd0803ce8000000",
+            currentLiquidityRate: "0x00",
+            currentVariableBorrowRate: "0x52b7d2dcc80cd2e4000000",
+            currentStableBorrowRate: "0x52b7d2dcc80cd2e4000000",
+            lastUpdateTimestamp: 1662557808,
+            hTokenAddress: "0x1f5cbDCE5098BBbA72Cb7dcc23bF0Ae566865014",
+            stableDebtTokenAddress:
+                "0xe14859840349f086cB63bf510537Bbb0608a58B5",
+            variableDebtTokenAddress:
+                "0x3E78Bf8698Fcc01d213f75e8e4323ac5A99865A9",
+            interestRateStrategyAddress:
+                "0x080c6aA2e3bfd9E9b617361486bB9eBb1Ddcf892",
+            id: "0x04",
+        },
+    },
 };
 export const seconds2Year = 60 * 60 * 24 * 365;
 

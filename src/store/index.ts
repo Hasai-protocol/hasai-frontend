@@ -446,7 +446,7 @@ export default class Store {
                     erc20,
                     this.provider
                 );
-
+                // collection
                 const liquidity = await this.wethContract.balanceOf(
                     hTokenAddress
                 );
@@ -495,8 +495,8 @@ export default class Store {
                             `https://api.opensea.io/api/v1/collection/${slug}`
                         )
                     ).data.collection;
-                    const { banner_image_url, image_url, name, stats } =
-                        collection;
+                    // const { banner_image_url, image_url, name, stats } =
+                    //     collection;
                     // console.log(
                     //     `{${JSON.stringify({
                     //         banner_image_url,
@@ -506,11 +506,24 @@ export default class Store {
                     //     })}}`
                     // );
                 }
+                // const signer = this.provider.getUncheckedSigner();
+                // let conc = await this.contract.connect(signer);
+                // let updatePrice = await conc.updatePrice(contractAddress);
+                // console.log(123123123123);
+                let floor_price = await this.contract.floorPrice(
+                    contractAddress
+                );
+                collection.floor_price = formatEther(
+                    floor_price,
+                    undefined,
+                    16
+                );
                 results[contractAddress] = Object.assign(
                     collection,
                     reserveData
                 );
-            } catch {
+            } catch (err) {
+                console.log(err);
                 results[contractAddress] = { stats: { count: 0 } };
             }
         }
@@ -922,13 +935,15 @@ export default class Store {
                 this.queryNFTDetail(address, +id),
                 this.queryNftInfo([address], {}),
             ]);
-            const liqThreshold = this.nftHexMap[address]?.liqThreshold;
-            console.log(liqThreshold);
+            console.log(Object.keys(this.nftHexMap), this.nftHexMap[address]);
+            let liqThreshold = this.nftHexMap[address]?.liqThreshold;
+            // if(!liqThreshold){
+            //     contract
+            // }
             const canLiquidation = await contract.enabledLiquidation(borrowId);
             const getDebt = await contract.getDebt(borrowId);
             const borrowAmounts = getRepayCount(getDebt);
-            const floor_price = detail[address].stats.floor_price;
-            console.log(floor_price, +formatEther(getDebt), liqThreshold);
+            const floor_price = detail[address].floor_price;
             runInAction(() => {
                 this.borrowInfo = {
                     id,
@@ -937,7 +952,7 @@ export default class Store {
                     variableNumber:
                         +floor_price > 0
                             ? (
-                                  ((floor_price / +formatEther(getDebt)) *
+                                  ((floor_price / +formatEther(getDebt, 5)) *
                                       10000) /
                                   +liqThreshold
                               ).toFixed(2)

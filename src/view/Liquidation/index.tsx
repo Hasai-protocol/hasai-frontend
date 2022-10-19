@@ -37,6 +37,7 @@ export default observer(function Liquidation() {
             queryBorrowInfo,
             loadingBorrowInfo,
             nftHexMap,
+            poolInfoInited,
         },
     } = useStores();
 
@@ -60,20 +61,20 @@ export default observer(function Liquidation() {
     }, [borrowInfo, utcTimeStamp]);
 
     useEffect(() => {
-        if (!inited) return;
+        if (!inited || !poolInfoInited) return;
         queryBorrowInfo(nft, id, borrowId);
-    }, [inited, id, nft, borrowId, queryBorrowInfo]);
+    }, [inited, id, nft, borrowId, queryBorrowInfo, poolInfoInited]);
 
     const isInAuction = useMemo(() => {
         return borrowInfo.status === Status.AUCTION;
     }, [borrowInfo]);
     const isExpired = useMemo(() => {
         if (!borrowInfo.liquidateTime) return false;
-        const { liquidateTime, rateMode, vairableNumber } = borrowInfo;
+        const { liquidateTime, rateMode, variableNumber } = borrowInfo;
         if (+rateMode === InterestRateMode.stableDebt) {
             return blockTimeStamp * 1000 >= liquidateTime;
         } else {
-            return vairableNumber < 1;
+            return variableNumber < 1;
         }
     }, [blockTimeStamp, borrowInfo]);
     const bannerImg = useMemo(() => {
@@ -85,6 +86,10 @@ export default observer(function Liquidation() {
     }, [borrowInfo]);
     const disable = useMemo(() => {
         if (isInAuction) return true;
+
+        if (isExpired && borrowInfo.rateMode === InterestRateMode.Variable) {
+            return +(bidPrice || 0) < borrowInfo.amount;
+        }
         if (borrowInfo.liquidateTime) {
             if (blockTimeStamp * 1000 >= borrowInfo.liquidateTime) {
                 return +(bidPrice || 0) < borrowInfo.amount;
@@ -92,7 +97,7 @@ export default observer(function Liquidation() {
             return true;
         }
         return true;
-    }, [bidPrice, blockTimeStamp, borrowInfo, isInAuction]);
+    }, [bidPrice, blockTimeStamp, borrowInfo, isInAuction, isExpired]);
 
     const handleInput = (value: number | string | null) => {
         const [int, float] = (value ? `${value}` : "").split(".");
