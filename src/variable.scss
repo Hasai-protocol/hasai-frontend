@@ -37,16 +37,6 @@
     background-origin: border-box;
     border: 1px solid transparent;
 
-    &:hover {
-        background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
-
-        span {
-            color: #252932 !important;
-            background: none;
-            -webkit-text-fill-color: initial;
-        }
-    }
-
     &.disbaled {
         background: #898989;
 
@@ -55,5 +45,20 @@
             background: none;
             -webkit-text-fill-color: initial;
         }
+    }
+}
+
+@media only screen and (min-width: 701px) {
+    .hasai-btn {
+        &:hover {
+            background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
+
+            span {
+                color: #252932 !important;
+                background: none;
+                -webkit-text-fill-color: initial;
+            }
+        }
+
     }
 }

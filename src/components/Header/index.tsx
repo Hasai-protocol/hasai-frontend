@@ -127,15 +127,35 @@ export default observer(function Header() {
                     </Popover>
                 </div>
 
-                {formatWalletAddress && (
-                    <Popover
-                        content={accountContent}
-                        placement="bottom"
-                        color="transparent"
-                        // visible={showFilter}
-                        overlayClassName={s.marketPopover}
-                    >
+                <div className={s.right}>
+                    {formatWalletAddress && (
+                        <Popover
+                            content={accountContent}
+                            placement="bottom"
+                            color="transparent"
+                            // visible={showFilter}
+                            overlayClassName={s.marketPopover}
+                        >
+                            <div
+                                className={cx(
+                                    formatWalletAddress
+                                        ? s.hasAddress
+                                        : s.noAddress,
+                                    s.account,
+                                    "flex-box",
+                                    "align-center",
+                                    "justify-center"
+                                )}
+                            >
+                                <p className={s.address}>
+                                    {formatWalletAddress}
+                                </p>
+                            </div>
+                        </Popover>
+                    )}
+                    {!formatWalletAddress && (
                         <div
+                            onClick={() => handleConnectWallet(true)}
                             className={cx(
                                 formatWalletAddress
                                     ? s.hasAddress
@@ -146,24 +166,11 @@ export default observer(function Header() {
                                 "justify-center"
                             )}
                         >
-                            <p className={s.address}>{formatWalletAddress}</p>
+                            <p className={s.address}>{"Launch App"}</p>
                         </div>
-                    </Popover>
-                )}
-                {!formatWalletAddress && (
-                    <div
-                        onClick={() => handleConnectWallet(true)}
-                        className={cx(
-                            formatWalletAddress ? s.hasAddress : s.noAddress,
-                            s.account,
-                            "flex-box",
-                            "align-center",
-                            "justify-center"
-                        )}
-                    >
-                        <p className={s.address}>{"Launch App"}</p>
-                    </div>
-                )}
+                    )}
+                    <div className={s.mobileNav}></div>
+                </div>
             </>
         </div>
     );

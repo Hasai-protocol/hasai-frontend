@@ -22,6 +22,16 @@
     }
 }
 
+.poolName {
+    font-size: 12px;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+
 .imgWarp {
     display: block;
     padding-top: 100%;
@@ -49,9 +59,23 @@
 }
 
 .id {
-    font-size: 16px;
-    line-height: 24px;
     color: #FFFFFF;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+    justify-content: space-between;
+
+    :last-child {
+        font-size: 16px;
+        line-height: 24px;
+        font-family: hasai-500;
+
+        img {
+            width: 12px;
+            margin-right: 4px;
+            vertical-align: 0px;
+        }
+    }
 }
 
 .name {

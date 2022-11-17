@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { observer } from "mobx-react";
 import { Empty } from "antd";
@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 export default observer(function Account() {
     const nav = useNavigate();
-
+    const tabs = ["Deposit", "Loan", "NFT", "Auction"];
     const {
         store: {
             inited,
@@ -28,7 +28,28 @@ export default observer(function Account() {
             handleConnectWallet,
         },
     } = useStores();
+    let [onMobile, setOn] = useState(false);
+    let [activedTab, setTab] = useState(0);
+    const handleResize = () => {
+        const innerWith = window.innerWidth;
+        console.log(innerWith);
+        if (innerWith <= 700 && !onMobile) {
+            setOn(true);
+            setTab(0);
+        } else if (onMobile && innerWith > 700) {
+            setOn(false);
+            setTab(0);
+        }
+    };
+    useEffect(() => {
+        handleResize();
+        window.addEventListener("resize", handleResize);
 
+        return () => {
+            // 取消监听窗口的宽度变化
+            window.removeEventListener("resize", handleResize);
+        };
+    });
     useEffect(() => {
         if (!inited || !walletAddress) return;
         queryUserRepayAmount();
@@ -63,7 +84,20 @@ export default observer(function Account() {
                         </p>
                     </div>
                 </div>
+                <div className={s.topImg}></div>
             </div>
+            {onMobile && (
+                <div className={s.accountNav}>
+                    {tabs.map((tab, index) => (
+                        <span
+                            className={activedTab === index ? s.actived : ""}
+                            onClick={() => setTab(index)}
+                        >
+                            {tab}
+                        </span>
+                    ))}
+                </div>
+            )}
             <div className={s.content}>
                 {!walletAddress && (
                     <div className={s.emptyWrap}>
@@ -78,12 +112,48 @@ export default observer(function Account() {
                 {walletAddress && (
                     <>
                         <div className={s.myNFT}>
-                            <MyDeposit />
-                            <MyLoan />
+                            <MyDeposit
+                                onMobile={onMobile}
+                                className={
+                                    !onMobile || (onMobile && activedTab === 0)
+                                        ? onMobile && activedTab === 0
+                                            ? "actived"
+                                            : ""
+                                        : "hide"
+                                }
+                            />
+                            <MyLoan
+                                onMobile={onMobile}
+                                className={
+                                    !onMobile || (onMobile && activedTab === 1)
+                                        ? onMobile && activedTab === 1
+                                            ? "actived"
+                                            : ""
+                                        : "hide"
+                                }
+                            />
                         </div>
                         <div className={s.right}>
-                            <MyNFT />
-                            <MyAuction />
+                            <MyNFT
+                                onMobile={onMobile}
+                                className={
+                                    !onMobile || (onMobile && activedTab === 2)
+                                        ? onMobile && activedTab === 2
+                                            ? "actived"
+                                            : ""
+                                        : "hide"
+                                }
+                            />
+                            <MyAuction
+                                onMobile={onMobile}
+                                className={
+                                    !onMobile || (onMobile && activedTab === 3)
+                                        ? onMobile && activedTab === 3
+                                            ? "actived"
+                                            : ""
+                                        : "hide"
+                                }
+                            />
                         </div>
                     </>
                 )}

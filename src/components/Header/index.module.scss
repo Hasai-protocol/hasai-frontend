@@ -151,3 +151,40 @@
 .other {
     border-bottom: 1px solid #DEE0E2;
 }
+
+.right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .mobileNav {
+        width: 18px;
+        height: 15px;
+        background: url('../../asset/bulletpoint.png');
+        margin-left: 18px;
+        display: none;
+    }
+
+}
+
+// tabs
+@media only screen and (max-width: 700px) {
+    .tabs {
+        display: none;
+    }
+
+    .hasAddress,
+    .noAddress {
+        width: 90px;
+        height: 30px;
+        line-height: 30px;
+
+        font-size: 10px;
+    }
+
+    .right {
+        .mobileNav {
+            display: block;
+        }
+    }
+}

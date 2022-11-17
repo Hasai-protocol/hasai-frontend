@@ -11,7 +11,7 @@ import ETHImg from "src/asset/eth.svg";
 
 import s from "./index.module.scss";
 import depositModuleIcon from "src/asset/account/myauction.png";
-
+import cx from "classnames";
 function ViewIcon() {
     return (
         <svg
@@ -32,7 +32,7 @@ function ViewIcon() {
 const RowKey = (x) => x.transactionHash;
 const Format = "MMM DD hh:mma";
 
-export default observer(function MyAuction() {
+export default observer(function MyAuction({ className, onMobile }) {
     const [showHis, setShowHis] = useState(false);
     const [hisData, setHisData] = useState<any>([]);
     const {
@@ -59,7 +59,6 @@ export default observer(function MyAuction() {
             setHisData(data);
         })();
     }, [inited, walletAddress, queryBidHistory]);
-
     const tabConfig = useMemo(() => {
         return [
             {
@@ -124,7 +123,7 @@ export default observer(function MyAuction() {
     }, [viewTransactionDetail]);
 
     return (
-        <div className={s.wrap}>
+        <div className={cx("accountItemWarp", className, s.myauction)}>
             <div className={s.head}>
                 <p className="gradualText">
                     <img
@@ -143,7 +142,7 @@ export default observer(function MyAuction() {
                 {!loadingAuction &&
                     (userAuctionList.length === 0 ? (
                         <p className={s.accountEmpty}>Nothing Auction yet</p>
-                    ) : (
+                    ) : !onMobile ? (
                         <Table
                             className={s.table}
                             rowKey={RowKey}
@@ -152,6 +151,52 @@ export default observer(function MyAuction() {
                             dataSource={userAuctionList}
                             loading={loadingAuction}
                         />
+                    ) : (
+                        <div className={s.mobileList}>
+                            {userAuctionList.map((item) => (
+                                <div className={s.mobileItem}>
+                                    <div className={s.tabItemHead}>
+                                        <img src={item.image} alt="" />
+                                        <div>
+                                            <p>#{item.id}</p>
+                                            <p>{item.name.split("#")[0]}</p>
+                                        </div>
+                                    </div>
+                                    <div className={s.mobileContent}>
+                                        <div>
+                                            <p>Auction Ends</p>
+                                            <p>
+                                                {dayjs(
+                                                    +item.endTime * 1000
+                                                ).format(Format)}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p>My Bid</p>
+                                            <p>
+                                                <div className={s.selfBid}>
+                                                    <img src={ETHImg} alt="" />
+                                                    <p>{item.selfBidAmount}</p>
+                                                </div>
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p>Top Bid</p>
+                                            <p>
+                                                <div className={s.topBid}>
+                                                    <img src={ETHImg} alt="" />
+                                                    <p>
+                                                        {(+item.bidAmount).toFixed(
+                                                            3
+                                                        )}
+                                                    </p>
+                                                </div>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     ))}
                 {loadingAuction && (
                     <p className={s.accountEmpty}>

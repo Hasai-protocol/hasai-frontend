@@ -1,14 +1,3 @@
-.wrap {
-    width: 688px;
-    padding: 24px;
-    margin-bottom: 24px;
-    background: #30343E;
-    border: 1px solid rgba(100, 113, 141, 0.5);
-    backdrop-filter: blur(30px);
-    border-radius: 16px;
-    min-height: 365px;
-}
-
 .head {
     display: flex;
     align-items: center;
@@ -41,6 +30,13 @@
     font-size: 16px;
     color: rgba(255, 255, 255, 0.4);
     user-select: none;
+}
+
+.button {
+    width: 100% !important;
+    line-height: 30px;
+    margin-top: 10px;
+    background-image: linear-gradient(0deg, #393D48, #393D48), radial-gradient(circle at left bottom, #74F5DA, #CDFF8C);
 }
 
 .btn {

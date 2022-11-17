@@ -148,6 +148,7 @@ export default class Store {
         name: string;
         image: string;
         nftId: string;
+        endTime: number;
         bidAmount: number;
         selfBidAmount: number;
         liquidateTime: number;
@@ -608,8 +609,6 @@ export default class Store {
     async queryUserNFT(loadMore = false, list: Array<string> = []) {
         try {
             const { walletAddress, supportNFTs } = this;
-            console.log("ddd", loadMore, walletAddress, this.walletAddress);
-
             if (!walletAddress) return;
             if (loadMore) return;
             runInAction(() => {
@@ -795,9 +794,6 @@ export default class Store {
                 auctionIds.includes(bid.id)
             );
             requestInfo = validTransactions;
-            // if (requestInfo.length < 1) {
-            //     return;
-            // }
             const details: Array<any> = [];
             const iterator = makeAsyncIterator(requestInfo.length);
             for await (const idx of iterator) {

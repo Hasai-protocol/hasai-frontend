@@ -32,7 +32,7 @@ function DepositIcon() {
     );
 }
 
-export default observer(function MyNFT() {
+export default observer(function MyNFT({ className, onMobile }) {
     const [index, setIndex] = useState(-1);
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -62,7 +62,10 @@ export default observer(function MyNFT() {
         if (index < 0) return;
         setVisible(true);
     }, [index]);
-
+    const borrow = (n) => {
+        setIndex(n);
+        setVisible(true);
+    };
     const handleConfirm = async (lending) => {
         if (loading) return;
         setLoading(true);
@@ -85,7 +88,6 @@ export default observer(function MyNFT() {
             });
             setIndex(-1);
             setVisible(false);
-            // queryUserNFT();
         } else {
             notification.error({
                 message: "Hasai",
@@ -95,26 +97,28 @@ export default observer(function MyNFT() {
     };
 
     return (
-        <div className={s.wrap}>
-            <div className={s.head}>
-                <p className="gradualText">
-                    <img
-                        src={depositModuleIcon}
-                        alt=""
-                        className={s.depositModuleIcon}
-                    />
-                    <span>My NFT</span>
-                </p>
-                {userNFTs.length > 0 && (
-                    <div
-                        className={cx(s.btn, { [s.disable]: index < 0 })}
-                        onClick={handleClickDeposit}
-                    >
-                        <DepositIcon />
-                        Borrow
-                    </div>
-                )}
-            </div>
+        <div className={cx("accountItemWarp", className)}>
+            {!onMobile && (
+                <div className={s.head}>
+                    <p className="gradualText">
+                        <img
+                            src={depositModuleIcon}
+                            alt=""
+                            className={s.depositModuleIcon}
+                        />
+                        <span>My NFT</span>
+                    </p>
+                    {userNFTs.length > 0 && (
+                        <div
+                            className={cx(s.btn, { [s.disable]: index < 0 })}
+                            onClick={handleClickDeposit}
+                        >
+                            <DepositIcon />
+                            Borrow
+                        </div>
+                    )}
+                </div>
+            )}
             {queryUserNFTLoading && (
                 <div className={s.loadingWrap}>
                     <Spin />
@@ -127,9 +131,29 @@ export default observer(function MyNFT() {
                 <Row gutter={[16, 16]}>
                     {userNFTs.map((nft, idx) => {
                         return (
-                            <Col key={`${nft.address}-${nft.id}`} span={6}>
+                            <Col
+                                key={`${nft.address}-${nft.id}`}
+                                span={onMobile ? 12 : 6}
+                            >
                                 <Card
-                                    activeIdx={index}
+                                    slot={
+                                        onMobile ? (
+                                            <div
+                                                className={cx(
+                                                    "hasai-btn",
+                                                    s.button
+                                                )}
+                                                onClick={() => borrow(idx)}
+                                            >
+                                                <span className={"gradualText"}>
+                                                    Borrow
+                                                </span>
+                                            </div>
+                                        ) : (
+                                            <></>
+                                        )
+                                    }
+                                    activeIdx={onMobile ? -1 : index}
                                     index={idx}
                                     data={nft}
                                     onClick={setIndex}

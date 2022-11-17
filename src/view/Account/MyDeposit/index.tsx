@@ -13,8 +13,8 @@ import s from "./index.module.scss";
 import WithdrawEth from "src/components/withdrawEth";
 import SharePoolAvator from "src/components/sharedPoolAvator";
 
-import eIcon from "src/asset/eicon.png";
-export default observer(function MyNFT() {
+import eIcon from "src/asset/ethereum-eth-logo1.png";
+export default observer(function MyNFT({ className, onMobile }) {
     const [showWithdraw, setShow] = useState(false);
     const [init, setInit] = useState(true);
     const [withdrawInfo, setWithDraw] = useState({});
@@ -104,7 +104,7 @@ export default observer(function MyNFT() {
     ];
     return (
         <>
-            <div className={s.wrap}>
+            <div className={cx("accountItemWarp", s.mydepositWarp, className)}>
                 <div className={s.head}>
                     <p className="gradualText">
                         <img
@@ -121,7 +121,7 @@ export default observer(function MyNFT() {
                             <p className={s.accountEmpty}>
                                 Nothing Deposit yet
                             </p>
-                        ) : (
+                        ) : !onMobile ? (
                             <Table
                                 className={s.table}
                                 rowKey={RowKey}
@@ -130,6 +130,60 @@ export default observer(function MyNFT() {
                                 dataSource={depositList}
                                 loading={queryDepositListLoading || init}
                             />
+                        ) : (
+                            <div className={s.mobileList}>
+                                {depositList.map((item) => (
+                                    <div className={s.mobileItem}>
+                                        <div className={s.depositTop}>
+                                            {item.poolType > 1 ? (
+                                                <SharePoolAvator
+                                                    size="mini"
+                                                    className={s.middleAvator}
+                                                />
+                                            ) : (
+                                                <img
+                                                    className={s.avator}
+                                                    src={
+                                                        nftHexMap[item?.nfts[0]]
+                                                            ?.image_url
+                                                    }
+                                                    alt=""
+                                                />
+                                            )}
+                                            {item.nftName}
+                                        </div>
+                                        <div className={s.infos}>
+                                            <p>
+                                                <span>APR</span>
+                                                <span className={s.cellWidth}>
+                                                    {item.apy}%
+                                                </span>
+                                            </p>
+                                            <p>
+                                                <span>Balance</span>
+
+                                                <span
+                                                    className={cx(
+                                                        s.acountWarp,
+                                                        s.cellWidth
+                                                    )}
+                                                >
+                                                    <img src={eIcon} />
+                                                    {item.totalRewardForEth}
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div
+                                            className={cx("hasai-btn")}
+                                            onClick={() => Withdraw(item)}
+                                        >
+                                            <span className={"gradualText"}>
+                                                Withdraw
+                                            </span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         ))}
                     {(queryDepositListLoading || init) && (
                         <p className={s.accountEmpty}>
