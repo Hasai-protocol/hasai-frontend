@@ -73,6 +73,7 @@ export default observer(function Account() {
                 <div className={s.accountNav}>
                     {tabs.map((tab, index) => (
                         <span
+                            key={index}
                             className={activedTab === index ? s.actived : ""}
                             onClick={() => setTab(index)}
                         >

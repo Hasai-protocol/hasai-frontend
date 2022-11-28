@@ -22,6 +22,7 @@ export default observer(function BorrowModal({
         store: { userNFTs, nftHexMap },
     } = useStores();
     const [lending, setLending] = useState();
+    const [selectValue, setValue] = useState(null);
 
     const nft = useMemo(() => {
         return userNFTs[index] || {};
@@ -34,6 +35,7 @@ export default observer(function BorrowModal({
         setLending(undefined);
     }, [visible]);
     const changeLending = (e) => {
+        setValue(e);
         setLending(e);
     };
     const goConfirm = () => {
@@ -43,6 +45,7 @@ export default observer(function BorrowModal({
     const cancel = () => {
         setLending(undefined);
         onCancel();
+        setValue(null);
     };
     return (
         <Modal
@@ -63,6 +66,7 @@ export default observer(function BorrowModal({
             <div className={s.content}>
                 <div className={cx(s.input)}>#{nft.id}</div>
                 <Select
+                    value={selectValue}
                     style={{ width: "100%" }}
                     className={cx(s.lendingModel, s.inputIcon)}
                     onChange={changeLending}
