@@ -15,7 +15,7 @@ body {
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    background: #252932;
+    background: var(--main-bg);
 }
 
 .main::-webkit-scrollbar {
@@ -64,7 +64,7 @@ body {
 .ant-select-item-option-active {
     background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
     font-size: 16px;
-    color: #252932 !important;
+    color: var(--main-bg) !important;
 }
 
 .ant-select-item-option {
@@ -169,7 +169,7 @@ body {
 
 .ant-message-notice-content,
 .ant-notification-notice-description {
-    color: #252932;
+    color: var(--main-bg);
 }
 
 .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {

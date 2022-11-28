@@ -2,7 +2,7 @@
     --header-height: 80px;
     --footer-height: 122px;
     --header-index: 999;
-    --main-bg: #252932;
+    --main-bg: #000;
     --content-width: 1400px;
     --main-text-color: rgba(8, 143, 87, 1);
     --onboard-modal-z-index: 99999;
@@ -60,7 +60,7 @@
             background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
 
             span {
-                color: #252932 !important;
+                color: var(--main-bg) !important;
                 background: none;
                 -webkit-text-fill-color: initial;
             }

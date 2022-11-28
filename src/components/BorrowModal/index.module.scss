@@ -125,7 +125,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #252932;
+    color: var(--main-bg);
 
     &.disable {
         color: rgba(255, 255, 255, 0.6);

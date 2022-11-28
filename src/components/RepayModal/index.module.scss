@@ -41,7 +41,7 @@
     width: 100%;
     padding: 0 10px;
     margin-top: 8px;
-    background: #252932;
+    background: var(--main-bg);
     border-radius: 4px;
 }
 
@@ -75,7 +75,7 @@
     font-size: 12px;
     line-height: 40px;
     text-align: center;
-    color: #252932;
+    color: var(--main-bg);
     width: 288px;
     height: 40px;
     margin-top: 16px;

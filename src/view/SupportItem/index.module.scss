@@ -258,7 +258,7 @@
     font-family: hasai-500;
     text-align: center;
     color: rgba(255, 255, 255, 0.6);
-    background: #252932;
+    background: var(--main-bg);
     // box-shadow: inset 0px 1px 1px rgba(255, 255, 255, 0.25);
 
     p {
@@ -342,7 +342,7 @@
 
         &.selected {
             background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
-            color: #252932;
+            color: var(--main-bg);
             -webkit-text-fill-color: initial;
         }
     }

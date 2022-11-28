@@ -132,12 +132,12 @@ export default observer(function Header() {
                     </div>
                 )}
 
-                {isMobile && poolInfoInited && (
+                {isMobile && (
                     <div>
-                        {pathname === "/account" && isMobile && (
+                        {pathname === "/account" && (
                             <span className={s.headerTitle}>Account</span>
                         )}
-                        {pathname === "/addPool" && isMobile && (
+                        {pathname === "/addPool" && (
                             <p className={s.addPoolTitle}>
                                 <span
                                     className={s.leftBtn}
@@ -150,10 +150,8 @@ export default observer(function Header() {
                                 </span>
                             </p>
                         )}
-                        {pathname.split("/")[1] === "markets" && isMobile && (
-                            <div></div>
-                        )}
-                        {pathname.split("/")[1] === "nft" && isMobile && (
+                        {pathname.split("/")[1] === "markets" && <div></div>}
+                        {pathname.split("/")[1] === "nft" && (
                             <div
                                 className={s.backBtn}
                                 onClick={() => nav("market")}
@@ -189,7 +187,7 @@ export default observer(function Header() {
                     </div>
 
                     <div className={s.right}>
-                        {formatWalletAddress && !isMobile && (
+                        {/* {formatWalletAddress && !isMobile && (
                             <Popover
                                 content={accountContent}
                                 placement="bottom"
@@ -212,7 +210,7 @@ export default observer(function Header() {
                                     </p>
                                 </div>
                             </Popover>
-                        )}
+                        )} */}
                         {formatWalletAddress && !unShowAddress && (
                             <div
                                 onClick={() => {

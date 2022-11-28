@@ -135,7 +135,7 @@
 .noAddress {
     background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
     border-radius: 61px;
-    color: #252932;
+    color: var(--main-bg);
     width: 124px;
     line-height: 52px;
     height: 52px;

@@ -158,7 +158,7 @@
 .input {
     width: 100% !important;
     height: 48px;
-    background-color: #252932 !important;
+    background-color: var(--main-bg) !important;
     border-radius: 4px;
     margin-bottom: 16px !important;
     position: relative;
@@ -198,7 +198,7 @@
     font-size: 16px;
     line-height: 40px;
     text-align: center;
-    color: #252932;
+    color: var(--main-bg);
 
     &.disable {
         cursor: not-allowed;
