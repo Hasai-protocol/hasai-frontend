@@ -51,6 +51,7 @@ export default observer(function MyLoan({ className, onMobile }) {
         setVisible(false);
     }, []);
     const handleClickRepay = useCallback((index, data) => {
+        console.log(index, JSON.parse(JSON.stringify(data)));
         if (data.canLiquidation) {
             return;
         }
@@ -180,7 +181,7 @@ export default observer(function MyLoan({ className, onMobile }) {
                         />
                     ) : (
                         <div className={s.mobileList}>
-                            {userBorrowList.map((item) => (
+                            {userBorrowList.map((item, i) => (
                                 <div className={s.mobileItem}>
                                     <div className={s.tabItemHead}>
                                         <img src={item.image} alt="" />
@@ -224,7 +225,7 @@ export default observer(function MyLoan({ className, onMobile }) {
                                                 : ""
                                         )}
                                         onClick={() =>
-                                            handleClickRepay(index, item)
+                                            handleClickRepay(i, item)
                                         }
                                     >
                                         <span className="gradualText">
