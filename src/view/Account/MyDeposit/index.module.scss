@@ -12,6 +12,23 @@
     font-size: 16px;
 }
 
+.depositButton {
+    width: 83px;
+    line-height: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 18px;
+
+    img {
+        margin-right: 5px;
+    }
+}
+
 .avator {
     width: 40px;
     height: 40px;

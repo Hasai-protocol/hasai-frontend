@@ -26,30 +26,13 @@ export default observer(function Account() {
             queryUserRepayAmount,
             totalInterest,
             handleConnectWallet,
+            isMobile: onMobile,
         },
     } = useStores();
-    let [onMobile, setOn] = useState(false);
     let [activedTab, setTab] = useState(0);
-    const handleResize = () => {
-        const innerWith = window.innerWidth;
-        console.log(innerWith);
-        if (innerWith <= 700 && !onMobile) {
-            setOn(true);
-            setTab(0);
-        } else if (onMobile && innerWith > 700) {
-            setOn(false);
-            setTab(0);
-        }
-    };
     useEffect(() => {
-        handleResize();
-        window.addEventListener("resize", handleResize);
-
-        return () => {
-            // 取消监听窗口的宽度变化
-            window.removeEventListener("resize", handleResize);
-        };
-    });
+        setTab(0);
+    }, [onMobile]);
     useEffect(() => {
         if (!inited || !walletAddress) return;
         queryUserRepayAmount();

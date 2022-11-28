@@ -44,8 +44,8 @@
 }
 
 .img {
-    width: 500px;
-    height: 500px;
+    width: 100%;
+    height: auto;
     border-radius: 8px 8px 0 0;
     overflow: hidden;
 
@@ -77,29 +77,55 @@
     }
 }
 
-.endTime {
-    font-size: 14px;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 0.6);
-
-    span {
-        font-size: 16px;
-        line-height: 20px;
-        font-family: hasai-500;
-        color: rgba(255, 255, 255, 0.8);
-    }
-
-    img {
-        margin: -1px 9px 0 17px;
-        vertical-align: middle;
-    }
-}
-
-.bidInfo {
-    margin-top: 8px;
+.mobileData {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+
+    .title {
+        font-size: 12px;
+        line-height: 18px;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .data {
+        font-size: 30px;
+        line-height: 40px;
+        color: #FFFFFF;
+
+        span {
+            font-family: hasai-700;
+        }
+
+        img {
+            margin-right: 5px;
+            vertical-align: 2px;
+            width: 16px;
+        }
+    }
+
+
+
+    &.secondMobileData {
+        margin: 10px 0 20px;
+
+        .data {
+            font-size: 16px;
+            line-height: 20px;
+            color: rgba(255, 255, 255, 0.8);
+
+
+            span {
+                font-family: hasai-500;
+
+            }
+
+            img {
+                vertical-align: -2px;
+                width: 14px;
+            }
+        }
+    }
 }
 
 .bidHis {
@@ -114,45 +140,6 @@
     }
 }
 
-.bidAmount {
-    display: flex;
-    align-items: center;
-}
-
-.tips,
-.amount,
-.endTime {
-    display: flex;
-    align-items: center;
-}
-
-.tips {
-
-    font-size: 14px;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 0.6);
-    margin-right: 16px;
-
-    img {
-        margin-left: 9px;
-    }
-}
-
-.amount {
-    img {
-        width: 16px;
-        margin-right: 8px;
-    }
-
-    span {
-
-        font-size: 30px;
-        line-height: 40px;
-        color: #FFFFFF;
-        font-family: hasai-700;
-
-    }
-}
 
 .split {
     width: calc(100% + 48px);
@@ -170,11 +157,11 @@
 
 .input {
     width: 100% !important;
-    height: 40px;
+    height: 48px;
     background-color: #252932 !important;
     border-radius: 4px;
     margin-bottom: 16px !important;
-    position: absolute;
+    position: relative;
 
     &::after {
         content: 'ETH';
@@ -187,13 +174,7 @@
         transform: translateY(-50%);
     }
 
-    // &.ant-input-number-disabled {
-    //     color: rgba(255, 255, 255, 0.4);
-    // }
-
     :global {
-
-
         .ant-input-number-input-wrap {
             background: transparent;
         }
@@ -232,4 +213,147 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+
+.bidInput {
+    :global {
+
+        .ant-input-number-lg {
+            height: 48px !important;
+        }
+
+        .ant-input-number-input {
+            height: 46px !important;
+        }
+
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .backBtn {
+        width: 24px;
+        height: 24px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        position: absolute;
+        left: 15px;
+        top: 10px;
+        background-image: url('../../asset/header/addPoolLeftBtn.png');
+        background-size: 7px;
+        background-position: center center;
+        z-index: 4;
+        background-repeat: no-repeat;
+    }
+}
+
+@media only screen and (max-width: 1150px) {
+    .content {
+        width: 55%;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+
+    .content {
+        width: 75%;
+    }
+
+
+    .bottom {
+        .nftInfo {
+            .id {
+
+                font-size: 20px;
+                line-height: 30px;
+                color: #FFFFFF;
+            }
+
+            .bidHis {
+                font-size: 14px;
+                line-height: 20px;
+
+                img {
+                    width: 16px;
+                }
+            }
+        }
+    }
+
+    .mobileData {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .title {
+            font-size: 12px;
+            line-height: 18px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .data {
+            font-size: 20px;
+            line-height: 30px;
+            color: #FFFFFF;
+
+            span {
+                font-family: hasai-700;
+
+            }
+
+            img {
+                margin-right: 5px;
+                vertical-align: 0px;
+                width: 16px;
+            }
+        }
+
+
+
+        &.secondMobileData {
+            margin: 10px 0 20px;
+
+            .data {
+                font-size: 14px;
+                line-height: 20px;
+                color: rgba(255, 255, 255, 0.8);
+
+                span {
+                    font-family: hasai-500;
+
+                }
+
+                img {
+                    vertical-align: -2px;
+                    width: 14px;
+
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 550px) {
+
+    .content {
+        width: 100%;
+    }
+
+    .bannerImgWarp {
+        display: none;
+    }
+
+    .img {
+        border-radius: 0;
+    }
+
+    .content {
+        margin-top: calc(0px - var(--header-height));
+    }
+
+    .bottom {
+        border-radius: 16px 16px 0px 0px;
+        margin-top: -15px;
+        padding: 20px;
+    }
 }

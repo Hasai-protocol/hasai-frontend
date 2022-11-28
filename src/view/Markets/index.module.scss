@@ -23,10 +23,11 @@
         user-select: none;
         cursor: pointer;
 
+
         &.active,
         &:hover {
-            color: #FFFFFF;
-            background: #3A404F;
+            color: #000000 !important;
+            background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
         }
     }
 }
@@ -94,6 +95,12 @@
 
         .totalData {
             display: flex;
+            justify-content: space-between;
+
+            // align-items: center;
+            .dataWarp {
+                display: flex;
+            }
 
             .selection {
                 margin-right: 90px;
@@ -218,6 +225,7 @@
     border-top: 1px solid transparent;
     border-bottom: 1px solid rgba(100, 113, 141, 0.2);
     transition: all .3s;
+    flex-wrap: wrap;
 
     &.firstCollection {
         border-top: none;
@@ -249,6 +257,7 @@
             display: flex;
             align-items: center;
             width: 300px;
+            // margin-bottom: 20px;
 
             .poolInfo {
                 display: flex;
@@ -307,13 +316,13 @@
 
     .normal {
 
-        .sectionTitle {
+        .normalTitle {
             font-weight: 400;
             font-size: 12px;
-            line-height: 20px;
-            margin-bottom: 6px;
-            color: rgba(0, 0, 0, 0.4);
-            // display: none;
+            line-height: 18px;
+            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.8);
+            display: none;
         }
 
         .content {
@@ -322,9 +331,10 @@
             color: #FFFFFF;
 
             img {
-                width: 16px;
-                vertical-align: sub;
-                margin-right: 6px;
+                width: 12px;
+                // vertical-align: sub;
+                vertical-align: 1px;
+                margin-right: 4px;
             }
         }
     }
@@ -377,6 +387,7 @@
     flex: 1;
 }
 
+
 @media only screen and (max-width: 1450px) {
 
     .top,
@@ -389,8 +400,15 @@
 }
 
 @media only screen and (max-width: 1300px) {
+    .firstSection {
+        width: 250px !important;
+
+        .poolName {
+            width: 170px !important;
+        }
+    }
+
     .item {
-        padding: 15px;
 
         >div {
             width: 120px;
@@ -420,7 +438,133 @@
     }
 }
 
+@media only screen and (max-width: 700px) {
+    .wrap {
+
+        background: url('../../asset/accountBg.jpg');
+        background-repeat: repeat-x;
+        background-size: contain;
+    }
+
+    .topRightImg {
+        width: 130px;
+        height: 130px;
+        background-image: url('../../asset/accountTopRightImg.png');
+        background-size: 100%;
+        margin-top: -25px;
+        background-repeat: no-repeat;
+    }
+
+    .filterItem {
+        font-size: 16px !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    .top {
+        min-height: 232px;
+
+        .topInner {
+            .headerTitle {
+                font-size: 18px;
+                line-height: 23px;
+                position: fixed;
+                top: 0;
+                line-height: var(--header-height);
+                z-index: 5;
+
+                img {
+                    width: 9px;
+                }
+            }
+
+            .description {
+                display: none;
+            }
+
+            .totalData {
+                padding-top: 42px;
+
+                .selection {
+                    margin-right: 38px;
+
+                    .itemTitle {
+                        font-size: 10px;
+                        line-height: 13px;
+                    }
+
+                    .itemData {
+                        font-size: 16px;
+                        line-height: 21px;
+                        font-family: hasai-700;
+                        margin-top: 5px;
+
+                        sub {
+                            font-size: 10px;
+                            vertical-align: 2px;
+                            margin-left: 5px;
+                        }
+                    }
+                }
+            }
+
+
+        }
+    }
+
+}
+
 @media only screen and (max-width: 800px) {
+
+
+
+    .top {
+        .topInner {
+            .headerTitle {
+                margin: 0 0 10px;
+            }
+
+            .description {
+                font-size: 13px;
+                margin-top: 10px;
+                padding-bottom: 15px;
+            }
+        }
+    }
+
+    .tl {
+        text-align: left;
+    }
+
+    .firstSection {
+        margin-bottom: 20px;
+    }
+
+    .tr {
+        text-align: right;
+
+        .content {
+            padding-right: 10px;
+
+        }
+    }
+
+    .tc {
+        text-align: center;
+    }
+
+    .section {
+        flex-basis: 100%;
+
+    }
+
+    .item {
+        >div {
+            width: 25%;
+
+        }
+
+    }
+
     .supportList {
         .list {
             background: none;
@@ -442,10 +586,16 @@
             }
         }
 
+        .normalTitle {
+            display: block !important;
+        }
+
         .sectionTitle,
         .tHeader,
         .viewButton {
             display: none;
         }
     }
+
+
 }

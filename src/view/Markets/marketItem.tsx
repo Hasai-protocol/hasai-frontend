@@ -3,14 +3,23 @@ import cx from "classnames";
 import s from "./index.module.scss";
 import { useStores } from "src/hooks";
 import { PoolType } from "../../config";
-
+import eIcon from "src/asset/ethereum-eth-logo1.png";
 export default observer(function Markets({ pool, index, PoolType }) {
     const {
         store: { poolList, nftHexMap },
     } = useStores();
-
+    const goDetail = (pool) => {
+        let url =
+            +pool.poolType === +PoolType["shared Pool"]
+                ? `/nft/${pool.id}/${index}`
+                : `/nft/${pool.id}/n`;
+        window.open(url, "_blank");
+    };
     return (
         <div
+            onClick={() => {
+                goDetail(pool);
+            }}
             className={cx(
                 s.item,
                 s.mainItem,
@@ -46,35 +55,34 @@ export default observer(function Markets({ pool, index, PoolType }) {
                     </span>
                 </div>
             </div>
-            <div className={s.normal}>
+            <div className={cx(s.normal, s.tl)}>
+                <p className={s.normalTitle}>NFTs</p>
                 <p className={s.content}>
                     {nftHexMap[pool.nfts[0]].stats.count}
                 </p>
             </div>
-            <div className={s.normal}>
+            <div className={cx(s.normal, s.tl)}>
+                <p className={s.normalTitle}>Deposit APY≈</p>
                 <p className={s.content}>{pool.depositApy}%</p>
             </div>
-            <div className={s.normal}>
+            <div className={cx(s.normal, s.tr)}>
+                <p className={s.normalTitle}>Total Deposit</p>
                 <p className={s.content}>
-                    {/* <img src={eIcon} /> */}
+                    <img src={eIcon} />
                     {pool.totalDepositForEth}
                 </p>
             </div>
-            <div className={s.normal}>
+            <div className={cx(s.normal, s.tr)}>
+                <p className={s.normalTitle}>Liquidity</p>
                 <p className={s.content}>
-                    {/* <img src={eIcon} /> */}
+                    <img src={eIcon} />
                     {pool.liquidityForEth}
                 </p>
             </div>
             <div
                 className={s.viewButton}
-                // `/nft/${pool.id}/${nftIndex}`,
                 onClick={() => {
-                    let url =
-                        pool.poolType == PoolType["shared Pool"]
-                            ? `/nft/${pool.id}/${index}`
-                            : `/nft/${pool.id}/n`;
-                    window.open(url, "_blank");
+                    goDetail(pool);
                 }}
             >
                 <div className="hasai-btn">

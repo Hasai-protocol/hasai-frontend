@@ -128,7 +128,9 @@ export default observer(function Liquidation() {
             description: "Transaction failed.",
         });
     };
-
+    const goUpPage = () => {
+        nav("/markets");
+    };
     if (loadingBorrowInfo) {
         return (
             <div className={s.emptyWrap}>
@@ -139,6 +141,7 @@ export default observer(function Liquidation() {
 
     return (
         <div className={s.wrap}>
+            <div className={s.backBtn} onClick={goUpPage}></div>
             <div
                 className={s.bannerImgWarp}
                 style={{ backgroundImage: `url(${bannerImg})` }}
@@ -153,10 +156,14 @@ export default observer(function Liquidation() {
                 <div className={s.bottom}>
                     <div className={s.nftInfo}>
                         <p className={s.name}>#{borrowInfo.id}</p>
+                        <div className={s.bidHis}>
+                            <UnorderedListOutlined />
+                            Bids History
+                        </div>
+                    </div>
+                    <div className={cx(s.nftInfo, s.priceInfo)}>
+                        <div className={s.typeTitle}>The starting price</div>
                         <div className={cx(s.InfoWarp, s.otherInfo)}>
-                            <span className={s.typeTitle}>
-                                The starting price
-                            </span>
                             <img src={ethImg} alt="" />
                             <span className={s.price}>
                                 {borrowInfo.repayAmount.toFixed(6)}
@@ -164,16 +171,12 @@ export default observer(function Liquidation() {
                         </div>
                     </div>
                     <div className={cx(s.nftInfo, s.priceInfo)}>
-                        <div className={s.bidHis}>
-                            <UnorderedListOutlined />
-                            Bids History
-                        </div>
                         {stableMode ? (
                             <>
+                                <span className={s.typeTitle}>
+                                    Stable Rate Loan Expire Before
+                                </span>
                                 <div className={s.InfoWarp}>
-                                    <span className={s.typeTitle}>
-                                        Stable Rate Loan Expire Before
-                                    </span>
                                     <img src={TimeImg} alt="count down" />
                                     <span className={s.timeTxt}>
                                         {countDown}
@@ -181,20 +184,22 @@ export default observer(function Liquidation() {
                                 </div>
                             </>
                         ) : (
-                            <div className={s.InfoWarp}>
-                                <span className={s.typeTitle}>
+                            <>
+                                <div className={s.typeTitle}>
                                     Variable Rate- Health Factor
-                                </span>
-                                <img src={heart} alt="" />
-                                <span className={s.variableNumber}>
-                                    {borrowInfo.variableNumber}
-                                </span>
-                                {/* <Tooltip
+                                </div>
+                                <div className={s.InfoWarp}>
+                                    <img src={heart} alt="" />
+                                    <span className={s.variableNumber}>
+                                        {borrowInfo.variableNumber}
+                                    </span>
+                                    {/* <Tooltip
                                     title={`A liquidation is a process that occurs when a borrower's health factor goes below 1 due to their collateral value not properly covering their loan/debt value.`}
                                 >
                                     <img src={TipsImg} alt="tips" />
                                 </Tooltip> */}
-                            </div>
+                                </div>
+                            </>
                         )}
                     </div>
                     <div className={s.bidInput}>

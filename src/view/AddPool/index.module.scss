@@ -21,11 +21,11 @@
         }
 
         .ant-select-selection-search-input {
-            height: 34px !important;
+            height: 40px !important;
         }
 
         .ant-select-selection-placeholder {
-            line-height: 34px !important;
+            line-height: 40px !important;
         }
     }
 
@@ -94,7 +94,7 @@
         border: 1px solid rgba(100, 113, 141, 0.5);
 
         .ant-input-number-input-wrap {
-            height: 36px !important;
+            height: 40px !important;
         }
 
         input {
@@ -126,14 +126,14 @@
     }
 
     :global(.ant-select-selector) {
-        height: 36px !important;
+        height: 40px !important;
     }
 
 
 
 
     .input {
-        height: 36px !important;
+        height: 40px !important;
 
         &:focus {
             box-shadow: none;
@@ -161,6 +161,21 @@
 
 .ratioTips {
     white-space: pre-wrap;
+}
+
+
+.formWarp {
+    :global {
+
+        .ant-input-number-lg {
+            height: 40px !important;
+        }
+
+        .ant-input-number-input {
+            height: 40px !important;
+        }
+
+    }
 }
 
 .confirm {
@@ -228,6 +243,101 @@
             margin-right: 9px;
             background-image: url('../../asset/uncheck.png');
             background-size: 100% 100%;
+
+        }
+    }
+}
+
+// formWarp
+@media only screen and (max-width: 600px) {
+    .formWarp {
+        width: 100%;
+        margin: 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        border-radius: 16px 16px 0px 0px;
+        margin-top: 20px;
+
+        .input,
+        .suffix,
+        :global(.ant-select-selector) {
+            border-left: none !important;
+            border-right: none !important;
+            border-top: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            font-size: 12px;
+        }
+
+        .mainContent {
+            padding: 20px;
+        }
+
+        .suffix {
+            &::before {
+                right: 0;
+            }
+        }
+
+        :global {
+            .ant-select-selection-placeholder {
+                font-size: 12px;
+            }
+
+            .ant-input-number-lg {
+                height: 36px !important;
+            }
+
+            .ant-input-number-input {
+                height: 36px !important;
+
+                border-left: none;
+                border-right: none;
+                border-top: none;
+                padding: 0 !important;
+                border-radius: 0 !important;
+
+                &::placeholder {
+                    font-size: 12px;
+                }
+            }
+
+            .ant-select-arrow {
+                right: 0;
+            }
+        }
+
+        .bigTitle {
+            display: none;
+        }
+
+        .label {
+            font-size: 12px;
+            line-height: 18px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 4px;
+        }
+
+        .item {
+            margin-bottom: 20px;
+        }
+    }
+
+    .confirm {
+        height: 44px;
+        line-height: 44px;
+    }
+}
+
+.addPoolPopover {
+    :global {
+        .ant-popover-inner {
+            background: black;
+        }
+
+        .ant-popover-arrow-content {
+            --antd-arrow-background-color: black;
 
         }
     }

@@ -15,8 +15,20 @@
     }
 }
 
-.btn {
+.ModalTitle {
+    justify-content: space-between;
+}
 
+.borrowWarp {
+    :global {
+        .ant-modal-header {
+            padding: 20px 15px;
+            line-height: 32px;
+        }
+    }
+}
+
+.btn {
     width: 76px;
     line-height: 32px;
     height: 32px;

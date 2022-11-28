@@ -19,7 +19,7 @@ const EmptyAry = [];
 export default observer(function MemoLists({ reservesId, loadMore, filter }) {
     const nav = useNavigate();
     const {
-        store: { loadingTargetList, poolDataConfig },
+        store: { loadingTargetList, poolDataConfig, isMobile },
     } = useStores();
     const handleClick = (type: Type, item) => {
         nav(
@@ -56,7 +56,10 @@ export default observer(function MemoLists({ reservesId, loadMore, filter }) {
                         const { status } = nft;
                         if (status === Status.AUCTION) {
                             return (
-                                <Col key={nft.borrowId} span={6}>
+                                <Col
+                                    key={nft.borrowId}
+                                    span={!isMobile ? 6 : 12}
+                                >
                                     <AuctionCard
                                         index={index}
                                         data={nft as unknown as any}
@@ -69,7 +72,10 @@ export default observer(function MemoLists({ reservesId, loadMore, filter }) {
                         }
                         if (status === Status.BORROW) {
                             return (
-                                <Col key={nft.borrowId} span={6}>
+                                <Col
+                                    key={nft.borrowId}
+                                    span={!isMobile ? 6 : 12}
+                                >
                                     <NormalCard
                                         index={index}
                                         data={nft}

@@ -113,8 +113,7 @@ export default observer(function Home() {
     const onFinishFailed = () => {};
     const ratioTips = (
         <div className={s.ratioTips}>
-            {`
-            The floor price of this series of NFTs is [A], and the\n historical average transaction price is [B]. In order \nto ensure the security of the lending pool and the\n control of liquidity risk, please set the ratio\n reasonably to ensure that the loanable quantity C \nof a single NFT mortgage meets the following \nconditions: C <= A/3 && C <= B`}
+            {`The floor price of this series of NFTs is [A], and the\n historical average transaction price is [B]. In order \nto ensure the security of the lending pool and the\n control of liquidity risk, please set the ratio\n reasonably to ensure that the loanable quantity C \nof a single NFT mortgage meets the following \nconditions: C <= A/3 && C <= B`}
         </div>
     );
     const bidTips = (
@@ -205,8 +204,10 @@ export default observer(function Home() {
                     <p className={s.label}>
                         Loan to value Ratio
                         <Popover
+                            color="background: rgba(0, 0, 0, 0.3);"
                             placement="top"
                             content={ratioTips}
+                            overlayClassName={s.addPoolPopover}
                             trigger="hover"
                         >
                             <InfoCircleFilled className={s.tips} />

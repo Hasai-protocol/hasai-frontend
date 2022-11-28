@@ -14,6 +14,7 @@ import Header from "src/components/Header";
 import Account from "src/view/Account";
 import AddPool from "src/view/AddPool";
 import Markets from "src/view/Markets";
+import DepositModal from "src/components/DepositEthModal";
 
 import ProjectIndexQuery from "./ProjectIndexQuery";
 import WalletWatch from "./WalletWatch";
@@ -34,11 +35,27 @@ export default observer(function App() {
         }
         store.init();
     }, [store]);
+
     const customizeRenderEmpty = () => (
         <div style={{ textAlign: "center" }}>
             <p>Data Not Found</p>
         </div>
     );
+
+    const {
+        store: { windowResize },
+    } = useStores();
+    let innerResize = () => {
+        windowResize(window.innerWidth);
+    };
+    useEffect(() => {
+        innerResize();
+        window.addEventListener("resize", innerResize);
+        return () => {
+            // 取消监听窗口的宽度变化
+            window.removeEventListener("resize", innerResize);
+        };
+    });
     return (
         <div className="App">
             <ConfigProvider renderEmpty={customizeRenderEmpty}>
@@ -80,6 +97,7 @@ export default observer(function App() {
                 <WalletWatch />
                 <BlockTime />
                 <ProjectIndexQuery />
+                <DepositModal />
             </ConfigProvider>
         </div>
     );

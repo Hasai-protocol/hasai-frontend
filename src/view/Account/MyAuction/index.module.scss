@@ -178,3 +178,115 @@
     }
 
 }
+
+
+@media only screen and (max-width: 1150px) {
+    .content {
+        width: 55%;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+
+    .content {
+        width: 75%;
+    }
+
+
+    .bottom {
+        .nftInfo {
+            .id {
+
+                font-size: 20px;
+                line-height: 30px;
+                color: #FFFFFF;
+            }
+
+            .bidHis {
+                font-size: 14px;
+                line-height: 20px;
+
+                img {
+                    width: 16px;
+                }
+            }
+        }
+    }
+
+    .mobileData {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .title {
+            font-size: 12px;
+            line-height: 18px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .data {
+            font-size: 20px;
+            line-height: 30px;
+            color: #FFFFFF;
+
+            span {
+                font-family: hasai-700;
+
+            }
+
+            img {
+                margin-right: 5px;
+                vertical-align: 0px;
+                width: 16px;
+            }
+        }
+
+
+
+        &.secondMobileData {
+            margin: 10px 0 20px;
+
+            .data {
+                font-size: 14px;
+                line-height: 20px;
+                color: rgba(255, 255, 255, 0.8);
+
+                span {
+                    font-family: hasai-500;
+
+                }
+
+                img {
+                    vertical-align: -2px;
+                    width: 14px;
+
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 550px) {
+
+    .content {
+        width: 100%;
+    }
+
+    .bannerImgWarp {
+        display: none;
+    }
+
+    .img {
+        border-radius: 0;
+    }
+
+    .content {
+        margin-top: calc(0px - var(--header-height));
+    }
+
+    .bottom {
+        border-radius: 16px 16px 0px 0px;
+        margin-top: -15px;
+        padding: 20px;
+    }
+}

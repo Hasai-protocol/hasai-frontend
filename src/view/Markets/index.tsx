@@ -64,6 +64,7 @@ export default observer(function Markets() {
     const onChange = (v) => {
         setShowFilter(!showFilter);
         setTimeout(() => {
+            console.log(v.poolType, v.index);
             setFilter(v.poolType);
             setIndex(v.index);
         }, 100);
@@ -91,7 +92,7 @@ export default observer(function Markets() {
                             key={`${i}-content`}
                             className={cx(
                                 s.filterItem,
-                                filterType === f.index ? s.active : ""
+                                filterType === f.poolType ? s.active : ""
                             )}
                             onClick={() => {
                                 onChange(f);
@@ -129,27 +130,30 @@ export default observer(function Markets() {
                         </p>
 
                         <div className={s.totalData}>
-                            <div className={s.selection}>
-                                <p className={s.itemTitle}>Total NFTs</p>
-                                <p className={s.itemData}>
-                                    {filterType === -1
-                                        ? totalDepositNFT
-                                        : depositNfts[filterType]}
-                                </p>
+                            <div className={s.dataWarp}>
+                                <div className={s.selection}>
+                                    <p className={s.itemTitle}>Total NFTs</p>
+                                    <p className={s.itemData}>
+                                        {filterType === -1
+                                            ? totalDepositNFT
+                                            : depositNfts[filterType]}
+                                    </p>
+                                </div>
+                                <div className={s.selection}>
+                                    <p className={s.itemTitle}>Total Deposit</p>
+                                    <p className={s.itemData}>
+                                        {
+                                            poolBalances[
+                                                filterType === -1
+                                                    ? "total"
+                                                    : filterType
+                                            ]
+                                        }
+                                        <sub>ETH</sub>
+                                    </p>
+                                </div>
                             </div>
-                            <div className={s.selection}>
-                                <p className={s.itemTitle}>Total Deposit</p>
-                                <p className={s.itemData}>
-                                    {
-                                        poolBalances[
-                                            filterType === -1
-                                                ? "total"
-                                                : filterType
-                                        ]
-                                    }
-                                    <sub>ETH</sub>
-                                </p>
-                            </div>
+                            <div className={s.topRightImg}></div>
                         </div>
                         <div className={s.description}>
                             {filterList[nowIndex]?.des}
@@ -206,100 +210,6 @@ export default observer(function Markets() {
                                             pool={nftHexMap[singleNft]}
                                             PoolType={PoolType}
                                         />
-                                        // <div
-                                        //     className={cx(
-                                        //         s.item,
-                                        //         s.mainItem,
-                                        //         index === 0
-                                        //             ? s.firstCollection
-                                        //             : index ===
-                                        //               poolList.length - 1
-                                        //             ? s.lastCollection
-                                        //             : null
-                                        //     )}
-                                        //     key={`${nftIndex}-shared`}
-                                        // >
-                                        //     <div
-                                        //         className={cx(
-                                        //             s.section,
-                                        //             s.firstSection
-                                        //         )}
-                                        //     >
-                                        // <img
-                                        //     src={
-                                        //         nftHexMap[singleNft]
-                                        //             .image_url
-                                        //     }
-                                        //     alt=""
-                                        //     className={s.middlePics}
-                                        // />
-
-                                        //         <div className={s.poolInfo}>
-                                        //             <div className={s.poolName}>
-                                        //                 {
-                                        //                     nftHexMap[singleNft]
-                                        //                         .name
-                                        //                 }
-                                        //             </div>
-                                        //             <span
-                                        //                 className={cx(
-                                        //                     s[
-                                        //                         `type${+pool.poolType}`
-                                        //                     ],
-                                        //                     s.poolType
-                                        //                 )}
-                                        //             >
-                                        //                 {PoolType[
-                                        //                     +pool.poolType
-                                        //                 ]
-                                        //                     ? PoolType[
-                                        //                           +pool.poolType
-                                        //                       ]
-                                        //                     : "Shared"}
-                                        //             </span>
-                                        //         </div>
-                                        //     </div>
-                                        //     <div className={s.normal}>
-                                        //         <p className={s.content}>
-                                        //             {
-                                        //                 nftHexMap[singleNft]
-                                        //                     .stats.count
-                                        //             }
-                                        //         </p>
-                                        //     </div>
-                                        //     <div className={s.normal}>
-                                        //         <p className={s.content}>
-                                        //             {pool.depositApy}%
-                                        //         </p>
-                                        //     </div>
-                                        //     <div className={s.normal}>
-                                        //         <p className={s.content}>
-                                        //             {/* <img src={eIcon} /> */}
-                                        //             {pool.totalDepositForEth}
-                                        //         </p>
-                                        //     </div>
-                                        //     <div className={s.normal}>
-                                        //         <p className={s.content}>
-                                        //             {/* <img src={eIcon} /> */}
-                                        //             {pool.liquidityForEth}
-                                        //         </p>
-                                        //     </div>
-                                        //     <div
-                                        //         className={s.viewButton}
-                                        //         onClick={() =>
-                                        //             window.open(
-                                        //                 `/nft/${pool.id}/${nftIndex}`,
-                                        //                 "_blank"
-                                        //             )
-                                        //         }
-                                        //     >
-                                        //         <div className="hasai-btn">
-                                        //             <span className="gradualText">
-                                        //                 Details
-                                        //             </span>
-                                        //         </div>
-                                        //     </div>
-                                        // </div>
                                     ))
                                 );
                             })}

@@ -14,6 +14,7 @@ import WithdrawEth from "src/components/withdrawEth";
 import SharePoolAvator from "src/components/sharedPoolAvator";
 
 import eIcon from "src/asset/ethereum-eth-logo1.png";
+import depositButtonIcon from "src/asset/depositModuleIcon.png";
 export default observer(function MyNFT({ className, onMobile }) {
     const [showWithdraw, setShow] = useState(false);
     const [init, setInit] = useState(true);
@@ -27,6 +28,7 @@ export default observer(function MyNFT({ className, onMobile }) {
             poolList,
             depositList,
             nftHexMap,
+            showDeposit,
         },
     } = useStores();
 
@@ -44,6 +46,9 @@ export default observer(function MyNFT({ className, onMobile }) {
     const Withdraw = (data) => {
         setWithDraw(data);
         setShow(true);
+    };
+    const deposit = () => {
+        showDeposit("account");
     };
     const tabConfig = [
         {
@@ -114,6 +119,9 @@ export default observer(function MyNFT({ className, onMobile }) {
                         />
                         <span>My Deposit</span>
                     </p>
+                    <span className={s.depositButton} onClick={deposit}>
+                        <img src={depositButtonIcon} alt="" /> Deposit
+                    </span>
                 </div>
                 <div className={s.list}>
                     {!(queryDepositListLoading || init) &&

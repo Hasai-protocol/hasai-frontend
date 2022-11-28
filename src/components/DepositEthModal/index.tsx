@@ -10,13 +10,35 @@ import closeIcon from "src/asset/colseIcon.png";
 import { useStores } from "src/hooks";
 import cx from "classnames";
 import s from "./index.module.scss";
-export default observer(function RepayModal({ onCancel, visible, id }) {
+import SelectNfts from "./selectNfts";
+export default observer(function RepayModal() {
     const [loading, setLoading] = useState(false);
     const [inputEth, setEth] = useState("");
+    const [nftName, setNFTName] = useState("");
     const [isDisabled, setDis] = useState(true);
+    const [showSelectNft, setSelectNft] = useState(false);
+    const [index, setIndex] = useState(null);
     const {
-        store: { queryBalance, walletAddress, ethBalance, depositEth },
+        store: {
+            queryBalance,
+            walletAddress,
+            ethBalance,
+            depositEth,
+            depositInfo,
+        },
     } = useStores();
+    let [visible, onCancel, location] = useMemo(() => {
+        setEth("");
+        setDis(true);
+        setLoading(false);
+        setIndex(depositInfo!.id);
+        setNFTName("");
+        return [
+            depositInfo.visible,
+            depositInfo.onCancel,
+            depositInfo.location,
+        ];
+    }, [depositInfo]);
     useEffect(() => {
         if (walletAddress) {
             queryBalance();
@@ -35,7 +57,7 @@ export default observer(function RepayModal({ onCancel, visible, id }) {
     const clickSure: any = async (dis) => {
         if (!dis) {
             setLoading(true);
-            let result = await depositEth(id, inputEth);
+            let result = await depositEth(index, inputEth);
             if (result) {
                 notification.success({
                     message: "Hasai",
@@ -54,66 +76,92 @@ export default observer(function RepayModal({ onCancel, visible, id }) {
         }
         return;
     };
+    const openSelectNft = () => {
+        setSelectNft(!showSelectNft);
+    };
+    const selected = (pool, index) => {
+        setNFTName(pool.nftName);
+        setIndex(index);
+        setSelectNft(false);
+    };
     return (
-        <Modal
-            centered
-            footer={null}
-            visible={visible}
-            className={s.modal}
-            onCancel={onCancel}
-            closeIcon={<img src={closeIcon} />}
-            title={
-                <p className={cx(s.title)}>
-                    <img src={depositModuleIcon} />
-                    <span className="gradualText">Deposit</span>
-                </p>
-            }
-            width={320}
-        >
-            <div className={s.content}>
-                <div className={s.inputWarp}>
-                    <Input
-                        className={s.depositInput}
-                        placeholder="0.00"
-                        value={inputEth}
-                        onChange={changeInput}
-                        suffix="ETH"
-                    />
-                    <p className={s.balance}>
-                        <div>
-                            Available
-                            <span className={s.value}>
-                                {formatEther(+ethBalance, 3)}
-                                ETH
-                            </span>
-                        </div>
-                        <span
-                            className={s.maxBtn}
-                            onClick={() =>
-                                changeInput({
-                                    target: {
-                                        value: formatEther(+ethBalance, 3),
-                                    },
-                                })
-                            }
-                        >
-                            MAX
-                        </span>
+        <>
+            <Modal
+                centered
+                footer={null}
+                visible={visible}
+                className={s.modal}
+                onCancel={onCancel}
+                closeIcon={<img src={closeIcon} />}
+                title={
+                    <p className={cx(s.title)}>
+                        <img src={depositModuleIcon} />
+                        <span className="gradualText">Deposit</span>
                     </p>
-                </div>
-                <div
-                    onClick={() => {
-                        clickSure(isDisabled);
-                    }}
-                    className={cx(
-                        s.btn,
-                        isDisabled || loading ? s.disabled : ""
+                }
+                width={320}
+            >
+                <div className={s.content}>
+                    {location === "account" && (
+                        <div className={s.inputIcon}>
+                            <Input
+                                value={nftName}
+                                className={cx(s.input, "largeInput")}
+                                placeholder="Select Your NFT"
+                                onClick={openSelectNft}
+                            />
+                        </div>
                     )}
-                >
-                    {loading && <LoadingOutlined />}
-                    Confirm
+                    <div className={s.inputWarp}>
+                        <Input
+                            className={s.depositInput}
+                            placeholder="0.00"
+                            value={inputEth}
+                            onChange={changeInput}
+                            suffix="ETH"
+                        />
+                        <p className={s.balance}>
+                            <div>
+                                Available
+                                <span className={s.value}>
+                                    {formatEther(+ethBalance, 3)}
+                                    ETH
+                                </span>
+                            </div>
+                            <span
+                                className={s.maxBtn}
+                                onClick={() =>
+                                    changeInput({
+                                        target: {
+                                            value: formatEther(+ethBalance, 3),
+                                        },
+                                    })
+                                }
+                            >
+                                MAX
+                            </span>
+                        </p>
+                    </div>
+                    <div
+                        onClick={() => {
+                            clickSure(isDisabled);
+                        }}
+                        className={cx(
+                            s.btn,
+                            isDisabled || loading ? s.disabled : ""
+                        )}
+                    >
+                        {loading && <LoadingOutlined />}
+                        Confirm
+                    </div>
                 </div>
-            </div>
-        </Modal>
+            </Modal>
+            {showSelectNft && (
+                <SelectNfts
+                    visible={showSelectNft}
+                    selected={selected}
+                ></SelectNfts>
+            )}
+        </>
     );
 });

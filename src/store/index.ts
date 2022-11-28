@@ -66,6 +66,7 @@ export default class Store {
     blockTimeStamp = 0;
     ethBalance: any = 0;
     queryDepositListLoading = false;
+    openSupportBorrow = false;
     utcTimeStamp = 0;
     poolList: Array<any> = [];
     poolDataConfig: any = {};
@@ -92,7 +93,7 @@ export default class Store {
         image: string;
         address: string;
     }> = [];
-
+    marketFilterInfo = { nowIndex: 0, type: 0 };
     queryUserNFTLoading = false;
 
     // : Array<{
@@ -134,10 +135,17 @@ export default class Store {
 
     loadingTargetList = false;
     borrowedNftList = {};
+    depositInfo = {
+        id: null,
+        visible: false,
+        location: "",
+        onCancel: () => {},
+    };
 
     targetHasMore = true;
     reserves = 0; // pool number
     loadingPoolList = false;
+    isMobile = false;
 
     loadingAuctionDetail = false;
 
@@ -271,6 +279,10 @@ export default class Store {
     @action.bound
     updateUTCTs(time: number) {
         this.utcTimeStamp = time;
+    }
+    @action.bound
+    changeMarketInfo(marketInfo) {
+        this.marketFilterInfo = marketInfo;
     }
     @action.bound
     async getReservesCount() {
@@ -479,6 +491,10 @@ export default class Store {
         }
     }
     @action.bound
+    async openSupportBorrowWinow() {
+        this.openSupportBorrow = !this.openSupportBorrow;
+    }
+    @action.bound
     async queryNftInfo(nfts, reserveData) {
         let canFor = makeAsyncIterator(nfts.length);
         let results = {};
@@ -553,6 +569,16 @@ export default class Store {
         } catch (err) {
             console.log(err);
         }
+    }
+    @action.bound
+    async windowResize(width) {
+        const isMobile = this.isMobile;
+        if (width <= 700 && !isMobile) {
+            this.isMobile = true;
+        } else if (isMobile && width > 700) {
+            this.isMobile = false;
+        }
+        console.log(this.isMobile, width);
     }
     @action.bound
     async queryDepositList() {
@@ -1429,6 +1455,19 @@ export default class Store {
         } catch {
             return false;
         }
+    }
+    @action.bound
+    async showDeposit(location, id?, outCancel?) {
+        let { visible, onCancel } = this.depositInfo;
+        const cancel = () => {
+            this.showDeposit(location, null);
+        };
+        this.depositInfo = {
+            id,
+            visible: !visible,
+            onCancel: cancel,
+            location,
+        };
     }
     @action.bound
     async savePool(data) {
