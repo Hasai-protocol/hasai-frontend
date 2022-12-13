@@ -22,6 +22,7 @@ export default observer(function Header() {
         reservesId: string;
         nftIndex: string;
     }>();
+    let dd = useParams();
     const {
         store: {
             formatWalletAddress,
@@ -122,7 +123,10 @@ export default observer(function Header() {
         );
     };
     const openDeposit = () => {
-        showDeposit("detail", reservesId);
+        let paths = pathname.split("/");
+        if (paths[1] === "nft") {
+            showDeposit("detail", paths[2]);
+        }
     };
     const unShowAddress = useMemo(() => {
         const unShowList = ["addPool", "nft", "liquidate", "auctions"];
@@ -187,7 +191,7 @@ export default observer(function Header() {
                             // visible={showFilter}
                             overlayClassName={s.marketPopover}
                         >
-                            <div className={cx(s.tab)}>More...</div>
+                            <div className={cx(s.tab)}>More</div>
                         </Popover>
                     </div>
 

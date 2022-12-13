@@ -461,6 +461,17 @@
 
     }
 
+    .normal {
+
+        .normalTitle {}
+
+        .content {
+            img {
+                vertical-align: -1px !important;
+            }
+        }
+    }
+
     .filterItem {
         font-size: 16px !important;
         color: rgba(255, 255, 255, 0.6) !important;

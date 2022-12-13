@@ -7,15 +7,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
     min-width: 200px;
-    max-width: 350px;
+    max-width: 215px;
     display: inline-block;
     font-size: 16px;
 }
 
 .depositButton {
-    width: 83px;
-    line-height: 34px;
-    height: 34px;
+    width: 120px;
+    line-height: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,7 +38,8 @@
 }
 
 .cellWidth {
-    width: 200px;
+    width: 100px;
+    display: inline-block;
 }
 
 :global {}
@@ -189,6 +190,16 @@
 
 .list {
     margin-top: 16px;
+
+    :global {
+        .hasai-btn {
+            float: right;
+
+            span {
+                font-size: 12px;
+            }
+        }
+    }
 }
 
 .loadingWrap {
@@ -266,6 +277,7 @@
                 width: auto;
                 line-height: 34px;
                 height: 34px;
+                float: initial;
             }
         }
     }

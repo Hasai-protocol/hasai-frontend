@@ -68,6 +68,10 @@
     transition-duration: 10s;
 
     :global {
+        .ant-popover-content {
+            margin-top: -30px;
+        }
+
         .ant-popover-inner {
             box-shadow: initial;
         }

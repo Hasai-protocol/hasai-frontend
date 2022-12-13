@@ -16,7 +16,12 @@ enum Type {
 }
 const EmptyAry = [];
 
-export default observer(function MemoLists({ reservesId, loadMore, filter }) {
+export default observer(function MemoLists({
+    reservesId,
+    loadMore,
+    filter,
+    address,
+}) {
     const nav = useNavigate();
     const {
         store: { loadingTargetList, poolDataConfig, isMobile },
@@ -41,7 +46,7 @@ export default observer(function MemoLists({ reservesId, loadMore, filter }) {
             const filterStatus =
                 filter === Filter.Normal ? Status.BORROW : Status.AUCTION;
             return targetList.filter((nft) => {
-                return nft.status === filterStatus;
+                return nft.status === filterStatus && nft.address === address;
             });
         } else {
             return [];

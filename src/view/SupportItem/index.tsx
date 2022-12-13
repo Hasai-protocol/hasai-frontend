@@ -260,6 +260,7 @@ export default observer(function SupportItem() {
                                     </div>
                                 </div>
                                 <MemoList
+                                    address={nowNftInfos.nowAddress}
                                     filter={filter}
                                     reservesId={reservesId}
                                     loadMore={handleLoadMore}

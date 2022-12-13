@@ -150,7 +150,10 @@ export default observer(function MyNFT({ className, onMobile }) {
                             <div className={s.mobileList}>
                                 {depositList.map((item, index) => (
                                     <div className={s.mobileItem} key={index}>
-                                        <div className={s.depositTop}>
+                                        <div
+                                            className={s.depositTop}
+                                            title={item.nftName}
+                                        >
                                             {item.poolType > 1 ? (
                                                 <SharePoolAvator
                                                     size="mini"

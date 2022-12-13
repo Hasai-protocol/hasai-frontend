@@ -26,6 +26,7 @@ export default observer(function RepayModal() {
             ethBalance,
             depositEth,
             depositInfo,
+            poolList,
         },
     } = useStores();
     let [visible, onCancel, location] = useMemo(() => {
@@ -39,6 +40,11 @@ export default observer(function RepayModal() {
             depositInfo.onCancel,
             depositInfo.location,
         ];
+    }, [depositInfo]);
+    useEffect(() => {
+        if (depositInfo.id) {
+            setApr(poolList[+depositInfo.id].stableApr);
+        }
     }, [depositInfo]);
     useEffect(() => {
         if (walletAddress) {
@@ -83,7 +89,6 @@ export default observer(function RepayModal() {
         setSelectNft(!showSelectNft);
     };
     const selected = (pool, index) => {
-        console.log(pool.stableApr);
         setNFTName(pool.nftName);
         setApr(pool.stableApr);
         setIndex(index);
@@ -108,12 +113,12 @@ export default observer(function RepayModal() {
             >
                 <div className={s.content}>
                     {location === "account" && (
-                        <div className={s.inputIcon}>
+                        <div className={s.inputIcon} onClick={openSelectNft}>
                             <Input
                                 value={nftName}
                                 className={cx(s.input, "largeInput")}
+                                disabled
                                 placeholder="Select Your NFT"
-                                onClick={openSelectNft}
                             />
                         </div>
                     )}
@@ -125,7 +130,7 @@ export default observer(function RepayModal() {
                             onChange={changeInput}
                             suffix="ETH"
                         />
-                        <p className={s.balance}>
+                        <div className={s.balance}>
                             <div>
                                 Available
                                 <span className={s.value}>
@@ -145,7 +150,7 @@ export default observer(function RepayModal() {
                             >
                                 MAX
                             </span>
-                        </p>
+                        </div>
                     </div>
                     <div className={s.depositInfo}>
                         <span>Interest APR≈</span>

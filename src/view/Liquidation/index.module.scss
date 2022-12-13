@@ -45,7 +45,6 @@
         .ant-input-number-input {
             height: 46px !important;
         }
-
     }
 }
 
@@ -178,38 +177,53 @@
 
 .input {
     width: 100% !important;
-    height: 40px;
-    margin-bottom: 24px !important;
-    background: transparent !important;
-    border-color: #64718D !important;
-    color: #fff !important;
-    border-radius: 4px !important;
+    height: 48px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    margin-bottom: 16px !important;
+    position: relative;
+    border: 1px solid rgba(100, 113, 141, 0.5);
 
     :global {
-        .ant-input-number-handler-wrap {
-            display: none !important;
+        input {
+            color: #fff;
         }
     }
 
-    &::before {
-        content: "ETH";
+    &::after {
+        content: 'ETH';
+        font-size: 14px;
+        line-height: 20px;
+        color: rgba(255, 255, 255, 0.4);
         position: absolute;
         right: 10px;
         top: 50%;
         transform: translateY(-50%);
-        color: rgba(255, 255, 255, 0.4);
-        font-size: 12px;
     }
 
-    &:focus {
-        box-shadow: none;
+    &.inputDisabled {
+        background-color: rgba(100, 113, 141, 0.5) !important;
+        border: 1px solid rgba(100, 113, 141, 0.5) !important;
+
+        :global {
+            input {
+                color: rgba(255, 255, 255, 0.4);
+            }
+        }
     }
 
-    :global(.ant-input-suffix) {
-        color: rgba(255, 255, 255, 0.4);
+    :global {
+        .ant-input-number-input-wrap {
+            background: transparent;
+        }
+    }
+
+    :global(.ant-input-number-input) {
+        height: 38px;
+        background: transparent;
+
     }
 }
-
 
 .btn {
     width: 100%;

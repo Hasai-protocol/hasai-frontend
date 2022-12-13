@@ -101,12 +101,12 @@ export default observer(function BorrowItem({
                         <p className="gradualText">Borrow</p>
                     </div>
                 </div>
-                <div className={s.inputIcon}>
+                <div className={s.inputIcon} onClick={showSelectNft}>
                     <Input
                         value={nftName}
                         className={cx(s.input, "largeInput")}
                         placeholder="Select Your NFT"
-                        onClick={showSelectNft}
+                        disabled
                     />
                 </div>
                 <Select

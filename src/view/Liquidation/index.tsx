@@ -13,7 +13,7 @@ import DefaultImg from "src/asset/broken-img.svg";
 import TimeImg from "src/asset/time.svg";
 import ethImg from "src/asset/ethereum-eth-logo1.png";
 import { useStores } from "src/hooks";
-import { Status, InterestRateMode } from "src/config";
+import { Status, InterestRateMode, PoolType } from "src/config";
 
 import s from "./index.module.scss";
 
@@ -38,6 +38,7 @@ export default observer(function Liquidation() {
             loadingBorrowInfo,
             nftHexMap,
             poolInfoInited,
+            poolList,
         },
     } = useStores();
 
@@ -129,7 +130,13 @@ export default observer(function Liquidation() {
         });
     };
     const goUpPage = () => {
-        nav("/markets");
+        let nowPool = poolList[reservesId];
+        if (+nowPool.poolType === +PoolType["shared Pool"]) {
+            nav(`/nft/${reservesId}/${nowPool.nfts.indexOf(nft)}`);
+        } else {
+            nav(`/nft/${reservesId}/n`);
+        }
+        // nav("/markets");
     };
     if (loadingBorrowInfo) {
         return (
@@ -210,6 +217,7 @@ export default observer(function Liquidation() {
                             placeholder={`greater than ${borrowInfo.repayAmount}`}
                             value={bidPrice}
                             onChange={handleInput}
+                            controls={false}
                             disabled={!isExpired || isInAuction}
                             className={cx(s.input, {
                                 [s.inputDisabled]: !isExpired || isInAuction,

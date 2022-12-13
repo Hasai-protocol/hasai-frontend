@@ -67,14 +67,14 @@ export default observer(function Markets({ pool, index, PoolType }) {
                 <p className={s.normalTitle}>Deposit APY≈</p>
                 <p className={s.content}>{pool.depositApy}%</p>
             </div>
-            <div className={cx(s.normal, s.tr)}>
+            <div className={cx(s.normal, s.l)}>
                 <p className={s.normalTitle}>Total Deposit</p>
                 <p className={s.content}>
                     <img src={eIcon} />
                     {pool.totalDepositForEth}
                 </p>
             </div>
-            <div className={cx(s.normal, s.tr)}>
+            <div className={cx(s.normal, s.tl)}>
                 <p className={s.normalTitle}>Liquidity</p>
                 <p className={s.content}>
                     <img src={eIcon} />
