@@ -217,7 +217,6 @@ export default observer(function Liquidation() {
                             placeholder={`greater than ${borrowInfo.repayAmount}`}
                             value={bidPrice}
                             onChange={handleInput}
-                            controls={false}
                             disabled={!isExpired || isInAuction}
                             className={cx(s.input, {
                                 [s.inputDisabled]: !isExpired || isInAuction,

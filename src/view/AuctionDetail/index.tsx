@@ -194,7 +194,6 @@ export default observer(function AuctionDetail() {
                                 auction?.amount || ""
                             }`}
                             stringMode
-                            controls={false}
                             value={bidPrice}
                             onChange={handleInput}
                             disabled={isEnd}
