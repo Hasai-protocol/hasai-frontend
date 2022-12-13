@@ -122,11 +122,12 @@
 
     .listLength {
         font-weight: 400;
-        font-size: 14px;
+        font-size: 14px !important;
         line-height: 20px;
         color: rgba(255, 255, 255, 0.6);
 
         span {
+            font-size: 14px !important;
             color: #fff;
         }
     }
@@ -225,7 +226,6 @@
     .head {
 
         p {
-            font-family: hasai-500;
             font-size: 14px;
             line-height: 20px;
         }
