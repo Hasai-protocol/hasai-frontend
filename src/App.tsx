@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import { observer } from "mobx-react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import { useStores } from "src/hooks";
 import { ConfigProvider, Empty, Select } from "antd";
@@ -43,7 +43,7 @@ export default observer(function App() {
     );
 
     const {
-        store: { windowResize },
+        store: { windowResize, isMobile, nowLocation },
     } = useStores();
     let innerResize = () => {
         windowResize(window.innerWidth);
@@ -56,10 +56,26 @@ export default observer(function App() {
             window.removeEventListener("resize", innerResize);
         };
     });
+
+    let backgroundColor = useMemo(() => {
+        let nowPath = nowLocation.split("/")[1];
+        if (isMobile) {
+            if (nowPath === "nft") {
+                return "#20232C";
+            }
+            if (nowPath === "liquidate" || nowPath === "auctions") {
+                return "#393D48";
+            }
+        }
+        return "#000";
+    }, [isMobile, nowLocation]);
     return (
         <div className="App">
             <ConfigProvider renderEmpty={customizeRenderEmpty}>
-                <div className="main">
+                <div
+                    className="main"
+                    style={{ backgroundColor: backgroundColor }}
+                >
                     <BrowserRouter>
                         <Header />
                         <div className="content">

@@ -8,13 +8,13 @@
             width: auto;
             height: auto;
             line-height: initial;
-            margin-right: 28px;
-            margin-top: 28px;
+            // margin-right: 17.5px;
+            // margin-top: 17.5px;
             font-size: 0;
         }
 
         .ant-modal-content {
-            background-color: #30343E;
+            background-color: #20232C;
             border: 1px solid rgba(100, 113, 141, 0.5);
             border-radius: 16px;
         }
@@ -25,11 +25,24 @@
             line-height: 24px;
             padding: 24px;
         }
+    }
+}
 
-        .ant-modal-body {
-            padding-top: 0 !important;
-            padding: 16px;
-        }
+.depositInfo {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 16px 10px;
+    margin-top: 16px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 4px;
+
+    span:last-child {
+        color: #FFFFFF;
+    }
+
+    span:first-child {
+        color: rgba(255, 255, 255, 0.6);
     }
 }
 
@@ -89,7 +102,7 @@
     span {
         font-family: hasai-500;
         font-size: 16px;
-        line-height: 24px;
+        // line-height: 56px;
     }
 
     img {
@@ -191,7 +204,7 @@
     line-height: 40px;
     text-align: center;
     color: var(--main-bg);
-    width: 288px;
+    width: 100%;
     height: 40px;
     margin-top: 16px;
     border-radius: 4px;
@@ -206,7 +219,7 @@
 .despositItem {
     padding-left: 16px;
     text-align: left;
-    line-height: 40px;
+    line-height: 54px;
 
     img {
         width: 24px;
@@ -233,4 +246,12 @@
             border-radius: 1px !important;
         }
     }
+}
+
+@media only screen and (max-width: 450px) {
+    .modal {
+        width: calc(100vw - 30px) !important;
+        margin: 8px auto !important;
+    }
+
 }

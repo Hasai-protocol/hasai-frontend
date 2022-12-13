@@ -44,6 +44,7 @@ export default observer(function MyAuction({ className, onMobile }) {
             loadingAuction,
             queryBidHistory,
             viewTransactionDetail,
+            isMobile,
         },
     } = useStores();
 
@@ -125,14 +126,21 @@ export default observer(function MyAuction({ className, onMobile }) {
     return (
         <div className={cx("accountItemWarp", className, s.myauction)}>
             <div className={s.head}>
-                <p className="gradualText">
-                    <img
-                        src={depositModuleIcon}
-                        className={s.depositModuleIcon}
-                        alt=""
-                    />
-                    <span>My Auction</span>
-                </p>
+                {isMobile && (
+                    <p className={s.listLength}>
+                        <span>{userAuctionList.length}</span> records
+                    </p>
+                )}
+                {!isMobile && (
+                    <p className="gradualText">
+                        <img
+                            src={depositModuleIcon}
+                            className={s.depositModuleIcon}
+                            alt=""
+                        />
+                        <span>My Auction</span>
+                    </p>
+                )}
                 <div className={s.selfBidHis} onClick={() => setShowHis(true)}>
                     <UnorderedListOutlined />
                     <span>My Bids</span>
@@ -153,8 +161,8 @@ export default observer(function MyAuction({ className, onMobile }) {
                         />
                     ) : (
                         <div className={s.mobileList}>
-                            {userAuctionList.map((item) => (
-                                <div className={s.mobileItem}>
+                            {userAuctionList.map((item, index) => (
+                                <div className={s.mobileItem} key={index}>
                                     <div className={s.tabItemHead}>
                                         <img src={item.image} alt="" />
                                         <div>
@@ -173,16 +181,16 @@ export default observer(function MyAuction({ className, onMobile }) {
                                         </div>
                                         <div>
                                             <p>My Bid</p>
-                                            <p>
+                                            <div>
                                                 <div className={s.selfBid}>
                                                     <img src={ETHImg} alt="" />
                                                     <p>{item.selfBidAmount}</p>
                                                 </div>
-                                            </p>
+                                            </div>
                                         </div>
                                         <div>
                                             <p>Top Bid</p>
-                                            <p>
+                                            <div>
                                                 <div className={s.topBid}>
                                                     <img src={ETHImg} alt="" />
                                                     <p>
@@ -191,7 +199,7 @@ export default observer(function MyAuction({ className, onMobile }) {
                                                         )}
                                                     </p>
                                                 </div>
-                                            </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -199,9 +207,9 @@ export default observer(function MyAuction({ className, onMobile }) {
                         </div>
                     ))}
                 {loadingAuction && (
-                    <p className={s.accountEmpty}>
+                    <div className={s.accountEmpty}>
                         <Spin />
-                    </p>
+                    </div>
                 )}
             </div>
             <BidHistory

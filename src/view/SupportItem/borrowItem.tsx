@@ -9,7 +9,12 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import DrawerList from "./DrawerList";
 import { useStores } from "src/hooks";
 
-export default observer(function BorrowItem({ pool, nowNftInfos, reservesId }) {
+export default observer(function BorrowItem({
+    pool,
+    nowNftInfos,
+    reservesId,
+    onCancel,
+}) {
     const [valuation, setValuation] = useState(0);
     const [nftName, setNFTName] = useState("");
     const [index, setIndex] = useState(-1);
@@ -38,7 +43,6 @@ export default observer(function BorrowItem({ pool, nowNftInfos, reservesId }) {
         setIndex(-1);
         setInfo({ address: "", id: "" });
     };
-
     const handleSelectNFT = (nft) => {
         setVisible(false);
         if (!pool) return;
@@ -79,9 +83,7 @@ export default observer(function BorrowItem({ pool, nowNftInfos, reservesId }) {
                 message: "Hasai",
                 description: "Transaction done.",
             });
-            // setTimeout(() => {
-            //     window.location.reload();
-            // }, 1000);
+            onCancel();
         } else {
             notification.error({
                 message: "Hasai",
@@ -149,7 +151,9 @@ export default observer(function BorrowItem({ pool, nowNftInfos, reservesId }) {
                 onCancel={handleCancel}
                 onConfirm={handleSelectNFT}
                 supportNft={[nowNftInfos.nowAddress]}
-                handleSelect={(idx) => setIndex(idx)}
+                handleSelect={(idx) => {
+                    console.log(setIndex(idx));
+                }}
             />
         </>
     );

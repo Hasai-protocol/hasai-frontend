@@ -1,5 +1,9 @@
 .modal {
     :global {
+        .ant-modal-content {
+            border: 1px solid rgba(100, 113, 141, 0.5);
+        }
+
         .ant-modal-body {
             padding: 16px;
         }

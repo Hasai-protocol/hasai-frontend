@@ -34,12 +34,14 @@ export default observer(function Header() {
             openSupportBorrowWinow,
             poolInfoInited,
             loadingPoolList,
+            setNowLocation,
         },
     } = useStores();
     const nav = useNavigate();
     let location = useLocation();
     let [showNav, setShowNav] = useState(false);
     let [showAccountWindow, setAccountWindow] = useState(false);
+
     const handleClick = ({ TabName, path }) => {
         if (
             TabName === "Governance" ||
@@ -64,6 +66,9 @@ export default observer(function Header() {
     const nowActive = useMemo(() => {
         const { pathname } = location;
         return pathname.split("/")[1];
+    }, [location]);
+    useEffect(() => {
+        setNowLocation(location.pathname);
     }, [location]);
     const accountClick = (f, index) => {
         if (index === 0) {

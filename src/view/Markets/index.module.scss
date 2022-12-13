@@ -1,6 +1,10 @@
 .wrap {
     position: relative;
     background: rgba(30, 33, 40, 0.8);
+
+    background-image: url('../../asset/accountBg.jpg');
+    background-repeat-x: repeat;
+    background-size: 220px 100%;
 }
 
 .filterWarp {
@@ -190,7 +194,7 @@
 
 .list {
     // padding-top: 40px;
-    background: #30343E;
+    background: #20232C;
     border: 1px solid rgba(100, 113, 141, 0.5);
     backdrop-filter: blur(30px);
     border-radius: 16px;
@@ -431,11 +435,15 @@
 @media only screen and (max-width: 875px) {
     .firstSection {
         width: 200px !important;
+
+        .poolName {
+            width: 150px !important;
+            font-size: 14px;
+
+        }
     }
 
-    .poolName {
-        width: 150px !important;
-    }
+
 }
 
 @media only screen and (max-width: 700px) {
@@ -449,10 +457,11 @@
     .topRightImg {
         width: 130px;
         height: 130px;
-        background-image: url('../../asset/accountTopRightImg.png');
-        background-size: 100%;
+        // background-image: url('../../asset/accountTopRightImg.png');
+        // background-size: 100%;
         margin-top: -25px;
-        background-repeat: no-repeat;
+        // background-repeat: no-repeat;
+
     }
 
     .filterItem {
@@ -460,8 +469,16 @@
         color: rgba(255, 255, 255, 0.6) !important;
     }
 
+    .firstSection {
+
+        .poolName {
+            width: 100% !important;
+        }
+    }
+
     .top {
         min-height: 232px;
+
 
         .topInner {
             .headerTitle {
@@ -597,5 +614,14 @@
         }
     }
 
+    .normal {
 
+        .normalTitle {}
+
+        .content {
+            font-size: 14px !important;
+
+            img {}
+        }
+    }
 }

@@ -153,7 +153,7 @@ export default observer(function Markets() {
                                     </p>
                                 </div>
                             </div>
-                            <div className={s.topRightImg}></div>
+                            {/* <div className={s.topRightImg}></div> */}
                         </div>
                         <div className={s.description}>
                             {filterList[nowIndex]?.des}
@@ -199,6 +199,7 @@ export default observer(function Markets() {
                             .map((pool, index) => {
                                 return pool.poolType <= 1 ? (
                                     <MarketItem
+                                        key={index}
                                         index={index}
                                         pool={pool}
                                         PoolType={PoolType}
@@ -206,6 +207,7 @@ export default observer(function Markets() {
                                 ) : (
                                     pool.nfts.map((singleNft, nftIndex) => (
                                         <MarketItem
+                                            key={nftIndex}
                                             index={nftIndex}
                                             pool={nftHexMap[singleNft]}
                                             PoolType={PoolType}

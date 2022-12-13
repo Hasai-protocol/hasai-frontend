@@ -13,18 +13,17 @@ import s from "./index.module.scss";
 import { PoolType } from "src/config";
 import SharePoolAvator from "src/components/sharedPoolAvator";
 
-export default observer(function RepayModal({ visible, selected }) {
+export default observer(function RepayModal({ visible, selected, onCancel }) {
     const {
         store: { poolList, nftHexMap },
     } = useStores();
-    console.log(nftHexMap);
     return (
         <Modal
             centered
             footer={null}
             visible={visible}
             className={s.nftMobile}
-            // onCancel={onCancel}
+            onCancel={onCancel}
             closeIcon={<img src={closeIcon} />}
             width={320}
         >
@@ -32,6 +31,7 @@ export default observer(function RepayModal({ visible, selected }) {
                 {poolList.map((pool, index) => {
                     return (
                         <div
+                            key={index}
                             className={s.despositItem}
                             onClick={() => {
                                 selected(pool, index);

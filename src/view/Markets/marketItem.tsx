@@ -6,7 +6,7 @@ import { PoolType } from "../../config";
 import eIcon from "src/asset/ethereum-eth-logo1.png";
 export default observer(function Markets({ pool, index, PoolType }) {
     const {
-        store: { poolList, nftHexMap },
+        store: { poolList, nftHexMap, isMobile },
     } = useStores();
     const goDetail = (pool) => {
         let url =
@@ -55,12 +55,14 @@ export default observer(function Markets({ pool, index, PoolType }) {
                     </span>
                 </div>
             </div>
-            <div className={cx(s.normal, s.tl)}>
-                <p className={s.normalTitle}>NFTs</p>
-                <p className={s.content}>
-                    {nftHexMap[pool.nfts[0]].stats.count}
-                </p>
-            </div>
+            {!isMobile && (
+                <div className={cx(s.normal, s.tl)}>
+                    <p className={s.normalTitle}>NFTs</p>
+                    <p className={s.content}>
+                        {nftHexMap[pool.nfts[0]].stats.count}
+                    </p>
+                </div>
+            )}
             <div className={cx(s.normal, s.tl)}>
                 <p className={s.normalTitle}>Deposit APY≈</p>
                 <p className={s.content}>{pool.depositApy}%</p>

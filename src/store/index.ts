@@ -150,6 +150,7 @@ export default class Store {
     loadingAuctionDetail = false;
 
     loadingAuction = false;
+    nowLocation = "";
 
     userAuctionList: Array<{
         id: string;
@@ -274,6 +275,10 @@ export default class Store {
     @action.bound
     updateBlockTs(time: number) {
         this.blockTimeStamp = time;
+    }
+    @action.bound
+    setNowLocation(path: string) {
+        this.nowLocation = path;
     }
 
     @action.bound
@@ -578,7 +583,6 @@ export default class Store {
         } else if (isMobile && width > 700) {
             this.isMobile = false;
         }
-        console.log(this.isMobile, width);
     }
     @action.bound
     async queryDepositList() {
@@ -643,7 +647,7 @@ export default class Store {
             const ids =
                 list.length > 0 ? list : supportNFTs.map((nft) => nft.address);
             const res = await http.get(
-                "https://eth-goerli.alchemyapi.io/v2/demo/getNFTs",
+                "https://eth-goerli.alchemyapi.io/v2/oD3EfgY31a9Z3E-hzgaZnOTFOEjYzJm4/getNFTs",
                 {
                     params: {
                         owner: walletAddress,
@@ -1220,7 +1224,7 @@ export default class Store {
     async queryNFTDetail(address: string, id: number, tokenType = "erc721") {
         try {
             const res = await http.get(
-                `https://eth-goerli.alchemyapi.io/v2/demo/getNFTMetadata`,
+                `https://eth-goerli.alchemyapi.io/v2/oD3EfgY31a9Z3E-hzgaZnOTFOEjYzJm4/getNFTMetadata`,
                 {
                     params: {
                         contractAddress: address,

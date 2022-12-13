@@ -7,7 +7,7 @@ import { ETHERSCAN_URL } from "src/constants";
 import closeIcon from "src/asset/colseIcon.png";
 
 import AvatarImg from "src/asset/avatar.png";
-import historyIcon from "src/asset/bulletpoint.png";
+import historyIcon from "src/asset/bulletpoint-colorful.png";
 import ETHImg from "src/asset/eth.svg";
 import jump from "src/asset/jump.svg";
 
@@ -34,6 +34,7 @@ export default observer(function BidHistory({
             visible={visible}
             onCancel={onClose}
             className={s.modalWap}
+            centered
             closeIcon={<img src={closeIcon} />}
             title={
                 <p className={s.title}>

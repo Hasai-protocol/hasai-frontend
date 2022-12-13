@@ -27,9 +27,10 @@ export default observer(function Header({ close }) {
             <div className={cx(s.mobileInner)}>
                 <img src={closeBtn} className={s.closeBtn} onClick={close} />
                 <p className={s.itemTitle}>Menu</p>
-                {appTabs.map((app) => {
+                {appTabs.map((app, index) => {
                     return (
                         <p
+                            key={index}
                             className={s.menuItem}
                             onClick={() => handleClick(app)}
                         >
@@ -43,9 +44,10 @@ export default observer(function Header({ close }) {
                 })}
                 <p className={s.line}></p>
                 <p className={s.itemTitle}>Links</p>
-                {MoreList.map((app) => {
+                {MoreList.map((app, index) => {
                     return (
                         <p
+                            key={index}
                             className={s.menuItem}
                             onClick={() => {
                                 handleClick({

@@ -29,6 +29,7 @@ export default observer(function MyNFT({ className, onMobile }) {
             depositList,
             nftHexMap,
             showDeposit,
+            isMobile,
         },
     } = useStores();
 
@@ -111,14 +112,21 @@ export default observer(function MyNFT({ className, onMobile }) {
         <>
             <div className={cx("accountItemWarp", s.mydepositWarp, className)}>
                 <div className={s.head}>
-                    <p className="gradualText">
-                        <img
-                            src={depositModuleIcon}
-                            className={s.depositModuleIcon}
-                            alt=""
-                        />
-                        <span>My Deposit</span>
-                    </p>
+                    {!isMobile && (
+                        <p className="gradualText">
+                            <img
+                                src={depositModuleIcon}
+                                className={s.depositModuleIcon}
+                                alt=""
+                            />
+                            <span>My Deposit</span>
+                        </p>
+                    )}
+                    {isMobile && (
+                        <p className={s.listLength}>
+                            <span>{depositList.length}</span> records
+                        </p>
+                    )}
                     <span className={s.depositButton} onClick={deposit}>
                         <img src={depositButtonIcon} alt="" /> Deposit
                     </span>
@@ -140,8 +148,8 @@ export default observer(function MyNFT({ className, onMobile }) {
                             />
                         ) : (
                             <div className={s.mobileList}>
-                                {depositList.map((item) => (
-                                    <div className={s.mobileItem}>
+                                {depositList.map((item, index) => (
+                                    <div className={s.mobileItem} key={index}>
                                         <div className={s.depositTop}>
                                             {item.poolType > 1 ? (
                                                 <SharePoolAvator
@@ -194,9 +202,9 @@ export default observer(function MyNFT({ className, onMobile }) {
                             </div>
                         ))}
                     {(queryDepositListLoading || init) && (
-                        <p className={s.accountEmpty}>
+                        <div className={s.accountEmpty}>
                             <Spin />
-                        </p>
+                        </div>
                     )}
                 </div>
             </div>

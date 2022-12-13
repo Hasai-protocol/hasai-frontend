@@ -15,6 +15,7 @@ export default observer(function RepayModal() {
     const [loading, setLoading] = useState(false);
     const [inputEth, setEth] = useState("");
     const [nftName, setNFTName] = useState("");
+    const [apr, setApr] = useState("-");
     const [isDisabled, setDis] = useState(true);
     const [showSelectNft, setSelectNft] = useState(false);
     const [index, setIndex] = useState(null);
@@ -55,7 +56,7 @@ export default observer(function RepayModal() {
         }
     };
     const clickSure: any = async (dis) => {
-        if (!dis) {
+        if (!dis && index) {
             setLoading(true);
             let result = await depositEth(index, inputEth);
             if (result) {
@@ -68,6 +69,8 @@ export default observer(function RepayModal() {
                 setDis(true);
                 onCancel();
             } else {
+                setLoading(false);
+                setDis(true);
                 notification.error({
                     message: "Hasai",
                     description: "Transaction failed.",
@@ -80,7 +83,9 @@ export default observer(function RepayModal() {
         setSelectNft(!showSelectNft);
     };
     const selected = (pool, index) => {
+        console.log(pool.stableApr);
         setNFTName(pool.nftName);
+        setApr(pool.stableApr);
         setIndex(index);
         setSelectNft(false);
     };
@@ -142,13 +147,17 @@ export default observer(function RepayModal() {
                             </span>
                         </p>
                     </div>
+                    <div className={s.depositInfo}>
+                        <span>Interest APR≈</span>
+                        <span>{apr}%</span>
+                    </div>
                     <div
                         onClick={() => {
                             clickSure(isDisabled);
                         }}
                         className={cx(
                             s.btn,
-                            isDisabled || loading ? s.disabled : ""
+                            isDisabled || !index || loading ? s.disabled : ""
                         )}
                     >
                         {loading && <LoadingOutlined />}
@@ -158,6 +167,7 @@ export default observer(function RepayModal() {
             </Modal>
             {showSelectNft && (
                 <SelectNfts
+                    onCancel={openSelectNft}
                     visible={showSelectNft}
                     selected={selected}
                 ></SelectNfts>

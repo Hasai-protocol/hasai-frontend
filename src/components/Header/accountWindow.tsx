@@ -1,6 +1,4 @@
 import { observer } from "mobx-react";
-import { useNavigate, useMatch, useLocation } from "react-router-dom";
-
 import cx from "classnames";
 import s from "./index.module.scss";
 import { AccountFunc } from "./config";
@@ -8,21 +6,12 @@ import closeBtn from "../../asset/header/close-circle.png";
 import { clearWallet } from "src/util";
 import clipboard from "copy-to-clipboard";
 import { useStores } from "src/hooks";
-import { Popover, message, notification } from "antd";
+import { message } from "antd";
 import { ETHERSCAN_URL } from "src/constants";
 
 export default observer(function Header({ close }) {
-    const nav = useNavigate();
-
     const {
-        store: {
-            formatWalletAddress,
-            handleConnectWallet,
-            walletAddress,
-            handleAccountChange,
-            handleNetWorkChange,
-            isMobile,
-        },
+        store: { walletAddress, handleAccountChange, handleNetWorkChange },
     } = useStores();
     const accountClick = (f, index) => {
         if (index === 0) {
@@ -44,6 +33,7 @@ export default observer(function Header({ close }) {
                 {AccountFunc.map((app, i) => {
                     return i < 2 ? (
                         <p
+                            key={i}
                             className={s.menuItem}
                             onClick={() => {
                                 accountClick(app, i);

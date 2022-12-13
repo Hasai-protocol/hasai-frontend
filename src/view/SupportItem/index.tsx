@@ -206,6 +206,7 @@ export default observer(function SupportItem() {
                             <div className={s.bottomLeft}>
                                 <BorrowItem
                                     pool={pool}
+                                    onCancel={openSupportBorrowWinow}
                                     nowNftInfos={nowNftInfos}
                                     reservesId={reservesId}
                                 />
@@ -218,8 +219,9 @@ export default observer(function SupportItem() {
                                             s.filterOption
                                         )}
                                     >
-                                        {FilterConfig.map((item) => (
+                                        {FilterConfig.map((item, fiIndex) => (
                                             <div
+                                                key={fiIndex}
                                                 className={cx(
                                                     "gradualText",
                                                     s.filterBtn,
@@ -271,6 +273,7 @@ export default observer(function SupportItem() {
                 <Modal
                     centered
                     footer={null}
+                    destroyOnClose
                     visible={openBorrow}
                     className={s.borrowWarp}
                     onCancel={openSupportBorrowWinow}
@@ -278,6 +281,7 @@ export default observer(function SupportItem() {
                     width={345}
                 >
                     <BorrowItem
+                        onCancel={openSupportBorrowWinow}
                         pool={pool}
                         nowNftInfos={nowNftInfos}
                         reservesId={reservesId}

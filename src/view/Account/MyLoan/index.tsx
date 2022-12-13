@@ -182,7 +182,7 @@ export default observer(function MyLoan({ className, onMobile }) {
                     ) : (
                         <div className={s.mobileList}>
                             {userBorrowList.map((item, i) => (
-                                <div className={s.mobileItem}>
+                                <div className={s.mobileItem} key={i}>
                                     <div className={s.tabItemHead}>
                                         <img src={item.image} alt="" />
                                         <div className={s.nftInfo}>
@@ -237,9 +237,9 @@ export default observer(function MyLoan({ className, onMobile }) {
                         </div>
                     ))}
                 {(queryUserBorrowLoading || init) && (
-                    <p className={s.accountEmpty}>
+                    <div className={s.accountEmpty}>
                         <Spin />
-                    </p>
+                    </div>
                 )}
             </div>
             <RepayModal

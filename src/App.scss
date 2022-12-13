@@ -38,7 +38,7 @@ body {
 }
 
 .ant-input-affix-wrapper {
-    background: #30343E;
+    background: #20232C;
     height: auto !important;
     border-radius: 4px;
     padding-top: 0;
@@ -82,14 +82,14 @@ body {
 
 
 .ant-select-dropdown {
-    background-color: #30343E;
+    background-color: #20232C;
     border: 1px solid rgba(100, 113, 141, 0.5);
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
     border-radius: 4px;
 }
 
 .ant-input {
-    background: #30343E !important;
+    background: #20232C !important;
     color: #fff !important;
     height: 34px !important;
 
@@ -133,8 +133,8 @@ body {
     width: auto;
     height: auto;
     line-height: initial;
-    margin-right: 28px;
-    margin-top: 28px;
+    margin-right: 17px;
+    margin-top: 25px;
     font-size: 0;
 
     img {
@@ -147,15 +147,17 @@ body {
 }
 
 .ant-modal-content {
-    background-color: #30343E;
+    background-color: #20232C;
     border-radius: 16px;
 }
 
 .ant-modal-header {
     background: transparent;
     border: none;
-    line-height: 24px;
+    line-height: 56px;
     padding: 24px;
+    // height: 56px;
+    // padding: 0 16px !important;
 }
 
 .ant-modal-body {
@@ -174,7 +176,7 @@ body {
 
 .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
     color: rgba(255, 255, 255, 0.6);
-    background-color: #30343E;
+    background-color: #20232C;
 }
 
 .ant-select-dropdown {

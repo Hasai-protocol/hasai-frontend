@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { Drawer, Empty, Row, Col, Space, Modal } from "antd";
+import { Drawer, Row, Col, Space, Modal } from "antd";
+import Empty from "src/components/empty";
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react";
 import cx from "classnames";
@@ -29,7 +30,12 @@ export default observer(function DrawerList({
             (nft) => lowNfts.indexOf(nft.address.toLowerCase()) >= 0
         );
     }, [userNFTs, supportNft]);
-
+    useEffect(() => {
+        // when window on the Mobile ,Click and select immediately, but usestatue is a promise so need in callback do something
+        if (isMobile) {
+            handleConfirm();
+        }
+    }, [index]);
     const handleConfirm = () => {
         const nft = list[index];
         if (index < 0) return;
@@ -38,7 +44,11 @@ export default observer(function DrawerList({
     const Items = () => {
         return (
             <>
-                {list.length < 1 && <Empty />}
+                {list.length < 1 && (
+                    <div className={s.emptyWarp}>
+                        <Empty />
+                    </div>
+                )}
                 <Row gutter={[8, 8]}>
                     {list.map((nft, idx) => {
                         return (
@@ -51,8 +61,15 @@ export default observer(function DrawerList({
                                     index={idx}
                                     data={nft}
                                     onClick={(idx) => {
-                                        handleSelect(index === idx ? -1 : idx);
-                                        handleConfirm();
+                                        if (isMobile) {
+                                            handleSelect(
+                                                index === idx ? -1 : idx
+                                            );
+                                        } else {
+                                            handleSelect(
+                                                index === idx ? -1 : idx
+                                            );
+                                        }
                                     }}
                                 />
                             </Col>
@@ -84,7 +101,9 @@ export default observer(function DrawerList({
                                 className={cx(s.btn, {
                                     [s.disable]: index < 0,
                                 })}
-                                onClick={handleConfirm}
+                                onClick={() => {
+                                    handleConfirm();
+                                }}
                             >
                                 Confirm
                             </div>
@@ -104,21 +123,11 @@ export default observer(function DrawerList({
                     title={
                         <div className={cx(s.title, s.ModalTitle)}>
                             <div className={s.left}>
-                                My NFT
-                                {/* <span>Select NFT to borrow</span> */}
+                                <span className="gradualText">My NFT</span>
                             </div>
-                            {/* <div
-                                className={cx(s.btn, {
-                                    [s.disable]: index < 0,
-                                })}
-                                onClick={handleConfirm}
-                            >
-                                Confirm
-                            </div> */}
                         </div>
                     }
                     closeIcon={<img src={closeIcon} />}
-                    // width={345}
                 >
                     <Items />
                 </Modal>

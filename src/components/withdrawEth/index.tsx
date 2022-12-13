@@ -1,24 +1,21 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { LoadingOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react";
 import { Modal, Input } from "antd";
 import { ethers } from "ethers";
-import { formatEther } from "src/util";
 import withdrawIcon from "src/asset/withdrawIcon.png";
 import { useStores } from "src/hooks";
 import cx from "classnames";
 import s from "./index.module.scss";
-import { Table, notification } from "antd";
+import { notification } from "antd";
 import closeIcon from "src/asset/colseIcon.png";
 
 export default observer(function RepayModal({ onCancel, visible, info }) {
     const {
-        scaledBalanceOf,
         interestForEth,
         apy,
         id,
-        totalReward,
         canWithdrawRaw,
         canWithdrawRorEth,
         nftName,
