@@ -16,10 +16,15 @@ enum Type {
 }
 const EmptyAry = [];
 
-export default observer(function MemoLists({ reservesId, loadMore }) {
+export default observer(function MemoLists({
+    reservesId,
+    loadMore,
+    filter,
+    address,
+}) {
     const nav = useNavigate();
     const {
-        store: { loadingTargetList, filter, poolDataConfig },
+        store: { loadingTargetList, poolDataConfig, isMobile },
     } = useStores();
     const handleClick = (type: Type, item) => {
         nav(
@@ -35,12 +40,17 @@ export default observer(function MemoLists({ reservesId, loadMore }) {
     }, [poolDataConfig, reservesId]);
 
     const displayTargetList = useMemo(() => {
-        const targetList = conf?.data;
-        if (!targetList) return EmptyAry;
-        const filterStatus =
-            filter === Filter.Normal ? Status.BORROW : Status.AUCTION;
-
-        return targetList.filter((nft) => nft.status === filterStatus);
+        if (filter !== Filter.Pending) {
+            const targetList = conf?.data;
+            if (!targetList) return EmptyAry;
+            const filterStatus =
+                filter === Filter.Normal ? Status.BORROW : Status.AUCTION;
+            return targetList.filter((nft) => {
+                return nft.status === filterStatus && nft.address === address;
+            });
+        } else {
+            return [];
+        }
     }, [conf, filter]);
 
     return (
@@ -51,7 +61,10 @@ export default observer(function MemoLists({ reservesId, loadMore }) {
                         const { status } = nft;
                         if (status === Status.AUCTION) {
                             return (
-                                <Col key={nft.borrowId} span={6}>
+                                <Col
+                                    key={nft.borrowId}
+                                    span={!isMobile ? 6 : 12}
+                                >
                                     <AuctionCard
                                         index={index}
                                         data={nft as unknown as any}
@@ -64,7 +77,10 @@ export default observer(function MemoLists({ reservesId, loadMore }) {
                         }
                         if (status === Status.BORROW) {
                             return (
-                                <Col key={nft.borrowId} span={6}>
+                                <Col
+                                    key={nft.borrowId}
+                                    span={!isMobile ? 6 : 12}
+                                >
                                     <NormalCard
                                         index={index}
                                         data={nft}

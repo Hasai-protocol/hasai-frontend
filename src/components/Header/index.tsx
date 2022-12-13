@@ -1,7 +1,12 @@
-import { useNavigate, useMatch, useLocation } from "react-router-dom";
+import {
+    useNavigate,
+    useMatch,
+    useLocation,
+    useParams,
+} from "react-router-dom";
 import { observer } from "mobx-react";
 import cx from "classnames";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MoreList, appTabs, AccountFunc } from "./config";
 import { useStores } from "src/hooks";
 import { Popover, message, notification } from "antd";
@@ -10,8 +15,14 @@ import { ETHERSCAN_URL } from "src/constants";
 import { clearWallet } from "src/util";
 import logo from "../../asset/header/logo.png";
 import s from "./index.module.scss";
-
+import MobileNav from "./mobileNav";
+import AccountWindow from "./accountWindow";
 export default observer(function Header() {
+    const { reservesId, nftIndex } = useParams<{
+        reservesId: string;
+        nftIndex: string;
+    }>();
+    let dd = useParams();
     const {
         store: {
             formatWalletAddress,
@@ -19,10 +30,18 @@ export default observer(function Header() {
             walletAddress,
             handleAccountChange,
             handleNetWorkChange,
+            isMobile,
+            showDeposit,
+            openSupportBorrowWinow,
+            poolInfoInited,
+            loadingPoolList,
+            setNowLocation,
         },
     } = useStores();
     const nav = useNavigate();
     let location = useLocation();
+    let [showNav, setShowNav] = useState(false);
+    let [showAccountWindow, setAccountWindow] = useState(false);
 
     const handleClick = ({ TabName, path }) => {
         if (
@@ -35,7 +54,12 @@ export default observer(function Header() {
         }
         nav(path);
     };
-
+    const openNav = () => {
+        setShowNav(!showNav);
+    };
+    const openWindow = () => {
+        setAccountWindow(!showAccountWindow);
+    };
     const pathname = useMemo(() => {
         const { pathname } = location;
         return pathname;
@@ -43,6 +67,9 @@ export default observer(function Header() {
     const nowActive = useMemo(() => {
         const { pathname } = location;
         return pathname.split("/")[1];
+    }, [location]);
+    useEffect(() => {
+        setNowLocation(location.pathname);
     }, [location]);
     const accountClick = (f, index) => {
         if (index === 0) {
@@ -95,76 +122,169 @@ export default observer(function Header() {
             </div>
         );
     };
+    const openDeposit = () => {
+        let paths = pathname.split("/");
+        if (paths[1] === "nft") {
+            showDeposit("detail", paths[2]);
+        }
+    };
+    const unShowAddress = useMemo(() => {
+        const unShowList = ["addPool", "nft", "liquidate", "auctions"];
+        return isMobile && unShowList.indexOf(pathname.split("/")[1]) >= 0;
+    }, [pathname, isMobile]);
     return (
-        <div className={cx(s.wrap, pathname === "/" ? "" : s.headerClass)}>
-            <div style={{ cursor: "pointer" }} onClick={() => nav("/")}>
-                <img src={logo} alt="" className={s.logo} />
-            </div>
-            <>
-                <div className={s.tabs}>
-                    {appTabs.map((tab, index) => {
-                        return (
-                            <div
-                                key={index}
-                                className={cx(s.tab, {
-                                    [s.tabActive]: nowActive === tab.active,
-                                })}
-                                onClick={() => handleClick(tab)}
-                            >
-                                {tab.TabName}
-                            </div>
-                        );
-                    })}
-
-                    <Popover
-                        content={content}
-                        placement="bottom"
-                        color="transparent"
-                        // visible={showFilter}
-                        overlayClassName={s.marketPopover}
-                    >
-                        <div className={cx(s.tab)}>More...</div>
-                    </Popover>
-                </div>
-
-                {formatWalletAddress && (
-                    <Popover
-                        content={accountContent}
-                        placement="bottom"
-                        color="transparent"
-                        // visible={showFilter}
-                        overlayClassName={s.marketPopover}
-                    >
-                        <div
-                            className={cx(
-                                formatWalletAddress
-                                    ? s.hasAddress
-                                    : s.noAddress,
-                                s.account,
-                                "flex-box",
-                                "align-center",
-                                "justify-center"
-                            )}
-                        >
-                            <p className={s.address}>{formatWalletAddress}</p>
-                        </div>
-                    </Popover>
-                )}
-                {!formatWalletAddress && (
-                    <div
-                        onClick={handleConnectWallet}
-                        className={cx(
-                            formatWalletAddress ? s.hasAddress : s.noAddress,
-                            s.account,
-                            "flex-box",
-                            "align-center",
-                            "justify-center"
-                        )}
-                    >
-                        <p className={s.address}>{"Launch App"}</p>
+        <>
+            <div className={cx(s.wrap, pathname === "/" ? "" : s.headerClass)}>
+                {!isMobile && (
+                    <div style={{ cursor: "pointer" }} onClick={() => nav("/")}>
+                        <img src={logo} alt="" className={s.logo} />
                     </div>
                 )}
-            </>
-        </div>
+
+                {isMobile && (
+                    <div>
+                        {pathname === "/account" && (
+                            <span className={s.headerTitle}>Account</span>
+                        )}
+                        {pathname === "/addPool" && (
+                            <p className={s.addPoolTitle}>
+                                <span
+                                    className={s.leftBtn}
+                                    onClick={() => {
+                                        nav("/market");
+                                    }}
+                                ></span>
+                                <span className="gradualText">
+                                    Creat Lending Pool
+                                </span>
+                            </p>
+                        )}
+                        {pathname.split("/")[1] === "markets" && <div></div>}
+                        {pathname.split("/")[1] === "nft" && (
+                            <div
+                                className={s.backBtn}
+                                onClick={() => nav("market")}
+                            ></div>
+                        )}
+                    </div>
+                )}
+                <>
+                    <div className={s.tabs}>
+                        {appTabs.map((tab, index) => {
+                            return (
+                                <div
+                                    key={index}
+                                    className={cx(s.tab, {
+                                        [s.tabActive]: nowActive === tab.active,
+                                    })}
+                                    onClick={() => handleClick(tab)}
+                                >
+                                    {tab.TabName}
+                                </div>
+                            );
+                        })}
+
+                        <Popover
+                            content={content}
+                            placement="bottom"
+                            color="transparent"
+                            // visible={showFilter}
+                            overlayClassName={s.marketPopover}
+                        >
+                            <div className={cx(s.tab)}>More</div>
+                        </Popover>
+                    </div>
+
+                    <div className={s.right}>
+                        {/* {formatWalletAddress && !isMobile && (
+                            <Popover
+                                content={accountContent}
+                                placement="bottom"
+                                color="transparent"
+                                overlayClassName={s.marketPopover}
+                            >
+                                <div
+                                    className={cx(
+                                        formatWalletAddress
+                                            ? s.hasAddress
+                                            : s.noAddress,
+                                        s.account,
+                                        "flex-box",
+                                        "align-center",
+                                        "justify-center"
+                                    )}
+                                >
+                                    <p className={s.address}>
+                                        {formatWalletAddress}
+                                    </p>
+                                </div>
+                            </Popover>
+                        )} */}
+                        {formatWalletAddress && !unShowAddress && (
+                            <div
+                                onClick={() => {
+                                    openWindow();
+                                }}
+                                className={cx(
+                                    formatWalletAddress
+                                        ? s.hasAddress
+                                        : s.noAddress,
+                                    s.account,
+                                    "flex-box",
+                                    "align-center",
+                                    "justify-center"
+                                )}
+                            >
+                                <p className={s.address}>
+                                    {formatWalletAddress}
+                                </p>
+                            </div>
+                        )}
+                        {!formatWalletAddress && !unShowAddress && (
+                            <div
+                                onClick={() => handleConnectWallet(true)}
+                                className={cx(
+                                    formatWalletAddress
+                                        ? s.hasAddress
+                                        : s.noAddress,
+                                    s.account,
+                                    "flex-box",
+                                    "align-center",
+                                    "justify-center"
+                                )}
+                            >
+                                <p className={s.address}>{"Launch App"}</p>
+                            </div>
+                        )}
+
+                        {pathname.split("/")[1] === "nft" && isMobile && (
+                            <>
+                                <div
+                                    className={cx(s.borrowIcon, s.mobileNav)}
+                                    onClick={openSupportBorrowWinow}
+                                ></div>
+                                <div
+                                    className={cx(s.depositIcon, s.mobileNav)}
+                                    onClick={openDeposit}
+                                ></div>
+                            </>
+                        )}
+                        {!(
+                            (pathname.split("/")[1] === "addPool" ||
+                                pathname.split("/")[1] === "auctions" ||
+                                pathname.split("/")[1] === "liquidate") &&
+                            isMobile
+                        ) && (
+                            <div
+                                className={s.mobileNav}
+                                onClick={openNav}
+                            ></div>
+                        )}
+                    </div>
+                </>
+            </div>
+            {showNav && <MobileNav close={openNav}></MobileNav>}
+            {showAccountWindow && <AccountWindow close={openWindow} />}
+        </>
     );
 });

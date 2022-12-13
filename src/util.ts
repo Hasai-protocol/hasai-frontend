@@ -50,12 +50,19 @@ export function calcDepositAPY(supplyRate: number) {
     const apr = supplyRate / BASE_INDEX;
     return +(((1 + apr / seconds2Year) ** seconds2Year - 1) * 100).toFixed(2);
 }
-export function formatEther(v, precision = 3) {
+export function formatEther(v, precision = 3, decimalsOrUnitName = 18) {
     let formatV: string;
+
     if (v instanceof ethers.BigNumber) {
-        formatV = ethers.utils.formatEther(format(+v, { notation: "fixed" }));
+        formatV = ethers.utils.formatUnits(
+            format(+v, { notation: "fixed" }),
+            decimalsOrUnitName
+        );
     } else {
-        formatV = ethers.utils.formatEther(format(v, { notation: "fixed" }));
+        formatV = ethers.utils.formatUnits(
+            format(v, { notation: "fixed" }),
+            decimalsOrUnitName
+        );
     }
     if (precision < 1) {
         return formatV;

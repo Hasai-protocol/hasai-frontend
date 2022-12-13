@@ -13,6 +13,7 @@ import qs from "qs";
 import {
     getPoolType,
     getStableBorrowing,
+    getLiqThreshold,
     getPeriod,
     getBorrowRatio,
 } from "../bitCal";
@@ -65,6 +66,7 @@ export default class Store {
     blockTimeStamp = 0;
     ethBalance: any = 0;
     queryDepositListLoading = false;
+    openSupportBorrow = false;
     utcTimeStamp = 0;
     poolList: Array<any> = [];
     poolDataConfig: any = {};
@@ -91,7 +93,7 @@ export default class Store {
         image: string;
         address: string;
     }> = [];
-
+    marketFilterInfo = { nowIndex: 0, type: 0 };
     queryUserNFTLoading = false;
 
     // : Array<{
@@ -133,21 +135,29 @@ export default class Store {
 
     loadingTargetList = false;
     borrowedNftList = {};
-    filter: Filter = Filter.Normal;
+    depositInfo = {
+        id: null,
+        visible: false,
+        location: "",
+        onCancel: () => {},
+    };
 
     targetHasMore = true;
     reserves = 0; // pool number
     loadingPoolList = false;
+    isMobile = false;
 
     loadingAuctionDetail = false;
 
     loadingAuction = false;
+    nowLocation = "";
 
     userAuctionList: Array<{
         id: string;
         name: string;
         image: string;
         nftId: string;
+        endTime: number;
         bidAmount: number;
         selfBidAmount: number;
         liquidateTime: number;
@@ -221,13 +231,6 @@ export default class Store {
         );
     }
 
-    @computed get displayTargetList() {
-        const { targetList, filter } = this;
-        const filterStatus =
-            filter === Filter.Normal ? Status.BORROW : Status.AUCTION;
-        return targetList.filter((nft) => nft.status === filterStatus);
-    }
-
     @computed get selfLoanTotal() {
         const { userBorrowList } = this;
         if (userBorrowList.length < 1) return 0;
@@ -273,10 +276,18 @@ export default class Store {
     updateBlockTs(time: number) {
         this.blockTimeStamp = time;
     }
+    @action.bound
+    setNowLocation(path: string) {
+        this.nowLocation = path;
+    }
 
     @action.bound
     updateUTCTs(time: number) {
         this.utcTimeStamp = time;
+    }
+    @action.bound
+    changeMarketInfo(marketInfo) {
+        this.marketFilterInfo = marketInfo;
     }
     @action.bound
     async getReservesCount() {
@@ -307,6 +318,7 @@ export default class Store {
                 totalAmount = 0;
             for await (let reserveId of allLength) {
                 const hasStatic = staticPoolInfo[reserveId!];
+                // console.log(hasStatic);
                 let nfts = hasStatic?.nfts;
                 if (!nfts) {
                     nfts = (await contract.getReserveNFTList(reserveId)).map(
@@ -349,7 +361,7 @@ export default class Store {
                 // }
                 // console.log(JSON.stringify(obj), reserveId);
                 // })();
-                if (hasStatic.data) {
+                if (hasStatic?.data) {
                     reserveData = hasStatic.data;
                     supplyRate = hasStatic.supplyRate;
                 } else {
@@ -372,6 +384,7 @@ export default class Store {
                 );
                 const poolType = getPoolType(configurationInfos);
                 const canStable = getStableBorrowing(configurationInfos);
+                const liqThreshold = getLiqThreshold(configurationInfos);
                 let stableRate = ethers.utils.formatUnits(
                     `${currentStableBorrowRate}`,
                     27
@@ -404,6 +417,7 @@ export default class Store {
                     depositApy,
                     stableApr,
                     vairableApr,
+                    liqThreshold,
                     ratio,
                     id: +id,
                     liquidityForEth: 0,
@@ -436,7 +450,7 @@ export default class Store {
                     data: [],
                 };
             }
-            console.timeEnd("aaa");
+            // console.timeEnd("aaa");
             this.nftHexMap = nftHexMap;
             this.poolList = poolList;
             this.loadingPoolList = false;
@@ -450,7 +464,7 @@ export default class Store {
                     erc20,
                     this.provider
                 );
-
+                // collection
                 const liquidity = await this.wethContract.balanceOf(
                     hTokenAddress
                 );
@@ -482,6 +496,10 @@ export default class Store {
         }
     }
     @action.bound
+    async openSupportBorrowWinow() {
+        this.openSupportBorrow = !this.openSupportBorrow;
+    }
+    @action.bound
     async queryNftInfo(nfts, reserveData) {
         let canFor = makeAsyncIterator(nfts.length);
         let results = {};
@@ -493,14 +511,14 @@ export default class Store {
             try {
                 let collection = nftPostDetail[contractAddress];
                 if (!collection) {
-                    console.log(contractAddress);
+                    // console.log(contractAddress);
                     collection = (
                         await http.get(
                             `https://api.opensea.io/api/v1/collection/${slug}`
                         )
                     ).data.collection;
-                    const { banner_image_url, image_url, name, stats } =
-                        collection;
+                    // const { banner_image_url, image_url, name, stats } =
+                    //     collection;
                     // console.log(
                     //     `{${JSON.stringify({
                     //         banner_image_url,
@@ -510,11 +528,24 @@ export default class Store {
                     //     })}}`
                     // );
                 }
+                // const signer = this.provider.getUncheckedSigner();
+                // let conc = await this.contract.connect(signer);
+                // let updatePrice = await conc.updatePrice(contractAddress);
+                // console.log(123123123123);
+                let floor_price = await this.contract.floorPrice(
+                    contractAddress
+                );
+                collection.floor_price = formatEther(
+                    floor_price,
+                    undefined,
+                    16
+                );
                 results[contractAddress] = Object.assign(
                     collection,
                     reserveData
                 );
-            } catch {
+            } catch (err) {
+                console.log(err);
                 results[contractAddress] = { stats: { count: 0 } };
             }
         }
@@ -542,6 +573,15 @@ export default class Store {
             return result.status === 1;
         } catch (err) {
             console.log(err);
+        }
+    }
+    @action.bound
+    async windowResize(width) {
+        const isMobile = this.isMobile;
+        if (width <= 700 && !isMobile) {
+            this.isMobile = true;
+        } else if (isMobile && width > 700) {
+            this.isMobile = false;
         }
     }
     @action.bound
@@ -607,7 +647,7 @@ export default class Store {
             const ids =
                 list.length > 0 ? list : supportNFTs.map((nft) => nft.address);
             const res = await http.get(
-                "https://eth-goerli.alchemyapi.io/v2/demo/getNFTs",
+                "https://eth-goerli.alchemyapi.io/v2/oD3EfgY31a9Z3E-hzgaZnOTFOEjYzJm4/getNFTs",
                 {
                     params: {
                         owner: walletAddress,
@@ -784,9 +824,6 @@ export default class Store {
                 auctionIds.includes(bid.id)
             );
             requestInfo = validTransactions;
-            // if (requestInfo.length < 1) {
-            //     return;
-            // }
             const details: Array<any> = [];
             const iterator = makeAsyncIterator(requestInfo.length);
             for await (const idx of iterator) {
@@ -924,11 +961,15 @@ export default class Store {
                 this.queryNFTDetail(address, +id),
                 this.queryNftInfo([address], {}),
             ]);
+            console.log(Object.keys(this.nftHexMap), this.nftHexMap[address]);
+            let liqThreshold = this.nftHexMap[address]?.liqThreshold;
+            // if(!liqThreshold){
+            //     contract
+            // }
             const canLiquidation = await contract.enabledLiquidation(borrowId);
-            const borrowAmounts = getRepayCount(
-                await contract.getDebt(borrowId)
-            );
-            const floor_price = detail[address].stats.floor_price;
+            const getDebt = await contract.getDebt(borrowId);
+            const borrowAmounts = getRepayCount(getDebt);
+            const floor_price = detail[address].floor_price;
             runInAction(() => {
                 this.borrowInfo = {
                     id,
@@ -937,9 +978,9 @@ export default class Store {
                     variableNumber:
                         +floor_price > 0
                             ? (
-                                  ((floor_price / +formatEther(borrowAmounts)) *
+                                  ((floor_price / +formatEther(getDebt, 5)) *
                                       10000) /
-                                  1500
+                                  +liqThreshold
                               ).toFixed(2)
                             : "-",
                     canLiquidation,
@@ -958,13 +999,13 @@ export default class Store {
     }
 
     @action.bound
-    async handleConnectWallet() {
+    async handleConnectWallet(login) {
         if (!this.onboard || this.walletAddress) return;
         try {
             const wallet = getSaveWallet();
             if (wallet) {
                 await this.onboard.connectWallet({ autoSelect: wallet });
-            } else {
+            } else if (login) {
                 await this.onboard.connectWallet();
             }
             await this.onboard.setChain({
@@ -1078,7 +1119,7 @@ export default class Store {
                 });
                 return;
             }
-
+            // console.log(pageData);
             const iterator = makeAsyncIterator(pageData.length);
             const details: Array<any> = [];
             for await (const idx of iterator) {
@@ -1089,11 +1130,22 @@ export default class Store {
                         contract.borrowMap(info.borrowId),
                         contract.auctionMap(info.borrowId),
                     ]);
+                    // console.log(
+                    //     "id",
+                    //     data.id,
+                    //     "rateMode",
+                    //     borrowInfo.rateMode,
+                    //     "status",
+                    //     borrowInfo.status,
+                    //     auctionInfo
+                    // );
+                    /* rateMode  => 1 :stable  2:variable */
+
                     if (info.address) {
                         details.push({
                             ...data,
                             id: info.nftId,
-                            user: info.user,
+                            user: borrowInfo.user,
                             amount: info.amount,
                             borrowId: +info.borrowId,
                             endTime: +auctionInfo.endTime,
@@ -1172,7 +1224,7 @@ export default class Store {
     async queryNFTDetail(address: string, id: number, tokenType = "erc721") {
         try {
             const res = await http.get(
-                `https://eth-goerli.alchemyapi.io/v2/demo/getNFTMetadata`,
+                `https://eth-goerli.alchemyapi.io/v2/oD3EfgY31a9Z3E-hzgaZnOTFOEjYzJm4/getNFTMetadata`,
                 {
                     params: {
                         contractAddress: address,
@@ -1336,7 +1388,7 @@ export default class Store {
     }
     async checkWallet() {
         if (!this.walletAddress) {
-            await this.handleConnectWallet();
+            await this.handleConnectWallet(true);
         }
     }
     @action.bound
@@ -1351,11 +1403,6 @@ export default class Store {
         } catch {
             return false;
         }
-    }
-
-    @action.bound
-    handleSwitchFilter(filter: Filter) {
-        this.filter = filter;
     }
 
     @action.bound
@@ -1412,6 +1459,19 @@ export default class Store {
         } catch {
             return false;
         }
+    }
+    @action.bound
+    async showDeposit(location, id?, outCancel?) {
+        let { visible, onCancel } = this.depositInfo;
+        const cancel = () => {
+            this.showDeposit(location, null);
+        };
+        this.depositInfo = {
+            id,
+            visible: !visible,
+            onCancel: cancel,
+            location,
+        };
     }
     @action.bound
     async savePool(data) {

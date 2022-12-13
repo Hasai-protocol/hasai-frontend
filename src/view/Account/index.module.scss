@@ -1,6 +1,22 @@
-.wrap {
-    color: #000;
-    min-height: calc(100vh - var(--footer-height));
+:global {
+    .accountItemWarp {
+        color: #000;
+        // min-height: calc(100vh - var(--footer-height));
+        width: 688px;
+        padding: 24px;
+        margin-bottom: 24px;
+        background: #20232C;
+        border: 1px solid rgba(100, 113, 141, 0.5);
+        backdrop-filter: blur(30px);
+        border-radius: 16px;
+        min-height: 365px;
+
+        :global {
+            .ant-table-tbody>tr>td {
+                border-bottom: none !important;
+            }
+        }
+    }
 }
 
 .top {
@@ -8,10 +24,21 @@
     width: 100%;
     margin-top: calc(0px - var(--header-height));
     // margin-left: calc(700px - 50vw);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    // background-repeat: no-repeat;
+    // background-position: center;
+    // background-size: cover;
     background: rgba(30, 33, 40, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 144px;
+    // background-image: url('../../asset/accountTopRightImg.png');
+    background-image: url('../../asset/accountBg.png');
+    background-size: cover;
+    // background-repeat: no-repeat;
+    // background-position: 90% 50px;
+    // background-size: 252px;
+
 }
 
 .connectWallet {
@@ -23,7 +50,7 @@
     text-align: center;
     text-align: center;
     display: block;
-    color: #252932;
+    color: var(--main-bg);
     cursor: pointer;
     user-select: none;
 }
@@ -31,7 +58,40 @@
 .topContent {
     width: var(--content-width);
     margin: 0 auto;
-    padding-top: 144px;
+    height: 100%;
+}
+
+.accountNav {
+    background: #20232C;
+    border: 1px solid rgba(100, 113, 141, 0.5);
+    border-radius: 8px;
+    height: 40px;
+    color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    line-height: 38px;
+    width: 90%;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-top: -18px;
+
+    span {
+        text-align: center;
+        flex: 1;
+
+        &.actived {
+            background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
+            color: #000000;
+        }
+    }
+}
+
+.topImg {
+    width: 133px;
+    background-image: url('../../asset/accountTopRightImg.png');
+    height: 133px;
+    flex: 133px 0 0;
+    background-size: 100%;
+    display: none;
 }
 
 .createdBtn {
@@ -53,7 +113,6 @@
 .index {
     margin-right: 90px;
     display: inline-block;
-    flex-direction: column;
 
     p {
         font-size: 14px;
@@ -119,4 +178,122 @@
     padding-top: 100px;
     display: flex;
     justify-content: center;
+}
+
+@media only screen and (max-width: 1450px) {
+
+    .content {
+        width: 90%;
+        flex-direction: column;
+    }
+
+    .top {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .topContent {
+        .index {
+            font-size: 10px;
+            line-height: 13px;
+
+            :last-child {
+
+                font-size: 16px;
+                line-height: 21px;
+
+                span {
+                    font-size: 10px;
+                    line-height: 13px;
+                }
+            }
+        }
+    }
+
+    :global {
+        .accountItemWarp {
+            width: 100%;
+        }
+
+        .hide {
+            display: none;
+        }
+    }
+
+    // accountTopRightImg.png
+    .right {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .content {
+        margin-top: 16px;
+    }
+
+    :global {
+        .accountItemWarp {
+            border: none;
+            background: none;
+            padding: 0;
+            margin: 0;
+            min-height: auto;
+        }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+
+    .top {
+        padding-top: var(--header-height);
+        width: auto;
+        justify-content: space-between;
+        height: 188px;
+        box-sizing: content-box;
+
+    }
+
+    .topContent {
+        background-image: none;
+        width: 300px;
+        margin: 0;
+        display: inline-block;
+        padding-top: 30px;
+
+        .index {
+            margin: 0;
+            width: 50%;
+            flex: 50% 0 0;
+            margin-bottom: 24px;
+        }
+    }
+}
+
+@media only screen and (max-width: 900px) {
+
+    .top {
+        padding-top: var(--header-height);
+        width: auto;
+        justify-content: space-between;
+        background-image: url('../../asset/accountBg.png');
+        background-size: cover;
+        height: 188px;
+        box-sizing: content-box;
+
+    }
+
+    .topContent {
+        background-image: none;
+        width: 300px;
+        margin: 0;
+        display: inline-block;
+        padding-top: 30px;
+
+        .index {
+            margin: 0;
+            width: 50%;
+            flex: 50% 0 0;
+            margin-bottom: 24px;
+        }
+    }
 }

@@ -8,12 +8,13 @@ import RepayModal from "src/components/RepayModal";
 import { useStores } from "src/hooks";
 import ETHImg from "src/asset/eth.svg";
 import depositModuleIcon from "src/asset/account/myloan.png";
+import eIcon from "src/asset/ethereum-eth-logo1.png";
 
 import s from "./index.module.scss";
 import cx from "classnames";
 const RowKey = (x) => x.borrowId;
 
-export default observer(function MyLoan() {
+export default observer(function MyLoan({ className, onMobile }) {
     const [index, setIndex] = useState(-1);
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -49,8 +50,8 @@ export default observer(function MyLoan() {
         setIndex(-1);
         setVisible(false);
     }, []);
-
     const handleClickRepay = useCallback((index, data) => {
+        console.log(index, JSON.parse(JSON.stringify(data)));
         if (data.canLiquidation) {
             return;
         }
@@ -117,12 +118,7 @@ export default observer(function MyLoan() {
                     if (+otherData.rateMode === InterestRateMode.Variable) {
                         return <p>--</p>;
                     }
-                    return (
-                        <p>
-                            {dayjs(+text * 1000).format(dateFormat)}{" "}
-                            {otherData.rateMode}
-                        </p>
-                    );
+                    return <p>{dayjs(+text * 1000).format(dateFormat)}</p>;
                 },
             },
             {
@@ -131,7 +127,7 @@ export default observer(function MyLoan() {
                 render: (text) => {
                     return (
                         <div className={s.repayDetail}>
-                            <img src={ETHImg} alt="" />
+                            <img src={eIcon} alt="" />
                             <p>{(+text).toFixed(2)}</p>
                         </div>
                     );
@@ -157,22 +153,27 @@ export default observer(function MyLoan() {
     }, [supportNFTs, handleClickRepay]);
 
     return (
-        <div className={s.wrap}>
-            <div className={s.head}>
-                <p className="gradualText">
-                    <img
-                        src={depositModuleIcon}
-                        className={s.depositModuleIcon}
-                        alt=""
-                    />
-                    <span>My Loan</span>
-                </p>
-            </div>
+        <div className={cx("accountItemWarp", className)}>
+            {!onMobile && (
+                <div className={s.head}>
+                    <p className="gradualText">
+                        <img
+                            src={depositModuleIcon}
+                            className={s.depositModuleIcon}
+                            alt=""
+                        />
+                        <span>My Loan</span>
+                    </p>
+                </div>
+            )}
             <div className={s.list}>
                 {!(queryUserBorrowLoading || init) &&
                     (userBorrowList.length === 0 ? (
-                        <p className={s.accountEmpty}>Nothing Loan yet</p>
-                    ) : (
+                        <>
+                            <div className={s.emptyLine}></div>
+                            <p className={s.accountEmpty}>Nothing Loan yet</p>
+                        </>
+                    ) : !onMobile ? (
                         <Table
                             className={s.table}
                             rowKey={RowKey}
@@ -181,11 +182,67 @@ export default observer(function MyLoan() {
                             pagination={false}
                             loading={queryUserBorrowLoading || init}
                         />
+                    ) : (
+                        <div className={s.mobileList}>
+                            {userBorrowList.map((item, i) => (
+                                <div className={s.mobileItem} key={i}>
+                                    <div className={s.tabItemHead}>
+                                        <img src={item.image} alt="" />
+                                        <div className={s.nftInfo}>
+                                            <p>{item.poolDetail.name}</p>
+                                            <p>#{item.id}</p>
+                                        </div>
+                                    </div>
+                                    <div className={s.infos}>
+                                        <p>
+                                            <span>APR</span>
+                                            <span>{item.apr}%</span>
+                                        </p>
+                                        <p>
+                                            <span>Borrow Ends</span>
+
+                                            <span className={cx()}>
+                                                {+item.rateMode ===
+                                                InterestRateMode.Variable
+                                                    ? "--"
+                                                    : dayjs(
+                                                          +item.liquidateTime *
+                                                              1000
+                                                      ).format(dateFormat)}
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <span>Total Repay</span>
+                                            <span className={cx()}>
+                                                <img src={eIcon} />
+                                                {item.repayAmount}
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        className={cx(
+                                            "hasai-btn",
+                                            item.canLiquidation
+                                                ? "disbaled"
+                                                : ""
+                                        )}
+                                        onClick={() =>
+                                            handleClickRepay(i, item)
+                                        }
+                                    >
+                                        <span className="gradualText">
+                                            Repay
+                                        </span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     ))}
                 {(queryUserBorrowLoading || init) && (
-                    <p className={s.accountEmpty}>
+                    <div className={s.accountEmpty}>
                         <Spin />
-                    </p>
+                    </div>
                 )}
             </div>
             <RepayModal

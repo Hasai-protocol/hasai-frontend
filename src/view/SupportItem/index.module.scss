@@ -172,7 +172,7 @@
     margin-right: 24px;
     border-radius: 8px;
     flex: 0 0 auto;
-    background: #30343E;
+    background: #20232C;
     border: 1px solid rgba(100, 113, 141, 0.5);
     backdrop-filter: blur(30px);
     border-radius: 16px;
@@ -196,7 +196,7 @@
 
 .bottomRight {
     padding: 24px;
-    background: #30343E;
+    background: #20232C;
     width: 100%;
     border: 1px solid rgba(100, 113, 141, 0.5);
     backdrop-filter: blur(30px);
@@ -245,34 +245,9 @@
 
 .input {
     margin-bottom: 16px !important;
+    cursor: pointer !important;
 }
 
-.lendingModel {
-    // :global {
-    //     .ant-select-selection-search-input {
-    //         height: 38px !important;
-
-    //     }
-
-    //     .ant-select-selection-item {
-
-    //         color: #fff;
-    //         line-height: 38px !important;
-    //     }
-
-    //     .ant-select-selector {
-
-    //         border-color: #64718D !important;
-    //         height: 40px !important;
-    //         background: transparent !important;
-    //     }
-
-    //     .ant-select-selection-placeholder {
-    //         line-height: 38px !important;
-
-    //     }
-    // }
-}
 
 
 .depositInfo {
@@ -284,7 +259,7 @@
     font-family: hasai-500;
     text-align: center;
     color: rgba(255, 255, 255, 0.6);
-    background: #252932;
+    background: rgba(0, 0, 0, 0.4);
     // box-shadow: inset 0px 1px 1px rgba(255, 255, 255, 0.25);
 
     p {
@@ -312,6 +287,7 @@
     background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
     border-radius: 4px;
     user-select: none;
+    color: #000000;
 
     &.disabled {
         background: #898989;
@@ -336,11 +312,11 @@
 }
 
 .filterWarp {
-    width: 160px;
+    width: 240px;
     // line-height: 34px;
     // height: 34px;
     // background-clip: padding-box, border-box;
-    // background-image: linear-gradient(0deg, #30343E, #30343E), radial-gradient(circle at left bottom, #74F5DA, #CDFF8C);
+    // background-image: linear-gradient(0deg, #20232C, #20232C), radial-gradient(circle at left bottom, #74F5DA, #CDFF8C);
     // background-origin: border-box;
     display: flex;
     // align-items: center;
@@ -367,7 +343,7 @@
 
         &.selected {
             background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
-            color: #252932 !important;
+            color: var(--main-bg);
             -webkit-text-fill-color: initial;
         }
     }
@@ -400,4 +376,216 @@
 .loadMore {
     width: 100%;
     background-color: #fff;
+}
+
+@media only screen and (max-width: 1400px) {
+    .banner {
+
+        .mask {}
+
+
+        .seriesInfo {
+            width: 95%;
+
+            .avatars {
+                .middlePics {
+
+                    &:nth-child(3n) {}
+                }
+            }
+
+            .avatar {}
+        }
+    }
+
+    .bottom {
+        width: 95%;
+        margin: 0 auto;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .info {
+        display: flex;
+        justify-content: space-between;
+
+        .infoIndex {
+            margin: 0;
+        }
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .depositTitle p {
+        line-height: 42px;
+    }
+
+    .bottomLeft {
+        padding: 0 10px 10px 10px;
+        width: 250px;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .banner {
+        height: 230px;
+
+        .mask {}
+
+
+        .seriesInfo {
+            width: 100%;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+    }
+
+    .filterWarp {
+        .filterBtn {
+            border: none;
+            position: relative;
+            flex: initial;
+            margin-right: 32px;
+
+            &::before {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 1px;
+                bottom: 0;
+            }
+
+            &.normal {
+                background: initial;
+                color: rgba(255, 255, 255, 1);
+                border: none;
+                font-size: 14px;
+                -webkit-text-fill-color: initial;
+            }
+
+            &.selected {
+                background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                text-fill-color: transparent;
+
+                &::before {
+                    background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
+
+                }
+
+            }
+        }
+    }
+
+    .mobileHide {
+        display: none !important;
+    }
+
+    .filter {
+        .filterRight {
+            display: none;
+        }
+
+        // display: none;
+    }
+
+    .bottom {
+        width: 100%;
+    }
+
+    .bottomLeft {
+        display: none;
+    }
+
+    .info {
+        margin-top: 24px;
+
+        .infoIndex {
+            p {
+                font-size: 10px;
+                line-height: 13px;
+                margin-bottom: 5px;
+
+                &:last-child {
+                    font-size: 16px;
+                    line-height: 21px;
+                }
+            }
+        }
+    }
+
+
+    .banner {
+        .seriesInfo {
+            padding-top: calc(16px + var(--header-height));
+
+            .avatar {
+                width: 30px;
+                height: 30px;
+                border-radius: 4px;
+            }
+
+            .name {
+                font-size: 22px;
+                margin-left: 8px;
+                line-height: 28px;
+            }
+
+            .backBtn {
+                display: none;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .bottomRight {
+        padding: 14px;
+        border-bottom: none;
+        border-right: none;
+        border-left: none;
+    }
+
+    .bottomLeft {
+        margin-right: 10px;
+    }
+
+    .borrowWarp {
+
+        :global {
+            .ant-modal-content {
+
+                border: 1px solid rgba(100, 113, 141, 0.5);
+                box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
+            }
+
+        }
+    }
+
+    .borrowItem {
+
+        .depositHead {
+            .depositTitle {
+                p {
+                    line-height: 72px;
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .input {
+            margin-bottom: 20px !important
+        }
+
+        .depositInfo {
+            margin-top: 20px;
+        }
+
+    }
+
+    .btn {
+        line-height: 42px;
+    }
 }

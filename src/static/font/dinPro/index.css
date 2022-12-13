@@ -1,41 +1,41 @@
 @font-face {
     font-family: "hasai-400";
-    src: url('./D-DIN-PRO-400-Regular.otf');
+    src: url('./D-DIN-PRO-400-Regular.otf') format('OpenType'), url('./D-DIN-PRO-400-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "hasai-500";
-    src: url('./D-DIN-PRO-500-Medium.otf');
+    src: url('./D-DIN-PRO-500-Medium.otf') format('OpenType'), url('./D-DIN-PRO-500-Medium.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "hasai-600";
-    src: url('./D-DIN-PRO-600-SemiBold.otf');
+    src: url('./D-DIN-PRO-600-SemiBold.otf') format('OpenType'), url('./D-DIN-PRO-700-Bold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "hasai-700";
-    src: url('./D-DIN-PRO-700-Bold.otf');
+    src: url('./D-DIN-PRO-700-Bold.otf') format('OpenType'), url('./D-DIN-PRO-700-Bold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "hasai-800";
-    src: url('./D-DIN-PRO-800-ExtraBold.otf');
+    src: url('./D-DIN-PRO-800-ExtraBold.otf') format('OpenType'), url('./D-DIN-PRO-900-Heavy.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "hasai-900";
-    src: url('./D-DIN-PRO-900-Heavy.otf');
+    src: url('./D-DIN-PRO-900-Heavy.otf') format('OpenType'), url('./D-DIN-PRO-900-Heavy.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }

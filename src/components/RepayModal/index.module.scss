@@ -1,5 +1,9 @@
 .modal {
     :global {
+        .ant-modal-content {
+            border: 1px solid rgba(100, 113, 141, 0.5);
+        }
+
         .ant-modal-body {
             padding: 16px;
         }
@@ -41,7 +45,8 @@
     width: 100%;
     padding: 0 10px;
     margin-top: 8px;
-    background: #252932;
+    background: rgba(8, 143, 87, 0.05);
+
     border-radius: 4px;
 }
 
@@ -75,7 +80,7 @@
     font-size: 12px;
     line-height: 40px;
     text-align: center;
-    color: #252932;
+    color: var(--main-bg);
     width: 288px;
     height: 40px;
     margin-top: 16px;

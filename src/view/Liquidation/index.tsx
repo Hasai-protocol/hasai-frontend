@@ -13,7 +13,7 @@ import DefaultImg from "src/asset/broken-img.svg";
 import TimeImg from "src/asset/time.svg";
 import ethImg from "src/asset/ethereum-eth-logo1.png";
 import { useStores } from "src/hooks";
-import { Status, InterestRateMode } from "src/config";
+import { Status, InterestRateMode, PoolType } from "src/config";
 
 import s from "./index.module.scss";
 
@@ -37,6 +37,8 @@ export default observer(function Liquidation() {
             queryBorrowInfo,
             loadingBorrowInfo,
             nftHexMap,
+            poolInfoInited,
+            poolList,
         },
     } = useStores();
 
@@ -60,20 +62,20 @@ export default observer(function Liquidation() {
     }, [borrowInfo, utcTimeStamp]);
 
     useEffect(() => {
-        if (!inited) return;
+        if (!inited || !poolInfoInited) return;
         queryBorrowInfo(nft, id, borrowId);
-    }, [inited, id, nft, borrowId, queryBorrowInfo]);
+    }, [inited, id, nft, borrowId, queryBorrowInfo, poolInfoInited]);
 
     const isInAuction = useMemo(() => {
         return borrowInfo.status === Status.AUCTION;
     }, [borrowInfo]);
     const isExpired = useMemo(() => {
         if (!borrowInfo.liquidateTime) return false;
-        const { liquidateTime, rateMode, vairableNumber } = borrowInfo;
+        const { liquidateTime, rateMode, variableNumber } = borrowInfo;
         if (+rateMode === InterestRateMode.stableDebt) {
             return blockTimeStamp * 1000 >= liquidateTime;
         } else {
-            return vairableNumber < 1;
+            return variableNumber < 1;
         }
     }, [blockTimeStamp, borrowInfo]);
     const bannerImg = useMemo(() => {
@@ -85,6 +87,10 @@ export default observer(function Liquidation() {
     }, [borrowInfo]);
     const disable = useMemo(() => {
         if (isInAuction) return true;
+
+        if (isExpired && borrowInfo.rateMode === InterestRateMode.Variable) {
+            return +(bidPrice || 0) < borrowInfo.amount;
+        }
         if (borrowInfo.liquidateTime) {
             if (blockTimeStamp * 1000 >= borrowInfo.liquidateTime) {
                 return +(bidPrice || 0) < borrowInfo.amount;
@@ -92,7 +98,7 @@ export default observer(function Liquidation() {
             return true;
         }
         return true;
-    }, [bidPrice, blockTimeStamp, borrowInfo, isInAuction]);
+    }, [bidPrice, blockTimeStamp, borrowInfo, isInAuction, isExpired]);
 
     const handleInput = (value: number | string | null) => {
         const [int, float] = (value ? `${value}` : "").split(".");
@@ -123,7 +129,15 @@ export default observer(function Liquidation() {
             description: "Transaction failed.",
         });
     };
-
+    const goUpPage = () => {
+        let nowPool = poolList[reservesId];
+        if (+nowPool.poolType === +PoolType["shared Pool"]) {
+            nav(`/nft/${reservesId}/${nowPool.nfts.indexOf(nft)}`);
+        } else {
+            nav(`/nft/${reservesId}/n`);
+        }
+        // nav("/markets");
+    };
     if (loadingBorrowInfo) {
         return (
             <div className={s.emptyWrap}>
@@ -134,6 +148,7 @@ export default observer(function Liquidation() {
 
     return (
         <div className={s.wrap}>
+            <div className={s.backBtn} onClick={goUpPage}></div>
             <div
                 className={s.bannerImgWarp}
                 style={{ backgroundImage: `url(${bannerImg})` }}
@@ -148,10 +163,14 @@ export default observer(function Liquidation() {
                 <div className={s.bottom}>
                     <div className={s.nftInfo}>
                         <p className={s.name}>#{borrowInfo.id}</p>
+                        <div className={s.bidHis}>
+                            <UnorderedListOutlined />
+                            Bids History
+                        </div>
+                    </div>
+                    <div className={cx(s.nftInfo, s.priceInfo)}>
+                        <div className={s.typeTitle}>The starting price</div>
                         <div className={cx(s.InfoWarp, s.otherInfo)}>
-                            <span className={s.typeTitle}>
-                                The starting price
-                            </span>
                             <img src={ethImg} alt="" />
                             <span className={s.price}>
                                 {borrowInfo.repayAmount.toFixed(6)}
@@ -159,16 +178,12 @@ export default observer(function Liquidation() {
                         </div>
                     </div>
                     <div className={cx(s.nftInfo, s.priceInfo)}>
-                        <div className={s.bidHis}>
-                            <UnorderedListOutlined />
-                            Bids History
-                        </div>
                         {stableMode ? (
                             <>
+                                <span className={s.typeTitle}>
+                                    Stable Rate Loan Expire Before
+                                </span>
                                 <div className={s.InfoWarp}>
-                                    <span className={s.typeTitle}>
-                                        Stable Rate Loan Expire Before
-                                    </span>
                                     <img src={TimeImg} alt="count down" />
                                     <span className={s.timeTxt}>
                                         {countDown}
@@ -176,20 +191,22 @@ export default observer(function Liquidation() {
                                 </div>
                             </>
                         ) : (
-                            <div className={s.InfoWarp}>
-                                <span className={s.typeTitle}>
+                            <>
+                                <div className={s.typeTitle}>
                                     Variable Rate- Health Factor
-                                </span>
-                                <img src={heart} alt="" />
-                                <span className={s.variableNumber}>
-                                    {borrowInfo.variableNumber}
-                                </span>
-                                {/* <Tooltip
+                                </div>
+                                <div className={s.InfoWarp}>
+                                    <img src={heart} alt="" />
+                                    <span className={s.variableNumber}>
+                                        {borrowInfo.variableNumber}
+                                    </span>
+                                    {/* <Tooltip
                                     title={`A liquidation is a process that occurs when a borrower's health factor goes below 1 due to their collateral value not properly covering their loan/debt value.`}
                                 >
                                     <img src={TipsImg} alt="tips" />
                                 </Tooltip> */}
-                            </div>
+                                </div>
+                            </>
                         )}
                     </div>
                     <div className={s.bidInput}>

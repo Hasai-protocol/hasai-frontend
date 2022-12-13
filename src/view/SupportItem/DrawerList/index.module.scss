@@ -15,8 +15,29 @@
     }
 }
 
-.btn {
+.ModalTitle {
+    justify-content: space-between;
+}
 
+.emptyWarp {
+    height: 328px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.borrowWarp {
+    :global {
+        .ant-modal-header {
+            padding: 20px 15px;
+            line-height: 32px;
+        }
+
+
+    }
+}
+
+.btn {
     width: 76px;
     line-height: 32px;
     height: 32px;
@@ -25,7 +46,7 @@
     text-align: center;
     font-size: 12px;
     text-align: center;
-    color: #252932;
+    color: var(--main-bg);
     cursor: pointer;
 
     &.disable {
@@ -42,7 +63,7 @@
 
 :global(.drawWarp) {
     :global(.ant-drawer-content) {
-        background-color: #30343E;
+        background-color: #20232C;
         border-radius: 16px 0px 0px 16px;
     }
 
@@ -55,5 +76,27 @@
 
     :global(.ant-drawer-body) {
         padding-top: 0;
+    }
+}
+
+//  draw List 
+.left {
+    span {
+
+        font-size: 16px;
+        line-height: 24px;
+        margin-left: 4px;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .borrowWarp {
+        width: 100% !important;
+        max-width: calc(100vw - 32px) !important;
+
+        :global(.ant-modal-content) {
+            border: 1px solid rgba(100, 113, 141, 0.5);
+            box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
+        }
     }
 }

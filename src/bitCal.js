@@ -63,7 +63,7 @@ function getActive(data) {
     );
 }
 
-function getLiqThreshold(data) {
+export function getLiqThreshold(data) {
     return BigNumber.from(data)
         .and(LIQUIDATION_THRESHOLD_MASK)
         .div(BASE.pow(LIQUIDATION_THRESHOLD_START_BIT_POSITION))

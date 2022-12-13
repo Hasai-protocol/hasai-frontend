@@ -13,7 +13,7 @@ import { useStores } from "src/hooks";
 import { dateFormat } from "../../config";
 import payment from "../../asset/payment.png";
 import s from "./index.module.scss";
-
+import cx from "classnames";
 export default observer(function RepayModal({
     index,
     loading,
@@ -89,7 +89,10 @@ export default observer(function RepayModal({
                         <span>{nft.repayAmount}ETH</span>
                     </p>
                 </div>
-                <div onClick={onConfirm} className={s.btn}>
+                <div
+                    onClick={onConfirm}
+                    className={cx(s.btn, loading && s.disabled)}
+                >
                     {loading && <LoadingOutlined />}
                     Confirm
                 </div>

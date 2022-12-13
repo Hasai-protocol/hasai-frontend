@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { LoadingOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { InputNumber, notification, Tooltip, Spin } from "antd";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react";
 import cx from "classnames";
 import dayjs from "dayjs";
@@ -42,8 +42,10 @@ export default observer(function AuctionDetail() {
             queryAuctionDetail,
             loadingAuctionDetail,
             nftHexMap,
+            isMobile,
         },
     } = useStores();
+    const nav = useNavigate();
 
     const isEnd = useMemo(() => {
         if (!auction.endTime) return false;
@@ -136,6 +138,9 @@ export default observer(function AuctionDetail() {
         });
     };
 
+    const goUpPage = () => {
+        nav("/markets");
+    };
     if (loadingAuctionDetail) {
         return (
             <div className={s.emptyWrap}>
@@ -146,12 +151,12 @@ export default observer(function AuctionDetail() {
 
     return (
         <div className={s.wrap}>
+            <div className={s.backBtn} onClick={goUpPage}></div>
             <div
                 className={s.bannerImgWarp}
                 style={{ backgroundImage: `url(${bannerImg})` }}
             >
                 <div className={s.bannerFilter}></div>
-                {/* <img src={bannerImg} className={s.bannerImg} /> */}
             </div>
             <div className={s.content}>
                 <div className={s.img}>
@@ -160,15 +165,6 @@ export default observer(function AuctionDetail() {
                 <div className={s.bottom}>
                     <div className={s.nftInfo}>
                         <p className={s.id}>#{auction.nftId}</p>
-                        <div className={s.bidAmount}>
-                            <p className={s.tips}>Top bid</p>
-                            <p className={s.amount}>
-                                <img src={ETHImg} alt="" />
-                                <span>{sliceNumStr(auction.amount, 18)}</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div className={s.bidInfo}>
                         <div
                             className={s.bidHis}
                             onClick={() => setShowHis(true)}
@@ -176,11 +172,20 @@ export default observer(function AuctionDetail() {
                             <UnorderedListOutlined />
                             Bids History
                         </div>
-                        <p className={s.endTime}>
-                            Auction ends in
+                    </div>
+                    <div className={cx(s.mobileData)}>
+                        <div className={s.title}>Top bid</div>
+                        <div className={s.data}>
+                            <img src={ETHImg} alt="" />
+                            <span>{sliceNumStr(auction.amount, 18)}</span>
+                        </div>
+                    </div>
+                    <div className={cx(s.mobileData, s.secondMobileData)}>
+                        <div className={s.title}>Auction ends in</div>
+                        <div className={s.data}>
                             <img src={TimeImg} alt="count down" />
                             <span>{countDown}</span>
-                        </p>
+                        </div>
                     </div>
                     <div className={s.bidInput}>
                         <InputNumber
@@ -188,7 +193,7 @@ export default observer(function AuctionDetail() {
                             placeholder={`greater than ${
                                 auction?.amount || ""
                             }`}
-                            controls={false}
+                            stringMode
                             value={bidPrice}
                             onChange={handleInput}
                             disabled={isEnd}

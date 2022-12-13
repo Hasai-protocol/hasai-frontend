@@ -31,9 +31,9 @@ export default observer(function Card({
             <div className={s.info}>
                 <p className={s.id}>#{id}</p>
             </div>
-            {index === activeIdx && (
+            {/* {index === activeIdx && (
                 <img className={s.activeIcon} src={ActiveIcon} alt="" />
-            )}
+            )} */}
         </div>
     );
 });
