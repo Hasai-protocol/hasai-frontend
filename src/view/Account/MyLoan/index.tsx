@@ -169,7 +169,10 @@ export default observer(function MyLoan({ className, onMobile }) {
             <div className={s.list}>
                 {!(queryUserBorrowLoading || init) &&
                     (userBorrowList.length === 0 ? (
-                        <p className={s.accountEmpty}>Nothing Loan yet</p>
+                        <>
+                            <div className={s.emptyLine}></div>
+                            <p className={s.accountEmpty}>Nothing Loan yet</p>
+                        </>
                     ) : !onMobile ? (
                         <Table
                             className={s.table}

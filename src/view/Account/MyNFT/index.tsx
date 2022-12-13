@@ -126,7 +126,10 @@ export default observer(function MyNFT({ className, onMobile }) {
             )}
             <div className={s.list}>
                 {userNFTs.length < 1 && !queryUserNFTLoading && (
-                    <p className={s.accountEmpty}>Nothing to Loan yet</p>
+                    <>
+                    <div className={s.emptyLine}></div>
+                        <p className={s.accountEmpty}>Nothing to Loan yet</p>
+                    </>
                 )}
                 <Row gutter={[16, 16]}>
                     {userNFTs.map((nft, idx) => {

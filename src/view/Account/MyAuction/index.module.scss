@@ -124,6 +124,9 @@
 }
 
 @media only screen and (max-width: 700px) {
+    .selfBidHis {
+        line-height: 34px;
+    }
 
     .myauction {
         // background: #20232C !important;
@@ -138,7 +141,7 @@
             }
 
             span {
-                font-size: 14px;
+                font-size: 12px;
             }
         }
 

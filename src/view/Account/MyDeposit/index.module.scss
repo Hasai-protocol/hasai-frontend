@@ -21,7 +21,7 @@
     justify-content: center;
     background: linear-gradient(90deg, #74F5DA 5.42%, #CDFF8C 100%);
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 18px;
 
     img {
@@ -218,6 +218,10 @@
             font-size: 14px;
             line-height: 20px;
         }
+    }
+
+    .depositButton {
+        font-size: 12px;
     }
 
     .mobileItem {
