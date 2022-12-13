@@ -1,10 +1,7 @@
 .wrap {
     position: relative;
     background: rgba(30, 33, 40, 0.8);
-
-    background-image: url('../../asset/accountBg.jpg');
-    background-repeat-x: repeat;
-    background-size: 220px 100%;
+    background-image: url('../../asset/accountBg.png');
 }
 
 .filterWarp {
@@ -449,9 +446,8 @@
 @media only screen and (max-width: 700px) {
     .wrap {
 
-        background: url('../../asset/accountBg.jpg');
-        background-repeat: repeat-x;
-        background-size: contain;
+        background: url('../../asset/accountBg.png');
+        background-size: cover;
     }
 
     .topRightImg {
