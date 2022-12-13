@@ -190,6 +190,12 @@
     margin: 0 auto;
 }
 
+.viewButton {
+    :global(span) {
+        font-size: 14px;
+    }
+}
+
 .list {
     // padding-top: 40px;
     background: #20232C;
@@ -314,6 +320,8 @@
         width: 70px !important;
         height: 34px !important;
         line-height: 34px !important;
+
+
     }
 
     .normal {
@@ -354,6 +362,8 @@
 
     .viewButton {
         visibility: hidden;
+
+
     }
 
     &:hover {

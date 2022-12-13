@@ -118,7 +118,7 @@ export default observer(function RepayModal() {
                                 value={nftName}
                                 className={cx(s.input, "largeInput")}
                                 disabled
-                                placeholder="Select Your NFT"
+                                placeholder="Select Your Pool"
                             />
                         </div>
                     )}

@@ -193,6 +193,7 @@ export default observer(function AuctionDetail() {
                             placeholder={`greater than ${
                                 auction?.amount || ""
                             }`}
+                            stringMode
                             controls={false}
                             value={bidPrice}
                             onChange={handleInput}
