@@ -52,7 +52,6 @@ export default observer(function App() {
         innerResize();
         window.addEventListener("resize", innerResize);
         return () => {
-            // 取消监听窗口的宽度变化
             window.removeEventListener("resize", innerResize);
         };
     });
